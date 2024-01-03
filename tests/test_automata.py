@@ -348,7 +348,11 @@ def test_minimize_dfa():
     good.add_transition(3, "a", 1)
     good.add_final_state(1)
 
+    print('Before minimize:\ndfa:', dfa)
+    print('good:', good)
     dfa.minimize()
+    print('After minimize:\ndfa:', dfa)
+    print('good:', good)
     assert dfa == good
 
 
