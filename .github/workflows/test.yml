@@ -19,6 +19,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip setuptools wheel
         pip install pytest pytest-cov coverage cached-property
+        pip install jieba
           python setup.py clean build install
     - name: Run test
       run: pytest
