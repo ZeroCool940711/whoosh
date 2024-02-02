@@ -965,27 +965,27 @@ tree of query objects.</p>
 <p>Matches queries that occur near each other. By default, only matches
 queries that occur right next to each other (slop=1) and in order
 (ordered=True).</p>
-<p>For example, to find documents where “whoosh_reloaded” occurs next to “library”
+<p>For example, to find documents where “whoosh” occurs next to “library”
 in the “text” field:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">whoosh</span> <span class="kn">import</span> <span class="n">query</span><span class="p">,</span> <span class="n">spans</span>
-<span class="n">t1</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">Term</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="s2">&quot;whoosh_reloaded&quot;</span><span class="p">)</span>
+<span class="n">t1</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">Term</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="s2">&quot;whoosh&quot;</span><span class="p">)</span>
 <span class="n">t2</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">Term</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="s2">&quot;library&quot;</span><span class="p">)</span>
 <span class="n">q</span> <span class="o">=</span> <span class="n">spans</span><span class="o">.</span><span class="n">SpanNear</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>To find documents where “whoosh_reloaded” occurs at most 5 positions before
+<p>To find documents where “whoosh” occurs at most 5 positions before
 “library”:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">q</span> <span class="o">=</span> <span class="n">spans</span><span class="o">.</span><span class="n">SpanNear</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">,</span> <span class="n">slop</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>To find documents where “whoosh_reloaded” occurs at most 5 positions before or after
+<p>To find documents where “whoosh” occurs at most 5 positions before or after
 “library”:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">q</span> <span class="o">=</span> <span class="n">spans</span><span class="o">.</span><span class="n">SpanNear</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">,</span> <span class="n">slop</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">ordered</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>You can use the <code class="docutils literal notranslate"><span class="pre">phrase()</span></code> class method to create a tree of SpanNear
 queries to match a list of terms:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">q</span> <span class="o">=</span> <span class="n">spans</span><span class="o">.</span><span class="n">SpanNear</span><span class="o">.</span><span class="n">phrase</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;whoosh_reloaded&quot;</span><span class="p">,</span> <span class="s2">&quot;search&quot;</span><span class="p">,</span> <span class="s2">&quot;library&quot;</span><span class="p">],</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">q</span> <span class="o">=</span> <span class="n">spans</span><span class="o">.</span><span class="n">SpanNear</span><span class="o">.</span><span class="n">phrase</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;whoosh&quot;</span><span class="p">,</span> <span class="s2">&quot;search&quot;</span><span class="p">,</span> <span class="s2">&quot;library&quot;</span><span class="p">],</span>
                           <span class="n">slop</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1017,20 +1017,20 @@ queries that occur right next to each other (slop=1) and in order
 <p>(Unlike <a class="reference internal" href="#whoosh.query.SpanNear" title="whoosh.query.SpanNear"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpanNear</span></code></a>, this query takes a list of subqueries instead of
 requiring you to build a binary tree of query objects. This query should
 also be slightly faster due to less overhead.)</p>
-<p>For example, to find documents where “whoosh_reloaded” occurs next to “library”
+<p>For example, to find documents where “whoosh” occurs next to “library”
 in the “text” field:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">whoosh</span> <span class="kn">import</span> <span class="n">query</span><span class="p">,</span> <span class="n">spans</span>
-<span class="n">t1</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">Term</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="s2">&quot;whoosh_reloaded&quot;</span><span class="p">)</span>
+<span class="n">t1</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">Term</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="s2">&quot;whoosh&quot;</span><span class="p">)</span>
 <span class="n">t2</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">Term</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="s2">&quot;library&quot;</span><span class="p">)</span>
 <span class="n">q</span> <span class="o">=</span> <span class="n">spans</span><span class="o">.</span><span class="n">SpanNear2</span><span class="p">([</span><span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">])</span>
 </pre></div>
 </div>
-<p>To find documents where “whoosh_reloaded” occurs at most 5 positions before
+<p>To find documents where “whoosh” occurs at most 5 positions before
 “library”:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">q</span> <span class="o">=</span> <span class="n">spans</span><span class="o">.</span><span class="n">SpanNear2</span><span class="p">([</span><span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">],</span> <span class="n">slop</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>To find documents where “whoosh_reloaded” occurs at most 5 positions before or after
+<p>To find documents where “whoosh” occurs at most 5 positions before or after
 “library”:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">q</span> <span class="o">=</span> <span class="n">spans</span><span class="o">.</span><span class="n">SpanNear2</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">,</span> <span class="n">slop</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">ordered</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>

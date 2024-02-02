@@ -133,11 +133,11 @@
 <span class="sd">term occurs near another. Because you can nest span queries, and wrap them</span>
 <span class="sd">around almost any non-span query, you can create very complex constraints.</span>
 
-<span class="sd">For example, to find documents containing &quot;whoosh_reloaded&quot; at most 5 positions before</span>
+<span class="sd">For example, to find documents containing &quot;whoosh&quot; at most 5 positions before</span>
 <span class="sd">&quot;library&quot; in the &quot;text&quot; field::</span>
 
 <span class="sd">    from whoosh import query, spans</span>
-<span class="sd">    t1 = query.Term(&quot;text&quot;, &quot;whoosh_reloaded&quot;)</span>
+<span class="sd">    t1 = query.Term(&quot;text&quot;, &quot;whoosh&quot;)</span>
 <span class="sd">    t2 = query.Term(&quot;text&quot;, &quot;library&quot;)</span>
 <span class="sd">    q = spans.SpanNear(t1, t2, slop=5)</span>
 
@@ -461,20 +461,20 @@
 <span class="sd">    queries that occur right next to each other (slop=1) and in order</span>
 <span class="sd">    (ordered=True).</span>
 
-<span class="sd">    For example, to find documents where &quot;whoosh_reloaded&quot; occurs next to &quot;library&quot;</span>
+<span class="sd">    For example, to find documents where &quot;whoosh&quot; occurs next to &quot;library&quot;</span>
 <span class="sd">    in the &quot;text&quot; field::</span>
 
 <span class="sd">        from whoosh import query, spans</span>
-<span class="sd">        t1 = query.Term(&quot;text&quot;, &quot;whoosh_reloaded&quot;)</span>
+<span class="sd">        t1 = query.Term(&quot;text&quot;, &quot;whoosh&quot;)</span>
 <span class="sd">        t2 = query.Term(&quot;text&quot;, &quot;library&quot;)</span>
 <span class="sd">        q = spans.SpanNear(t1, t2)</span>
 
-<span class="sd">    To find documents where &quot;whoosh_reloaded&quot; occurs at most 5 positions before</span>
+<span class="sd">    To find documents where &quot;whoosh&quot; occurs at most 5 positions before</span>
 <span class="sd">    &quot;library&quot;::</span>
 
 <span class="sd">        q = spans.SpanNear(t1, t2, slop=5)</span>
 
-<span class="sd">    To find documents where &quot;whoosh_reloaded&quot; occurs at most 5 positions before or after</span>
+<span class="sd">    To find documents where &quot;whoosh&quot; occurs at most 5 positions before or after</span>
 <span class="sd">    &quot;library&quot;::</span>
 
 <span class="sd">        q = spans.SpanNear(t1, t2, slop=5, ordered=False)</span>
@@ -482,7 +482,7 @@
 <span class="sd">    You can use the ``phrase()`` class method to create a tree of SpanNear</span>
 <span class="sd">    queries to match a list of terms::</span>
 
-<span class="sd">        q = spans.SpanNear.phrase(&quot;text&quot;, [&quot;whoosh_reloaded&quot;, &quot;search&quot;, &quot;library&quot;],</span>
+<span class="sd">        q = spans.SpanNear.phrase(&quot;text&quot;, [&quot;whoosh&quot;, &quot;search&quot;, &quot;library&quot;],</span>
 <span class="sd">                                  slop=2)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -638,20 +638,20 @@
 <span class="sd">    requiring you to build a binary tree of query objects. This query should</span>
 <span class="sd">    also be slightly faster due to less overhead.)</span>
 
-<span class="sd">    For example, to find documents where &quot;whoosh_reloaded&quot; occurs next to &quot;library&quot;</span>
+<span class="sd">    For example, to find documents where &quot;whoosh&quot; occurs next to &quot;library&quot;</span>
 <span class="sd">    in the &quot;text&quot; field::</span>
 
 <span class="sd">        from whoosh import query, spans</span>
-<span class="sd">        t1 = query.Term(&quot;text&quot;, &quot;whoosh_reloaded&quot;)</span>
+<span class="sd">        t1 = query.Term(&quot;text&quot;, &quot;whoosh&quot;)</span>
 <span class="sd">        t2 = query.Term(&quot;text&quot;, &quot;library&quot;)</span>
 <span class="sd">        q = spans.SpanNear2([t1, t2])</span>
 
-<span class="sd">    To find documents where &quot;whoosh_reloaded&quot; occurs at most 5 positions before</span>
+<span class="sd">    To find documents where &quot;whoosh&quot; occurs at most 5 positions before</span>
 <span class="sd">    &quot;library&quot;::</span>
 
 <span class="sd">        q = spans.SpanNear2([t1, t2], slop=5)</span>
 
-<span class="sd">    To find documents where &quot;whoosh_reloaded&quot; occurs at most 5 positions before or after</span>
+<span class="sd">    To find documents where &quot;whoosh&quot; occurs at most 5 positions before or after</span>
 <span class="sd">    &quot;library&quot;::</span>
 
 <span class="sd">        q = spans.SpanNear2(t1, t2, slop=5, ordered=False)</span>
