@@ -157,7 +157,7 @@
     <span class="n">zlib</span> <span class="o">=</span> <span class="kc">None</span>
 
 <span class="kn">from</span> <span class="nn">whoosh.compat</span> <span class="kn">import</span> <span class="n">b</span><span class="p">,</span> <span class="n">bytes_type</span><span class="p">,</span> <span class="n">BytesIO</span>
-<span class="kn">from</span> <span class="nn">whoosh.compat</span> <span class="kn">import</span> <span class="n">array_tobytes</span><span class="p">,</span> <span class="n">xrange</span>
+<span class="kn">from</span> <span class="nn">whoosh.compat</span> <span class="kn">import</span> <span class="n">array_tobytes</span><span class="p">,</span> <span class="nb">range</span>
 <span class="kn">from</span> <span class="nn">whoosh.compat</span> <span class="kn">import</span> <span class="n">dumps</span><span class="p">,</span> <span class="n">loads</span>
 <span class="kn">from</span> <span class="nn">whoosh.filedb.structfile</span> <span class="kn">import</span> <span class="n">StructFile</span>
 <span class="kn">from</span> <span class="nn">whoosh.idsets</span> <span class="kn">import</span> <span class="n">BitSet</span><span class="p">,</span> <span class="n">OnDiskBitSet</span>
@@ -225,7 +225,7 @@
         <span class="n">write</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dbfile</span><span class="o">.</span><span class="n">write</span>
         <span class="n">default</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_defaultbytes</span>
         <span class="k">if</span> <span class="n">docnum</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_count</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="n">docnum</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_count</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">docnum</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_count</span><span class="p">):</span>
                 <span class="n">write</span><span class="p">(</span><span class="n">default</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">docnum</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
@@ -252,7 +252,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="n">docnum</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_doccount</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_doccount</span><span class="p">):</span>
             <span class="k">yield</span> <span class="bp">self</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -310,8 +310,8 @@
         <span class="k">def</span> <span class="nf">fill</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">docnum</span><span class="p">):</span>
             <span class="n">base</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_offset_base</span>
             <span class="k">if</span> <span class="n">docnum</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_count</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_lengths</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="n">docnum</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_count</span><span class="p">))</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_offsets</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">base</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="n">docnum</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_count</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_lengths</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">docnum</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_count</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_offsets</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">base</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">docnum</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_count</span><span class="p">))</span>
 
         <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">docnum</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">docnum</span><span class="p">)</span>
@@ -480,7 +480,7 @@
         <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
             <span class="n">count</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_count</span>
             <span class="n">default</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_doccount</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_doccount</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">count</span><span class="p">:</span>
                     <span class="k">yield</span> <span class="bp">self</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
                 <span class="k">else</span><span class="p">:</span>
@@ -559,10 +559,10 @@
         <span class="k">def</span> <span class="nf">fill</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">docnum</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">docnum</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_count</span><span class="p">:</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_refs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_refs</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="n">docnum</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_count</span><span class="p">))</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_refs</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">docnum</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_count</span><span class="p">))</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">dbfile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dbfile</span>
-                    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="n">docnum</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_count</span><span class="p">):</span>
+                    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">docnum</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_count</span><span class="p">):</span>
                         <span class="n">dbfile</span><span class="o">.</span><span class="n">write_ushort</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
         <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">docnum</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
@@ -646,7 +646,7 @@
             <span class="n">ucount</span> <span class="o">=</span> <span class="n">dbfile</span><span class="o">.</span><span class="n">read_varint</span><span class="p">()</span>
             <span class="n">length</span> <span class="o">=</span> <span class="n">fixedlen</span>
             <span class="n">uniques</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="n">ucount</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ucount</span><span class="p">):</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">fixedlen</span><span class="p">:</span>
                     <span class="n">length</span> <span class="o">=</span> <span class="n">dbfile</span><span class="o">.</span><span class="n">read_varint</span><span class="p">()</span>
                 <span class="n">uniques</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dbfile</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">length</span><span class="p">))</span>
@@ -664,7 +664,7 @@
             <span class="n">unpack</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unpack</span>
             <span class="n">itemsize</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_itemsize</span>
 
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_doccount</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_doccount</span><span class="p">):</span>
                 <span class="n">pos</span> <span class="o">=</span> <span class="n">basepos</span> <span class="o">+</span> <span class="n">i</span> <span class="o">*</span> <span class="n">itemsize</span>
                 <span class="n">ref</span> <span class="o">=</span> <span class="n">unpack</span><span class="p">(</span><span class="n">get</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">itemsize</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
                 <span class="k">yield</span> <span class="n">uniques</span><span class="p">[</span><span class="n">ref</span><span class="p">]</span></div>
@@ -843,12 +843,12 @@
             <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bitset</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">num</span> <span class="o">&gt;</span> <span class="n">i</span><span class="p">:</span>
-                    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="n">num</span> <span class="o">-</span> <span class="n">i</span><span class="p">):</span>
+                    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num</span> <span class="o">-</span> <span class="n">i</span><span class="p">):</span>
                         <span class="k">yield</span> <span class="kc">False</span>
                 <span class="k">yield</span> <span class="kc">True</span>
                 <span class="n">i</span> <span class="o">=</span> <span class="n">num</span> <span class="o">+</span> <span class="mi">1</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_doccount</span> <span class="o">&gt;</span> <span class="n">i</span><span class="p">:</span>
-                <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_doccount</span> <span class="o">-</span> <span class="n">i</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_doccount</span> <span class="o">-</span> <span class="n">i</span><span class="p">):</span>
                     <span class="k">yield</span> <span class="kc">False</span>
 
         <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1040,17 +1040,17 @@
                 <span class="n">startdoc</span> <span class="o">=</span> <span class="n">block</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
                 <span class="n">enddoc</span> <span class="o">=</span> <span class="n">block</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
                 <span class="k">if</span> <span class="n">startdoc</span> <span class="o">&gt;</span> <span class="p">(</span><span class="n">last</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-                    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="n">startdoc</span> <span class="o">-</span> <span class="n">last</span><span class="p">):</span>
+                    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">startdoc</span> <span class="o">-</span> <span class="n">last</span><span class="p">):</span>
                         <span class="k">yield</span> <span class="n">emptybytes</span>
                 <span class="n">values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_block</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-                <span class="k">for</span> <span class="n">docnum</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="n">startdoc</span><span class="p">,</span> <span class="n">enddoc</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">docnum</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">startdoc</span><span class="p">,</span> <span class="n">enddoc</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
                     <span class="k">if</span> <span class="n">docnum</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
                         <span class="k">yield</span> <span class="n">values</span><span class="p">[</span><span class="n">docnum</span><span class="p">]</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="k">yield</span> <span class="n">emptybytes</span>
                 <span class="n">last</span> <span class="o">=</span> <span class="n">enddoc</span>
             <span class="k">if</span> <span class="n">enddoc</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_doccount</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_doccount</span> <span class="o">-</span> <span class="n">enddoc</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_doccount</span> <span class="o">-</span> <span class="n">enddoc</span><span class="p">):</span>
                     <span class="k">yield</span> <span class="n">emptybytes</span>
 
 
@@ -1122,7 +1122,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default</span>
 
     <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_default</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_doccount</span><span class="p">))</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_default</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_doccount</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span>
@@ -1337,7 +1337,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="n">docnum</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">docnum</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)):</span>
+        <span class="k">for</span> <span class="n">docnum</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)):</span>
             <span class="k">yield</span> <span class="bp">self</span><span class="p">[</span><span class="n">docnum</span><span class="p">]</span>
 
 
@@ -1362,7 +1362,7 @@
             <span class="n">bio</span> <span class="o">=</span> <span class="n">BytesIO</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
             <span class="n">count</span> <span class="o">=</span> <span class="n">read_varint</span><span class="p">(</span><span class="n">bio</span><span class="o">.</span><span class="n">read</span><span class="p">)</span>
             <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="n">count</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">count</span><span class="p">):</span>
                 <span class="n">vlen</span> <span class="o">=</span> <span class="n">read_varint</span><span class="p">(</span><span class="n">bio</span><span class="o">.</span><span class="n">read</span><span class="p">)</span>
                 <span class="n">v</span> <span class="o">=</span> <span class="n">bio</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">vlen</span><span class="p">)</span>
                 <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
@@ -1405,7 +1405,7 @@
             <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_child</span><span class="p">[</span><span class="n">docnum</span><span class="p">]</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">v</span><span class="p">:</span>
                 <span class="k">return</span> <span class="p">[]</span>
-            <span class="n">ls</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="n">fixedlen</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">),</span> <span class="n">fixedlen</span><span class="p">)]</span>
+            <span class="n">ls</span> <span class="o">=</span> <span class="p">[</span><span class="n">v</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="n">fixedlen</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">),</span> <span class="n">fixedlen</span><span class="p">)]</span>
             <span class="k">return</span> <span class="n">ls</span>
 
 
@@ -1446,7 +1446,7 @@
 <span class="c1">#</span>
 <span class="c1">#        def fill(self, docnum):</span>
 <span class="c1">#            if docnum &gt; self._count:</span>
-<span class="c1">#                self._lengths.extend(0 for _ in xrange(docnum - self._count))</span>
+<span class="c1">#                self._lengths.extend(0 for _ in range(docnum - self._count))</span>
 <span class="c1">#</span>
 <span class="c1">#        def add(self, docnum, ls):</span>
 <span class="c1">#            uniques = self._uniques</span>

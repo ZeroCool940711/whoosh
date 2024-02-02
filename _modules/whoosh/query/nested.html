@@ -126,7 +126,7 @@
 <span class="c1"># policies, either expressed or implied, of Matt Chaput.</span>
 
 <span class="kn">from</span> <span class="nn">whoosh</span> <span class="kn">import</span> <span class="n">matching</span>
-<span class="kn">from</span> <span class="nn">whoosh.compat</span> <span class="kn">import</span> <span class="n">xrange</span>
+<span class="kn">from</span> <span class="nn">whoosh.compat</span> <span class="kn">import</span> <span class="nb">range</span>
 <span class="kn">from</span> <span class="nn">whoosh.query</span> <span class="kn">import</span> <span class="n">qcore</span>
 <span class="kn">from</span> <span class="nn">whoosh.query.wrappers</span> <span class="kn">import</span> <span class="n">WrappingQuery</span>
 
@@ -228,7 +228,7 @@
             <span class="n">docnum</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">id</span><span class="p">()</span>
             <span class="n">parentdoc</span> <span class="o">=</span> <span class="n">bits</span><span class="o">.</span><span class="n">before</span><span class="p">(</span><span class="n">docnum</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
             <span class="n">nextparent</span> <span class="o">=</span> <span class="n">bits</span><span class="o">.</span><span class="n">after</span><span class="p">(</span><span class="n">docnum</span><span class="p">)</span> <span class="ow">or</span> <span class="n">maxdoc</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="n">parentdoc</span><span class="p">,</span> <span class="n">nextparent</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">parentdoc</span><span class="p">,</span> <span class="n">nextparent</span><span class="p">):</span>
                 <span class="k">yield</span> <span class="n">i</span>
             <span class="n">m</span><span class="o">.</span><span class="n">skip_to</span><span class="p">(</span><span class="n">nextparent</span><span class="p">)</span>
 

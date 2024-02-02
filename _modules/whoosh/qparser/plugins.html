@@ -129,7 +129,7 @@
 
 <span class="kn">from</span> <span class="nn">whoosh</span> <span class="kn">import</span> <span class="n">query</span>
 <span class="kn">from</span> <span class="nn">whoosh.compat</span> <span class="kn">import</span> <span class="n">u</span>
-<span class="kn">from</span> <span class="nn">whoosh.compat</span> <span class="kn">import</span> <span class="n">iteritems</span><span class="p">,</span> <span class="n">xrange</span>
+<span class="kn">from</span> <span class="nn">whoosh.compat</span> <span class="kn">import</span> <span class="n">iteritems</span><span class="p">,</span> <span class="nb">range</span>
 <span class="kn">from</span> <span class="nn">whoosh.qparser</span> <span class="kn">import</span> <span class="n">syntax</span>
 <span class="kn">from</span> <span class="nn">whoosh.qparser.common</span> <span class="kn">import</span> <span class="n">attach</span>
 <span class="kn">from</span> <span class="nn">whoosh.qparser.taggers</span> <span class="kn">import</span> <span class="n">RegexTagger</span><span class="p">,</span> <span class="n">FnTagger</span>
@@ -273,7 +273,7 @@
                     <span class="bp">self</span><span class="o">.</span><span class="n">do_wildcards</span><span class="p">(</span><span class="n">parser</span><span class="p">,</span> <span class="n">node</span><span class="p">)</span>
                 <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
 
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">group</span><span class="p">)):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">group</span><span class="p">)):</span>
             <span class="n">node</span> <span class="o">=</span> <span class="n">group</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">WildcardNode</span><span class="p">):</span>
                 <span class="n">text</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">text</span>

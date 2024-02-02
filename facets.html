@@ -496,12 +496,12 @@ document numbers in the same relative order as in the results. You can use the
 <code class="docutils literal notranslate"><span class="pre">Searcher</span></code> object’s <code class="docutils literal notranslate"><span class="pre">stored_fields()</span></code> method to take a document number and
 return the document’s stored fields as a dictionary:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">category_name</span> <span class="ow">in</span> <span class="n">categories</span><span class="p">:</span>
-    <span class="nb">print</span> <span class="s2">&quot;Top 5 documents in the </span><span class="si">%s</span><span class="s2"> category&quot;</span> <span class="o">%</span> <span class="n">category_name</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Top 5 documents in the </span><span class="si">%s</span><span class="s2"> category&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="n">category_name</span>
     <span class="n">doclist</span> <span class="o">=</span> <span class="n">categories</span><span class="p">[</span><span class="n">category_name</span><span class="p">]</span>
     <span class="k">for</span> <span class="n">docnum</span><span class="p">,</span> <span class="n">score</span> <span class="ow">in</span> <span class="n">doclist</span><span class="p">[:</span><span class="mi">5</span><span class="p">]:</span>
-        <span class="nb">print</span> <span class="s2">&quot;  &quot;</span><span class="p">,</span> <span class="n">searcher</span><span class="o">.</span><span class="n">stored_fields</span><span class="p">(</span><span class="n">docnum</span><span class="p">)</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;  &quot;</span><span class="p">,</span> <span class="n">searcher</span><span class="o">.</span><span class="n">stored_fields</span><span class="p">(</span><span class="n">docnum</span><span class="p">))</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">doclist</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">:</span>
-        <span class="nb">print</span> <span class="s2">&quot;  (</span><span class="si">%s</span><span class="s2"> more)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">doclist</span><span class="p">)</span> <span class="o">-</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;  (</span><span class="si">%s</span><span class="s2"> more)&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">doclist</span><span class="p">)</span> <span class="o">-</span> <span class="mi">5</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>If you want different information about the groups, for example just the count

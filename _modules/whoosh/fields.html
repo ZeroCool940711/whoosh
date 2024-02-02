@@ -135,7 +135,7 @@
 
 <span class="kn">from</span> <span class="nn">whoosh</span> <span class="kn">import</span> <span class="n">analysis</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">formats</span>
 <span class="kn">from</span> <span class="nn">whoosh.compat</span> <span class="kn">import</span> <span class="n">with_metaclass</span>
-<span class="kn">from</span> <span class="nn">whoosh.compat</span> <span class="kn">import</span> <span class="n">itervalues</span><span class="p">,</span> <span class="n">xrange</span>
+<span class="kn">from</span> <span class="nn">whoosh.compat</span> <span class="kn">import</span> <span class="n">itervalues</span>
 <span class="kn">from</span> <span class="nn">whoosh.compat</span> <span class="kn">import</span> <span class="n">bytes_type</span><span class="p">,</span> <span class="n">string_type</span><span class="p">,</span> <span class="n">text_type</span>
 <span class="kn">from</span> <span class="nn">whoosh.system</span> <span class="kn">import</span> <span class="n">emptybytes</span>
 <span class="kn">from</span> <span class="nn">whoosh.system</span> <span class="kn">import</span> <span class="n">pack_byte</span>
@@ -796,7 +796,7 @@
 
         <span class="c1"># word, freq, weight, valuestring</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">shift_step</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">shift</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bits</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">shift_step</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">shift</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bits</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">shift_step</span><span class="p">):</span>
                 <span class="k">yield</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">shift</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">emptybytes</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">yield</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">(</span><span class="n">num</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">emptybytes</span><span class="p">)</span>
@@ -1440,7 +1440,6 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subfield</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;rev_&quot;</span><span class="p">):</span>
         <span class="n">FieldWrapper</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subfield</span><span class="p">,</span> <span class="n">prefix</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">analyzer</span> <span class="o">=</span> <span class="n">subfield</span><span class="o">.</span><span class="n">analyzer</span> <span class="o">|</span> <span class="n">analysis</span><span class="o">.</span><span class="n">ReverseTextFilter</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">format</span> <span class="o">=</span> <span class="n">BasicFormat</span><span class="p">(</span><span class="n">lengths</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">scorable</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_sortable</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
@@ -1779,7 +1778,7 @@
 
 <span class="k">def</span> <span class="nf">merge_schemas</span><span class="p">(</span><span class="n">schemas</span><span class="p">):</span>
     <span class="n">schema</span> <span class="o">=</span> <span class="n">schemas</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">schemas</span><span class="p">)):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">schemas</span><span class="p">)):</span>
         <span class="n">schema</span> <span class="o">=</span> <span class="n">merge_schema</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="n">schemas</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">schema</span>
 </pre></div>
