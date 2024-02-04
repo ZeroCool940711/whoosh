@@ -589,7 +589,7 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">ref</span> <span class="o">&gt;</span> <span class="mi">65535</span><span class="p">:</span>
                     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                        <span class="s2">&quot;RefBytesColumn dropped unique value </span><span class="si">%r</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">v</span><span class="p">,</span> <span class="ne">UserWarning</span>
+                        <span class="sa">f</span><span class="s2">&quot;RefBytesColumn dropped unique value </span><span class="si">{</span><span class="n">v</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="ne">UserWarning</span>
                     <span class="p">)</span>
                     <span class="n">ref</span> <span class="o">=</span> <span class="mi">0</span>
                 <span class="n">dbfile</span><span class="o">.</span><span class="n">write_ushort</span><span class="p">(</span><span class="n">ref</span><span class="p">)</span>
