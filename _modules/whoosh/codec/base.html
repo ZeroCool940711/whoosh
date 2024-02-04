@@ -177,6 +177,7 @@
     <span class="c1"># Index readers</span>
 
     <span class="k">def</span> <span class="nf">automata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage</span><span class="p">,</span> <span class="n">segment</span><span class="p">):</span>
+        <span class="n">_</span> <span class="o">=</span> <span class="n">storage</span><span class="p">,</span> <span class="n">segment</span>  <span class="c1"># Unused arguments</span>
         <span class="k">return</span> <span class="n">Automata</span><span class="p">()</span>
 
     <span class="nd">@abstractmethod</span>
@@ -257,9 +258,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">add_vector_items</span><span class="p">(</span><span class="n">fieldname</span><span class="p">,</span> <span class="n">fieldobj</span><span class="p">,</span> <span class="n">readitems</span><span class="p">())</span>
 
     <span class="k">def</span> <span class="nf">finish_doc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># This method is intentionally left empty.</span>
         <span class="k">pass</span>
 
     <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># This method is intentionally left empty.</span>
         <span class="k">pass</span></div>
 
 
@@ -361,6 +364,7 @@
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
     <span class="k">def</span> <span class="nf">finish_field</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># This method is intentionally left empty.</span>
         <span class="k">pass</span>
 
     <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -380,6 +384,7 @@
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
     <span class="k">def</span> <span class="nf">finish_postings</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># This method is intentionally left empty.</span>
         <span class="k">pass</span>
 
 <div class="viewcode-block" id="PostingsWriter.written"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.PostingsWriter.written">[docs]</a>    <span class="nd">@abstractmethod</span>
@@ -452,6 +457,7 @@
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
     <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># This method is intentionally left empty.</span>
         <span class="k">pass</span></div>
 
 
@@ -489,6 +495,7 @@
 
 <div class="viewcode-block" id="PerDocumentReader"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.PerDocumentReader">[docs]</a><span class="k">class</span> <span class="nc">PerDocumentReader</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># This method is intentionally left empty.</span>
         <span class="k">pass</span>
 
     <span class="nd">@abstractmethod</span>
@@ -533,6 +540,7 @@
         <span class="k">return</span> <span class="kc">False</span>
 
     <span class="k">def</span> <span class="nf">has_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">):</span>
+        <span class="n">_</span> <span class="o">=</span> <span class="n">fieldname</span>  <span class="c1"># Unused argument</span>
         <span class="k">return</span> <span class="kc">False</span>
 
     <span class="k">def</span> <span class="nf">list_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -545,6 +553,7 @@
     <span class="c1"># Bitmaps</span>
 
     <span class="k">def</span> <span class="nf">field_docs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">):</span>
+        <span class="n">_</span> <span class="o">=</span> <span class="n">fieldname</span>  <span class="c1"># Unused argument</span>
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="c1"># Lengths</span>
@@ -568,6 +577,7 @@
     <span class="c1"># Vectors</span>
 
     <span class="k">def</span> <span class="nf">has_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">docnum</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">):</span>
+        <span class="n">_</span> <span class="o">=</span> <span class="n">docnum</span><span class="p">,</span> <span class="n">fieldname</span>  <span class="c1"># Unused arguments</span>
         <span class="k">return</span> <span class="kc">False</span>
 
     <span class="c1"># Don&#39;t need to override this if has_vector() always returns False</span>
