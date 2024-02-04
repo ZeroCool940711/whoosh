@@ -205,6 +205,7 @@
 
 <div class="viewcode-block" id="Column.default_value"><a class="viewcode-back" href="../../api/columns.html#whoosh.columns.Column.default_value">[docs]</a>    <span class="k">def</span> <span class="nf">default_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the default value for this column type.&quot;&quot;&quot;</span>
+        <span class="n">_</span> <span class="o">=</span> <span class="n">reverse</span>  <span class="c1"># unused variable</span>
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default</span></div>
 
@@ -232,6 +233,7 @@
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
     <span class="k">def</span> <span class="nf">finish</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">docnum</span><span class="p">):</span>
+        <span class="c1"># This method is intentionally left empty.</span>
         <span class="k">pass</span></div>
 
 
