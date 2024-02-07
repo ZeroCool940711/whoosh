@@ -125,7 +125,6 @@
 <span class="c1"># those of the authors and should not be interpreted as representing official</span>
 <span class="c1"># policies, either expressed or implied, of Matt Chaput.</span>
 
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">division</span>
 <span class="kn">import</span> <span class="nn">copy</span>
 
 <span class="kn">from</span> <span class="nn">whoosh</span> <span class="kn">import</span> <span class="n">matching</span>
@@ -265,7 +264,7 @@
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">(</span><span class="si">%r</span><span class="s2">, </span><span class="si">%r</span><span class="s2">, slop=</span><span class="si">%s</span><span class="s2">, boost=</span><span class="si">%f</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="p">(</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">(</span><span class="si">{!r}</span><span class="s2">, </span><span class="si">{!r}</span><span class="s2">, slop=</span><span class="si">{}</span><span class="s2">, boost=</span><span class="si">{:f}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">fieldname</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">words</span><span class="p">,</span>

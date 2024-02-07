@@ -131,7 +131,7 @@
 <span class="kn">from</span> <span class="nn">whoosh.qparser.common</span> <span class="kn">import</span> <span class="n">get_single_text</span><span class="p">,</span> <span class="n">QueryParserError</span><span class="p">,</span> <span class="n">attach</span>
 
 
-<div class="viewcode-block" id="SyntaxNode"><a class="viewcode-back" href="../../../api/qparser.html#whoosh.qparser.SyntaxNode">[docs]</a><span class="k">class</span> <span class="nc">SyntaxNode</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="SyntaxNode"><a class="viewcode-back" href="../../../api/qparser.html#whoosh.qparser.SyntaxNode">[docs]</a><span class="k">class</span> <span class="nc">SyntaxNode</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for nodes that make up the abstract syntax tree (AST) of a</span>
 <span class="sd">    parsed user query string. The AST is an intermediate step, generated</span>
 <span class="sd">    from the query string, then converted into a :class:`whoosh.query.Query`</span>
@@ -327,7 +327,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="p">,</span>
             <span class="p">[</span><span class="n">fn</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">],</span>
             <span class="n">boost</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">boost</span><span class="p">,</span>
-            <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span>
+            <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">query</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parser</span><span class="p">):</span>
@@ -512,7 +512,7 @@
             <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
                 <span class="k">if</span> <span class="s2">&quot;scale&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
                     <span class="k">del</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;scale&quot;</span><span class="p">]</span>
-                <span class="nb">super</span><span class="p">(</span><span class="n">ScaledOrGroup</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">nodes</span><span class="o">=</span><span class="n">nodes</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">nodes</span><span class="o">=</span><span class="n">nodes</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">ScaledOrGroup</span></div>
 

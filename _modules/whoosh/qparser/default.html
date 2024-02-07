@@ -130,13 +130,12 @@
 <span class="kn">from</span> <span class="nn">whoosh</span> <span class="kn">import</span> <span class="n">query</span>
 <span class="kn">from</span> <span class="nn">whoosh.compat</span> <span class="kn">import</span> <span class="n">text_type</span>
 <span class="kn">from</span> <span class="nn">whoosh.qparser</span> <span class="kn">import</span> <span class="n">syntax</span>
-<span class="kn">from</span> <span class="nn">whoosh.qparser.common</span> <span class="kn">import</span> <span class="n">print_debug</span><span class="p">,</span> <span class="n">QueryParserError</span>
-
+<span class="kn">from</span> <span class="nn">whoosh.qparser.common</span> <span class="kn">import</span> <span class="n">QueryParserError</span><span class="p">,</span> <span class="n">print_debug</span>
 
 <span class="c1"># Query parser object</span>
 
 
-<div class="viewcode-block" id="QueryParser"><a class="viewcode-back" href="../../../api/qparser.html#whoosh.qparser.QueryParser">[docs]</a><span class="k">class</span> <span class="nc">QueryParser</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="QueryParser"><a class="viewcode-back" href="../../../api/qparser.html#whoosh.qparser.QueryParser">[docs]</a><span class="k">class</span> <span class="nc">QueryParser</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A hand-written query parser built on modular plug-ins. The default</span>
 <span class="sd">    configuration implements a powerful fielded query language similar to</span>
 <span class="sd">    Lucene&#39;s.</span>
@@ -321,7 +320,7 @@
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">q</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">parse_query</span><span class="p">(</span><span class="n">fieldname</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">boost</span><span class="o">=</span><span class="n">boost</span><span class="p">)</span>
                     <span class="k">return</span> <span class="n">q</span>
-                <span class="k">except</span><span class="p">:</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
                     <span class="n">e</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
                     <span class="k">return</span> <span class="n">query</span><span class="o">.</span><span class="n">error_query</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 

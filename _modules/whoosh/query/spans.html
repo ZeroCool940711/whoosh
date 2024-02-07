@@ -151,7 +151,7 @@
 <span class="c1"># Span class</span>
 
 
-<div class="viewcode-block" id="Span"><a class="viewcode-back" href="../../../api/query.html#whoosh.query.Span">[docs]</a><span class="k">class</span> <span class="nc">Span</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="Span"><a class="viewcode-back" href="../../../api/query.html#whoosh.query.Span">[docs]</a><span class="k">class</span> <span class="nc">Span</span><span class="p">:</span>
     <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;start&quot;</span><span class="p">,</span> <span class="s2">&quot;end&quot;</span><span class="p">,</span> <span class="s2">&quot;startchar&quot;</span><span class="p">,</span> <span class="s2">&quot;endchar&quot;</span><span class="p">,</span> <span class="s2">&quot;boost&quot;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">startchar</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">endchar</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">boost</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
@@ -299,7 +299,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">child</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">SpanWrappingMatcher</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_spans</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_active</span><span class="p">():</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_find_next</span><span class="p">()</span>
@@ -439,7 +439,7 @@
     <span class="k">class</span> <span class="nc">SpanFirstMatcher</span><span class="p">(</span><span class="n">SpanWrappingMatcher</span><span class="p">):</span>
         <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">child</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">limit</span> <span class="o">=</span> <span class="n">limit</span>
-            <span class="nb">super</span><span class="p">(</span><span class="n">SpanFirst</span><span class="o">.</span><span class="n">SpanFirstMatcher</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
 
         <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">child</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span> <span class="n">limit</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">limit</span><span class="p">)</span>
@@ -580,7 +580,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">ordered</span> <span class="o">=</span> <span class="n">ordered</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">mindist</span> <span class="o">=</span> <span class="n">mindist</span>
             <span class="n">isect</span> <span class="o">=</span> <span class="n">binary</span><span class="o">.</span><span class="n">IntersectionMatcher</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
-            <span class="nb">super</span><span class="p">(</span><span class="n">SpanNear</span><span class="o">.</span><span class="n">SpanNearMatcher</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">isect</span><span class="p">)</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">isect</span><span class="p">)</span>
 
         <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span>
@@ -733,7 +733,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">ordered</span> <span class="o">=</span> <span class="n">ordered</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">mindist</span> <span class="o">=</span> <span class="n">mindist</span>
             <span class="n">isect</span> <span class="o">=</span> <span class="n">make_binary_tree</span><span class="p">(</span><span class="n">binary</span><span class="o">.</span><span class="n">IntersectionMatcher</span><span class="p">,</span> <span class="n">ms</span><span class="p">)</span>
-            <span class="nb">super</span><span class="p">(</span><span class="n">SpanNear2</span><span class="o">.</span><span class="n">SpanNear2Matcher</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">isect</span><span class="p">)</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">isect</span><span class="p">)</span>
 
         <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span>
@@ -827,7 +827,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">a</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">b</span>
             <span class="n">um</span> <span class="o">=</span> <span class="n">binary</span><span class="o">.</span><span class="n">UnionMatcher</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
-            <span class="nb">super</span><span class="p">(</span><span class="n">SpanOr</span><span class="o">.</span><span class="n">SpanOrMatcher</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">um</span><span class="p">)</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">um</span><span class="p">)</span>
 
         <span class="k">def</span> <span class="nf">_get_spans</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
             <span class="n">a_active</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">is_active</span><span class="p">()</span>
@@ -898,7 +898,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">a</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">b</span>
             <span class="n">amm</span> <span class="o">=</span> <span class="n">binary</span><span class="o">.</span><span class="n">AndMaybeMatcher</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
-            <span class="nb">super</span><span class="p">(</span><span class="n">SpanNot</span><span class="o">.</span><span class="n">_Matcher</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">amm</span><span class="p">)</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">amm</span><span class="p">)</span>
 
         <span class="k">def</span> <span class="nf">_get_spans</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">id</span><span class="p">()</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">id</span><span class="p">():</span>
@@ -947,7 +947,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">a</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">b</span>
             <span class="n">im</span> <span class="o">=</span> <span class="n">binary</span><span class="o">.</span><span class="n">IntersectionMatcher</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
-            <span class="nb">super</span><span class="p">(</span><span class="n">SpanContains</span><span class="o">.</span><span class="n">_Matcher</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">im</span><span class="p">)</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">im</span><span class="p">)</span>
 
         <span class="k">def</span> <span class="nf">_get_spans</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
             <span class="n">spans</span> <span class="o">=</span> <span class="p">[]</span>
@@ -993,7 +993,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">a</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">b</span>
             <span class="n">im</span> <span class="o">=</span> <span class="n">binary</span><span class="o">.</span><span class="n">IntersectionMatcher</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
-            <span class="nb">super</span><span class="p">(</span><span class="n">SpanBefore</span><span class="o">.</span><span class="n">_Matcher</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">im</span><span class="p">)</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">im</span><span class="p">)</span>
 
         <span class="k">def</span> <span class="nf">_get_spans</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
             <span class="n">bminstart</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">bspan</span><span class="o">.</span><span class="n">start</span> <span class="k">for</span> <span class="n">bspan</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">spans</span><span class="p">())</span>
@@ -1023,7 +1023,7 @@
         <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">a</span>
             <span class="n">im</span> <span class="o">=</span> <span class="n">binary</span><span class="o">.</span><span class="n">IntersectionMatcher</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
-            <span class="nb">super</span><span class="p">(</span><span class="n">SpanCondition</span><span class="o">.</span><span class="n">_Matcher</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">im</span><span class="p">)</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">im</span><span class="p">)</span>
 
         <span class="k">def</span> <span class="nf">_get_spans</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">spans</span><span class="p">()</span></div>

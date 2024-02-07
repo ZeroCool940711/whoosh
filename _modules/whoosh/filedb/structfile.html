@@ -146,7 +146,7 @@
 <span class="kn">from</span> <span class="nn">whoosh.util.varints</span> <span class="kn">import</span> <span class="n">signed_varint</span><span class="p">,</span> <span class="n">decode_signed_varint</span>
 
 
-<span class="n">_SIZEMAP</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">((</span><span class="n">typecode</span><span class="p">,</span> <span class="n">calcsize</span><span class="p">(</span><span class="n">typecode</span><span class="p">))</span> <span class="k">for</span> <span class="n">typecode</span> <span class="ow">in</span> <span class="s2">&quot;bBiIhHqQf&quot;</span><span class="p">)</span>
+<span class="n">_SIZEMAP</span> <span class="o">=</span> <span class="p">{</span><span class="n">typecode</span><span class="p">:</span> <span class="n">calcsize</span><span class="p">(</span><span class="n">typecode</span><span class="p">)</span> <span class="k">for</span> <span class="n">typecode</span> <span class="ow">in</span> <span class="s2">&quot;bBiIhHqQf&quot;</span><span class="p">}</span>
 <span class="n">_ORDERMAP</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;little&quot;</span><span class="p">:</span> <span class="s2">&quot;&lt;&quot;</span><span class="p">,</span> <span class="s2">&quot;big&quot;</span><span class="p">:</span> <span class="s2">&quot;&gt;&quot;</span><span class="p">}</span>
 
 <span class="n">_types</span> <span class="o">=</span> <span class="p">((</span><span class="s2">&quot;sbyte&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;ushort&quot;</span><span class="p">,</span> <span class="s2">&quot;H&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;int&quot;</span><span class="p">,</span> <span class="s2">&quot;i&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;long&quot;</span><span class="p">,</span> <span class="s2">&quot;q&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;float&quot;</span><span class="p">,</span> <span class="s2">&quot;f&quot;</span><span class="p">))</span>
@@ -155,7 +155,7 @@
 <span class="c1"># Main function</span>
 
 
-<div class="viewcode-block" id="StructFile"><a class="viewcode-back" href="../../../api/filedb/structfile.html#whoosh.filedb.structfile.StructFile">[docs]</a><span class="k">class</span> <span class="nc">StructFile</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="StructFile"><a class="viewcode-back" href="../../../api/filedb/structfile.html#whoosh.filedb.structfile.StructFile">[docs]</a><span class="k">class</span> <span class="nc">StructFile</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns a &quot;structured file&quot; object that wraps the given file object and</span>
 <span class="sd">    provides numerous additional methods for writing structured data, such as</span>
 <span class="sd">    &quot;write_varint&quot; and &quot;write_long&quot;.</span>

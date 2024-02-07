@@ -129,7 +129,6 @@
 <span class="sd">&quot;&quot;&quot;</span>
 
 
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">division</span>
 <span class="kn">import</span> <span class="nn">copy</span>
 <span class="kn">import</span> <span class="nn">weakref</span>
 <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">ceil</span>
@@ -162,7 +161,7 @@
 <span class="c1"># Context class</span>
 
 
-<span class="k">class</span> <span class="nc">SearchContext</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">SearchContext</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A container for information about the current search that may be used</span>
 <span class="sd">    by the collector or the query objects to change how they operate.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -198,7 +197,7 @@
 <span class="c1"># Searcher class</span>
 
 
-<div class="viewcode-block" id="Searcher"><a class="viewcode-back" href="../../api/searching.html#whoosh.searching.Searcher">[docs]</a><span class="k">class</span> <span class="nc">Searcher</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="Searcher"><a class="viewcode-back" href="../../api/searching.html#whoosh.searching.Searcher">[docs]</a><span class="k">class</span> <span class="nc">Searcher</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Wraps an :class:`~whoosh.reading.IndexReader` object and provides</span>
 <span class="sd">    methods for searching the index.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -714,7 +713,7 @@
             <span class="p">[</span><span class="n">query</span><span class="o">.</span><span class="n">Term</span><span class="p">(</span><span class="n">fieldname</span><span class="p">,</span> <span class="n">word</span><span class="p">,</span> <span class="n">boost</span><span class="o">=</span><span class="n">weight</span><span class="p">)</span> <span class="k">for</span> <span class="n">word</span><span class="p">,</span> <span class="n">weight</span> <span class="ow">in</span> <span class="n">kts</span><span class="p">]</span>
         <span class="p">)</span>
 
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="n">top</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="nb">filter</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="nb">set</span><span class="p">([</span><span class="n">docnum</span><span class="p">]))</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="n">top</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="nb">filter</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="p">{</span><span class="n">docnum</span><span class="p">})</span></div>
 
 <div class="viewcode-block" id="Searcher.search_page"><a class="viewcode-back" href="../../api/searching.html#whoosh.searching.Searcher.search_page">[docs]</a>    <span class="k">def</span> <span class="nf">search_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">pagenum</span><span class="p">,</span> <span class="n">pagelen</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;This method is Like the :meth:`Searcher.search` method, but returns</span>
@@ -1079,7 +1078,7 @@
         <span class="k">return</span> <span class="n">sqc</span><span class="o">.</span><span class="n">correct_query</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">qstring</span><span class="p">)</span></div></div>
 
 
-<div class="viewcode-block" id="Results"><a class="viewcode-back" href="../../api/searching.html#whoosh.searching.Results">[docs]</a><span class="k">class</span> <span class="nc">Results</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="Results"><a class="viewcode-back" href="../../api/searching.html#whoosh.searching.Results">[docs]</a><span class="k">class</span> <span class="nc">Results</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;This object is returned by a Searcher. This object represents the</span>
 <span class="sd">    results of a search query. You can mostly use it as if it was a list of</span>
 <span class="sd">    dictionaries, where each dictionary is the stored fields of the document at</span>
@@ -1498,7 +1497,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">top_n</span> <span class="o">=</span> <span class="n">arein</span> <span class="o">+</span> <span class="n">notin</span> <span class="o">+</span> <span class="n">other</span></div></div>
 
 
-<div class="viewcode-block" id="Hit"><a class="viewcode-back" href="../../api/searching.html#whoosh.searching.Hit">[docs]</a><span class="k">class</span> <span class="nc">Hit</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="Hit"><a class="viewcode-back" href="../../api/searching.html#whoosh.searching.Hit">[docs]</a><span class="k">class</span> <span class="nc">Hit</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents a single search result (&quot;hit&quot;) in a Results object.</span>
 
 <span class="sd">    This object acts like a dictionary of the matching document&#39;s stored</span>
@@ -1711,7 +1710,7 @@
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;You cannot modify a search result&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="ResultsPage"><a class="viewcode-back" href="../../api/searching.html#whoosh.searching.ResultsPage">[docs]</a><span class="k">class</span> <span class="nc">ResultsPage</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="ResultsPage"><a class="viewcode-back" href="../../api/searching.html#whoosh.searching.ResultsPage">[docs]</a><span class="k">class</span> <span class="nc">ResultsPage</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents a single page out of a longer list of results, as returned</span>
 <span class="sd">    by :func:`whoosh.searching.Searcher.search_page`. Supports a subset of the</span>
 <span class="sd">    interface of the :class:`~whoosh.searching.Results` object, namely getting</span>

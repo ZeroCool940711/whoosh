@@ -125,7 +125,6 @@
 <span class="c1"># those of the authors and should not be interpreted as representing official</span>
 <span class="c1"># policies, either expressed or implied, of Matt Chaput.</span>
 
-<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">division</span>
 <span class="kn">import</span> <span class="nn">copy</span>
 <span class="kn">from</span> <span class="nn">array</span> <span class="kn">import</span> <span class="n">array</span>
 
@@ -183,7 +182,7 @@
 <span class="c1"># Utility classes</span>
 
 
-<span class="k">class</span> <span class="nc">Lowest</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">Lowest</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A value that is always compares lower than any other object except</span>
 <span class="sd">    itself.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -212,7 +211,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__gt__</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
 
 
-<span class="k">class</span> <span class="nc">Highest</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">Highest</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A value that is always compares higher than any other object except</span>
 <span class="sd">    itself.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -248,7 +247,7 @@
 <span class="c1"># Base classes</span>
 
 
-<div class="viewcode-block" id="Query"><a class="viewcode-back" href="../../../api/query.html#whoosh.query.Query">[docs]</a><span class="k">class</span> <span class="nc">Query</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="Query"><a class="viewcode-back" href="../../../api/query.html#whoosh.query.Query">[docs]</a><span class="k">class</span> <span class="nc">Query</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Abstract base class for all queries.</span>
 
 <span class="sd">    Note that this base class implements __or__, __and__, and __sub__ to allow</span>
@@ -510,8 +509,7 @@
             <span class="k">yield</span> <span class="bp">self</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">():</span>
-                <span class="k">for</span> <span class="n">qq</span> <span class="ow">in</span> <span class="n">q</span><span class="o">.</span><span class="n">leaves</span><span class="p">():</span>
-                    <span class="k">yield</span> <span class="n">qq</span></div>
+                <span class="k">yield from</span> <span class="n">q</span><span class="o">.</span><span class="n">leaves</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="Query.iter_all_terms"><a class="viewcode-back" href="../../../api/query.html#whoosh.query.Query.iter_all_terms">[docs]</a>    <span class="k">def</span> <span class="nf">iter_all_terms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phrases</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns an iterator of (fieldname, text) pairs for all terms in</span>
@@ -536,8 +534,7 @@
 
         <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">leaves</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">q</span><span class="o">.</span><span class="n">has_terms</span><span class="p">():</span>
-                <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">q</span><span class="o">.</span><span class="n">terms</span><span class="p">(</span><span class="n">phrases</span><span class="o">=</span><span class="n">phrases</span><span class="p">):</span>
-                    <span class="k">yield</span> <span class="n">t</span></div>
+                <span class="k">yield from</span> <span class="n">q</span><span class="o">.</span><span class="n">terms</span><span class="p">(</span><span class="n">phrases</span><span class="o">=</span><span class="n">phrases</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Query.all_tokens"><a class="viewcode-back" href="../../../api/query.html#whoosh.query.Query.all_tokens">[docs]</a>    <span class="k">def</span> <span class="nf">all_tokens</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">boost</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns an iterator of :class:`analysis.Token` objects corresponding</span>
@@ -549,13 +546,11 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_leaf</span><span class="p">():</span>
-            <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tokens</span><span class="p">(</span><span class="n">boost</span><span class="p">):</span>
-                <span class="k">yield</span> <span class="n">token</span>
+            <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">tokens</span><span class="p">(</span><span class="n">boost</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">boost</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">boost</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;boost&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="mf">1.0</span>
             <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">():</span>
-                <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">child</span><span class="o">.</span><span class="n">all_tokens</span><span class="p">(</span><span class="n">boost</span><span class="p">):</span>
-                    <span class="k">yield</span> <span class="n">token</span></div>
+                <span class="k">yield from</span> <span class="n">child</span><span class="o">.</span><span class="n">all_tokens</span><span class="p">(</span><span class="n">boost</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Query.tokens"><a class="viewcode-back" href="../../../api/query.html#whoosh.query.Query.tokens">[docs]</a>    <span class="k">def</span> <span class="nf">tokens</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">boost</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">exreader</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Yields zero or more :class:`analysis.Token` objects corresponding to</span>
@@ -596,7 +591,7 @@
 
         <span class="c1"># Subclasses should implement the _add_required_to(qset) method</span>
 
-        <span class="k">return</span> <span class="nb">set</span><span class="p">([</span><span class="bp">self</span><span class="p">])</span></div>
+        <span class="k">return</span> <span class="p">{</span><span class="bp">self</span><span class="p">}</span></div>
 
 <div class="viewcode-block" id="Query.field"><a class="viewcode-back" href="../../../api/query.html#whoosh.query.Query.field">[docs]</a>    <span class="k">def</span> <span class="nf">field</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the field this query matches in, or None if this query does</span>

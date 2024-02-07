@@ -143,7 +143,7 @@
 <span class="c1"># Format base class</span>
 
 
-<div class="viewcode-block" id="Format"><a class="viewcode-back" href="../../api/formats.html#whoosh.formats.Format">[docs]</a><span class="k">class</span> <span class="nc">Format</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="Format"><a class="viewcode-back" href="../../api/formats.html#whoosh.formats.Format">[docs]</a><span class="k">class</span> <span class="nc">Format</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Abstract base class representing a storage format for a field or vector.</span>
 <span class="sd">    Format objects are responsible for writing and reading the low-level</span>
 <span class="sd">    representation of a field. It controls what kind/level of information to</span>
@@ -247,7 +247,7 @@
 
     <span class="k">def</span> <span class="nf">word_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">analyzer</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">fb</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">field_boost</span>
-        <span class="n">wordset</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">analyzer</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">))</span>
+        <span class="n">wordset</span> <span class="o">=</span> <span class="p">{</span><span class="n">t</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">analyzer</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)}</span>
         <span class="k">return</span> <span class="p">((</span><span class="n">w</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">fb</span><span class="p">,</span> <span class="n">emptybytes</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">wordset</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">encode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
