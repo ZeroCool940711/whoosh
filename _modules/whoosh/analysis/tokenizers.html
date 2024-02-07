@@ -125,10 +125,9 @@
 <span class="c1"># those of the authors and should not be interpreted as representing official</span>
 <span class="c1"># policies, either expressed or implied, of Matt Chaput.</span>
 
-<span class="kn">from</span> <span class="nn">whoosh.compat</span> <span class="kn">import</span> <span class="n">u</span><span class="p">,</span> <span class="n">text_type</span>
 <span class="kn">from</span> <span class="nn">whoosh.analysis.acore</span> <span class="kn">import</span> <span class="n">Composable</span><span class="p">,</span> <span class="n">Token</span>
+<span class="kn">from</span> <span class="nn">whoosh.compat</span> <span class="kn">import</span> <span class="n">text_type</span><span class="p">,</span> <span class="n">u</span>
 <span class="kn">from</span> <span class="nn">whoosh.util.text</span> <span class="kn">import</span> <span class="n">rcompile</span>
-
 
 <span class="n">default_pattern</span> <span class="o">=</span> <span class="n">rcompile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[\w\*]+(\.?[\w\*]+)*&quot;</span><span class="p">)</span>
 

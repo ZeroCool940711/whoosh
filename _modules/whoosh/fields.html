@@ -1007,7 +1007,7 @@
 
         <span class="k">try</span><span class="p">:</span>
             <span class="n">at</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_datestring</span><span class="p">(</span><span class="n">qstring</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="k">except</span><span class="p">:</span>
             <span class="n">e</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
             <span class="k">return</span> <span class="n">query</span><span class="o">.</span><span class="n">error_query</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 
@@ -1629,7 +1629,7 @@
         <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">fieldtype</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">type</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">fieldtype</span> <span class="o">=</span> <span class="n">fieldtype</span><span class="p">()</span>
-            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="k">except</span><span class="p">:</span>
                 <span class="n">e</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
                 <span class="k">raise</span> <span class="n">FieldConfigurationError</span><span class="p">(</span>
                     <span class="sa">f</span><span class="s2">&quot;Error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2"> instantiating field </span><span class="si">{</span><span class="n">name</span><span class="si">!r}</span><span class="s2">: </span><span class="si">{</span><span class="n">fieldtype</span><span class="si">!r}</span><span class="s2">&quot;</span>

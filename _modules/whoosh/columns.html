@@ -146,7 +146,9 @@
 <span class="sd">and ``reader()`` to return a ``ColumnReader`` object.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">struct</span><span class="o">,</span> <span class="nn">warnings</span>
+
+<span class="kn">import</span> <span class="nn">struct</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">from</span> <span class="nn">array</span> <span class="kn">import</span> <span class="n">array</span>
 <span class="kn">from</span> <span class="nn">bisect</span> <span class="kn">import</span> <span class="n">bisect_right</span>
 
@@ -155,16 +157,13 @@
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
     <span class="n">zlib</span> <span class="o">=</span> <span class="kc">None</span>
 
-<span class="kn">from</span> <span class="nn">whoosh.compat</span> <span class="kn">import</span> <span class="n">b</span><span class="p">,</span> <span class="n">bytes_type</span><span class="p">,</span> <span class="n">BytesIO</span>
-<span class="kn">from</span> <span class="nn">whoosh.compat</span> <span class="kn">import</span> <span class="n">array_tobytes</span><span class="p">,</span> <span class="nb">range</span>
-<span class="kn">from</span> <span class="nn">whoosh.compat</span> <span class="kn">import</span> <span class="n">dumps</span><span class="p">,</span> <span class="n">loads</span>
+<span class="kn">from</span> <span class="nn">whoosh.compat</span> <span class="kn">import</span> <span class="n">BytesIO</span><span class="p">,</span> <span class="n">array_tobytes</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">bytes_type</span><span class="p">,</span> <span class="n">dumps</span><span class="p">,</span> <span class="n">loads</span><span class="p">,</span> <span class="nb">range</span>
 <span class="kn">from</span> <span class="nn">whoosh.filedb.structfile</span> <span class="kn">import</span> <span class="n">StructFile</span>
 <span class="kn">from</span> <span class="nn">whoosh.idsets</span> <span class="kn">import</span> <span class="n">BitSet</span><span class="p">,</span> <span class="n">OnDiskBitSet</span>
 <span class="kn">from</span> <span class="nn">whoosh.system</span> <span class="kn">import</span> <span class="n">emptybytes</span>
 <span class="kn">from</span> <span class="nn">whoosh.util.numeric</span> <span class="kn">import</span> <span class="n">typecode_max</span><span class="p">,</span> <span class="n">typecode_min</span>
 <span class="kn">from</span> <span class="nn">whoosh.util.numlists</span> <span class="kn">import</span> <span class="n">GrowableArray</span>
-<span class="kn">from</span> <span class="nn">whoosh.util.varints</span> <span class="kn">import</span> <span class="n">varint</span><span class="p">,</span> <span class="n">read_varint</span>
-
+<span class="kn">from</span> <span class="nn">whoosh.util.varints</span> <span class="kn">import</span> <span class="n">read_varint</span><span class="p">,</span> <span class="n">varint</span>
 
 <span class="c1"># Base classes</span>
 
