@@ -137,6 +137,8 @@
       <li><a href="api/analysis.html#whoosh.analysis.StemFilter.__init__">__init__() (whoosh.analysis.StemFilter method)</a>
 
       <ul>
+        <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.BufferFile.__init__">(whoosh.filedb.structfile.BufferFile method)</a>
+</li>
         <li><a href="api/query.html#whoosh.query.NumericRange.__init__">(whoosh.query.NumericRange method)</a>
 </li>
       </ul></li>
@@ -144,10 +146,20 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/analysis.html#whoosh.analysis.StemFilter.__setstate__">__setstate__() (whoosh.analysis.StemFilter method)</a>
 </li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.BufferFile._buf">_buf (whoosh.filedb.structfile.BufferFile attribute)</a>
+</li>
       <li><a href="api/query.html#whoosh.query.NumericRange._compile_query">_compile_query() (whoosh.query.NumericRange method)</a>
 </li>
       <li><a href="api/filedb/filestore.html#whoosh.filedb.filestore.FileStorage._debug">_debug (whoosh.filedb.filestore.FileStorage attribute)</a>
 </li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.BufferFile._name">_name (whoosh.filedb.structfile.BufferFile attribute)</a>
+
+      <ul>
+        <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.ChecksumFile._name">(whoosh.filedb.structfile.ChecksumFile attribute)</a>
+</li>
+        <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile._name">(whoosh.filedb.structfile.StructFile attribute)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -760,6 +772,14 @@
 </li>
       <li><a href="api/codec/base.html#whoosh.codec.base.FieldWriter">FieldWriter (class in whoosh.codec.base)</a>
 </li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.BufferFile.file">file (whoosh.filedb.structfile.BufferFile attribute)</a>
+
+      <ul>
+        <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.ChecksumFile.file">(whoosh.filedb.structfile.ChecksumFile attribute)</a>
+</li>
+        <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.file">(whoosh.filedb.structfile.StructFile attribute)</a>
+</li>
+      </ul></li>
       <li><a href="api/filedb/filetables.html#whoosh.filedb.filetables.HashReader.file">file() (whoosh.filedb.filetables.HashReader method)</a>
 </li>
       <li><a href="api/filedb/filestore.html#id6">file_exists() (whoosh.filedb.filestore.Storage method)</a>, <a href="api/filedb/filestore.html#whoosh.filedb.filestore.Storage.file_exists">[1]</a>
@@ -770,18 +790,24 @@
 </li>
       <li><a href="api/index.html#whoosh.index.FileIndex">FileIndex (class in whoosh.index)</a>
 </li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.ChecksumFile.fileno">fileno (whoosh.filedb.structfile.ChecksumFile attribute)</a>
+
+      <ul>
+        <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.fileno">(whoosh.filedb.structfile.StructFile attribute)</a>
+</li>
+      </ul></li>
       <li><a href="api/filedb/filestore.html#whoosh.filedb.filestore.RamStorage.files">files (whoosh.filedb.filestore.RamStorage attribute)</a>
 </li>
       <li><a href="api/filedb/filestore.html#whoosh.filedb.filestore.FileStorage">FileStorage (class in whoosh.filedb.filestore)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/searching.html#whoosh.searching.Results.filter">filter() (whoosh.searching.Results method)</a>
 </li>
       <li><a href="api/collectors.html#whoosh.collectors.FilterCollector">FilterCollector (class in whoosh.collectors)</a>
 </li>
       <li><a href="api/qparser.html#whoosh.qparser.QueryParser.filterize">filterize() (whoosh.qparser.QueryParser method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/matching.html#whoosh.matching.FilterMatcher">FilterMatcher (class in whoosh.matching)</a>
 </li>
       <li><a href="api/analysis.html#whoosh.analysis.MultiFilter.filters">filters (whoosh.analysis.MultiFilter attribute)</a>
@@ -871,11 +897,43 @@
       <li><a href="api/highlight.html#whoosh.highlight.GenshiFormatter">GenshiFormatter (class in whoosh.highlight)</a>
 </li>
       <li><a href="api/filedb/filetables.html#whoosh.filedb.filetables.HashReader.get">get() (whoosh.filedb.filetables.HashReader method)</a>
+
+      <ul>
+        <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.BufferFile.get">(whoosh.filedb.structfile.BufferFile method)</a>
 </li>
-      <li><a href="api/searching.html#whoosh.searching.Searcher.get_parent">get_parent() (whoosh.searching.Searcher method)</a>
+        <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.get">(whoosh.filedb.structfile.StructFile method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.BufferFile.get_array">get_array() (whoosh.filedb.structfile.BufferFile method)</a>
+
+      <ul>
+        <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.get_array">(whoosh.filedb.structfile.StructFile method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.get_byte">get_byte() (whoosh.filedb.structfile.StructFile method)</a>
+</li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.get_float">get_float() (whoosh.filedb.structfile.StructFile method)</a>
+</li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.get_int">get_int() (whoosh.filedb.structfile.StructFile method)</a>
+</li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.get_long">get_long() (whoosh.filedb.structfile.StructFile method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/searching.html#whoosh.searching.Searcher.get_parent">get_parent() (whoosh.searching.Searcher method)</a>
+</li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.get_sbyte">get_sbyte() (whoosh.filedb.structfile.StructFile method)</a>
+</li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.get_string2">get_string2() (whoosh.filedb.structfile.StructFile method)</a>
+</li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.get_string4">get_string4() (whoosh.filedb.structfile.StructFile method)</a>
+</li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.get_uint">get_uint() (whoosh.filedb.structfile.StructFile method)</a>
+</li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.get_ulong">get_ulong() (whoosh.filedb.structfile.StructFile method)</a>
+</li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.get_ushort">get_ushort() (whoosh.filedb.structfile.StructFile method)</a>
+</li>
       <li><a href="api/writing.html#whoosh.writing.IndexWriter.group">group() (whoosh.writing.IndexWriter method)</a>
 </li>
       <li><a href="api/qparser.html#whoosh.qparser.GroupNode">GroupNode (class in whoosh.qparser)</a>
@@ -998,12 +1056,20 @@
 </li>
       <li><a href="api/matching.html#whoosh.matching.InverseMatcher">InverseMatcher (class in whoosh.matching)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/idsets.html#whoosh.idsets.DocIdSet.invert_update">invert_update() (whoosh.idsets.DocIdSet method)</a>
 </li>
       <li><a href="api/matching.html#whoosh.matching.Matcher.is_active">is_active() (whoosh.matching.Matcher method)</a>
 </li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.BufferFile.is_closed">is_closed (whoosh.filedb.structfile.BufferFile attribute)</a>
+
+      <ul>
+        <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.ChecksumFile.is_closed">(whoosh.filedb.structfile.ChecksumFile attribute)</a>
+</li>
+        <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.is_closed">(whoosh.filedb.structfile.StructFile attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/codec/base.html#whoosh.codec.base.Segment.is_compound">is_compound() (whoosh.codec.base.Segment method)</a>
 </li>
       <li><a href="api/codec/base.html#whoosh.codec.base.PerDocumentReader.is_deleted">is_deleted() (whoosh.codec.base.PerDocumentReader method)</a>
@@ -1028,6 +1094,14 @@
 </li>
       <li><a href="api/query.html#whoosh.query.Query.is_range">is_range() (whoosh.query.Query method)</a>
 </li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.BufferFile.is_real">is_real (whoosh.filedb.structfile.BufferFile attribute)</a>
+
+      <ul>
+        <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.ChecksumFile.is_real">(whoosh.filedb.structfile.ChecksumFile attribute)</a>
+</li>
+        <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.is_real">(whoosh.filedb.structfile.StructFile attribute)</a>
+</li>
+      </ul></li>
       <li><a href="api/qparser.html#whoosh.qparser.SyntaxNode.is_ws">is_ws() (whoosh.qparser.SyntaxNode method)</a>
 </li>
       <li><a href="api/codec/base.html#whoosh.codec.base.TermsReader.items">items() (whoosh.codec.base.TermsReader method)</a>
@@ -1393,6 +1467,14 @@
 </li>
       <li><a href="api/fields.html#whoosh.fields.FieldType.on_remove">on_remove() (whoosh.fields.FieldType method)</a>
 </li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.BufferFile.onclose">onclose (whoosh.filedb.structfile.BufferFile attribute)</a>
+
+      <ul>
+        <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.ChecksumFile.onclose">(whoosh.filedb.structfile.ChecksumFile attribute)</a>
+</li>
+        <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.onclose">(whoosh.filedb.structfile.StructFile attribute)</a>
+</li>
+      </ul></li>
       <li><a href="api/idsets.html#whoosh.idsets.OnDiskBitSet">OnDiskBitSet (class in whoosh.idsets)</a>
 </li>
       <li><a href="api/filedb/filetables.html#whoosh.filedb.filetables.HashReader.open">open() (whoosh.filedb.filetables.HashReader class method)</a>
@@ -1407,12 +1489,12 @@
         <li><a href="api/filedb/filestore.html#id12">(whoosh.filedb.filestore.Storage method)</a>, <a href="api/filedb/filestore.html#whoosh.filedb.filestore.Storage.open_file">[1]</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/filedb/filestore.html#id13">open_index() (whoosh.filedb.filestore.Storage method)</a>, <a href="api/filedb/filestore.html#whoosh.filedb.filestore.Storage.open_index">[1]</a>
 </li>
       <li><a href="api/qparser.html#whoosh.qparser.Operator">Operator (class in whoosh.qparser)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/qparser.html#whoosh.qparser.OperatorsPlugin">OperatorsPlugin (class in whoosh.qparser)</a>
 </li>
       <li><a href="api/filedb/filestore.html#id14">optimize() (whoosh.filedb.filestore.Storage method)</a>, <a href="api/filedb/filestore.html#whoosh.filedb.filestore.Storage.optimize">[1]</a>
@@ -1559,13 +1641,43 @@
 </li>
       <li><a href="api/filedb/filetables.html#whoosh.filedb.filetables.OrderedHashReader.ranges_from">ranges_from() (whoosh.filedb.filetables.OrderedHashReader method)</a>
 </li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.raw_file">raw_file() (whoosh.filedb.structfile.StructFile method)</a>
+</li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.read">read() (whoosh.filedb.structfile.StructFile method)</a>
+</li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.read_array">read_array() (whoosh.filedb.structfile.StructFile method)</a>
+</li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.read_byte">read_byte() (whoosh.filedb.structfile.StructFile method)</a>
+</li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.read_float">read_float() (whoosh.filedb.structfile.StructFile method)</a>
+</li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.read_int">read_int() (whoosh.filedb.structfile.StructFile method)</a>
+</li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.read_long">read_long() (whoosh.filedb.structfile.StructFile method)</a>
+</li>
       <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.read_pickle">read_pickle() (whoosh.filedb.structfile.StructFile method)</a>
 </li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.read_sbyte">read_sbyte() (whoosh.filedb.structfile.StructFile method)</a>
+</li>
       <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.read_string">read_string() (whoosh.filedb.structfile.StructFile method)</a>
+</li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.read_string2">read_string2() (whoosh.filedb.structfile.StructFile method)</a>
+</li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.read_string4">read_string4() (whoosh.filedb.structfile.StructFile method)</a>
 </li>
       <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.read_svarint">read_svarint() (whoosh.filedb.structfile.StructFile method)</a>
 </li>
       <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.read_tagint">read_tagint() (whoosh.filedb.structfile.StructFile method)</a>
+</li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.read_uint">read_uint() (whoosh.filedb.structfile.StructFile method)</a>
+</li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.read_uint_le">read_uint_le() (whoosh.filedb.structfile.StructFile method)</a>
+</li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.read_ulong">read_ulong() (whoosh.filedb.structfile.StructFile method)</a>
+</li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.read_ushort">read_ushort() (whoosh.filedb.structfile.StructFile method)</a>
+</li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.read_ushort_le">read_ushort_le() (whoosh.filedb.structfile.StructFile method)</a>
 </li>
       <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.read_varint">read_varint() (whoosh.filedb.structfile.StructFile method)</a>
 </li>
@@ -1585,6 +1697,10 @@
       </ul></li>
       <li><a href="api/spelling.html#whoosh.spelling.ReaderCorrector">ReaderCorrector (class in whoosh.spelling)</a>
 </li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.readline">readline() (whoosh.filedb.structfile.StructFile method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/filedb/filestore.html#whoosh.filedb.filestore.FileStorage.readonly">readonly (whoosh.filedb.filestore.FileStorage attribute)</a>
 
       <ul>
@@ -1605,8 +1721,6 @@
       </ul></li>
       <li><a href="api/query.html#whoosh.query.Regex">Regex (class in whoosh.query)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/analysis.html#whoosh.analysis.regex_analyzer">regex_analyzer() (in module whoosh.analysis)</a>
 </li>
       <li><a href="api/qparser.html#whoosh.qparser.RegexPlugin">RegexPlugin (class in whoosh.qparser)</a>
@@ -1717,6 +1831,8 @@
 </li>
       <li><a href="api/index.html#whoosh.index.Index.searcher">searcher() (whoosh.index.Index method)</a>
 </li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.seek">seek() (whoosh.filedb.structfile.StructFile method)</a>
+</li>
       <li><a href="api/codec/base.html#whoosh.codec.base.Segment">Segment (class in whoosh.codec.base)</a>
 </li>
       <li><a href="api/reading.html#whoosh.reading.IndexReader.segment">segment() (whoosh.reading.IndexReader method)</a>
@@ -1764,6 +1880,8 @@
 </li>
       </ul></li>
       <li><a href="api/qparser.html#whoosh.qparser.SingleQuotePlugin">SingleQuotePlugin (class in whoosh.qparser)</a>
+</li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.skip_string">skip_string() (whoosh.filedb.structfile.StructFile method)</a>
 </li>
       <li><a href="api/matching.html#whoosh.matching.Matcher.skip_to">skip_to() (whoosh.matching.Matcher method)</a>
 </li>
@@ -1863,6 +1981,12 @@
 </li>
       <li><a href="api/fields.html#whoosh.fields.FieldType.subfields">subfields() (whoosh.fields.FieldType method)</a>
 </li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.BufferFile.subset">subset() (whoosh.filedb.structfile.BufferFile method)</a>
+
+      <ul>
+        <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.subset">(whoosh.filedb.structfile.StructFile method)</a>
+</li>
+      </ul></li>
       <li><a href="api/analysis.html#whoosh.analysis.SubstitutionFilter">SubstitutionFilter (class in whoosh.analysis)</a>
 </li>
       <li><a href="api/searching.html#whoosh.searching.Searcher.suggest">suggest() (whoosh.searching.Searcher method)</a>
@@ -1920,7 +2044,11 @@
       <li><a href="api/analysis.html#whoosh.analysis.TeeFilter">TeeFilter (class in whoosh.analysis)</a>
 </li>
       <li><a href="api/filedb/filetables.html#id1">tell() (whoosh.filedb.filetables.HashWriter method)</a>, <a href="api/filedb/filetables.html#whoosh.filedb.filetables.HashWriter.tell">[1]</a>
+
+      <ul>
+        <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.tell">(whoosh.filedb.structfile.StructFile method)</a>
 </li>
+      </ul></li>
       <li><a href="api/filedb/filestore.html#id16">temp_storage() (whoosh.filedb.filestore.Storage method)</a>, <a href="api/filedb/filestore.html#whoosh.filedb.filestore.Storage.temp_storage">[1]</a>
 </li>
       <li><a href="api/query.html#whoosh.query.Term">Term (class in whoosh.query)</a>
@@ -1992,6 +2120,8 @@
       <li><a href="api/query.html#whoosh.query.Query.tokens">tokens() (whoosh.query.Query method)</a>
 </li>
       <li><a href="api/collectors.html#whoosh.collectors.TopCollector">TopCollector (class in whoosh.collectors)</a>
+</li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.truncate">truncate() (whoosh.filedb.structfile.StructFile method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -2197,8 +2327,6 @@
         <li><a href="api/matching.html#module-whoosh.matching">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     whoosh.qparser
 
@@ -2227,6 +2355,8 @@
         <li><a href="api/scoring.html#module-whoosh.scoring">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     whoosh.searching
 
@@ -2292,15 +2422,41 @@
 </li>
       <li><a href="api/query.html#whoosh.query.WrappingQuery">WrappingQuery (class in whoosh.query)</a>
 </li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.write">write() (whoosh.filedb.structfile.StructFile method)</a>
+</li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.write_array">write_array() (whoosh.filedb.structfile.StructFile method)</a>
+</li>
       <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.write_byte">write_byte() (whoosh.filedb.structfile.StructFile method)</a>
+</li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.write_float">write_float() (whoosh.filedb.structfile.StructFile method)</a>
+</li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.write_int">write_int() (whoosh.filedb.structfile.StructFile method)</a>
+</li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.write_long">write_long() (whoosh.filedb.structfile.StructFile method)</a>
 </li>
       <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.write_pickle">write_pickle() (whoosh.filedb.structfile.StructFile method)</a>
 </li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.write_sbyte">write_sbyte() (whoosh.filedb.structfile.StructFile method)</a>
+</li>
       <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.write_string">write_string() (whoosh.filedb.structfile.StructFile method)</a>
+</li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.write_string2">write_string2() (whoosh.filedb.structfile.StructFile method)</a>
+</li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.write_string4">write_string4() (whoosh.filedb.structfile.StructFile method)</a>
 </li>
       <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.write_svarint">write_svarint() (whoosh.filedb.structfile.StructFile method)</a>
 </li>
       <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.write_tagint">write_tagint() (whoosh.filedb.structfile.StructFile method)</a>
+</li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.write_uint">write_uint() (whoosh.filedb.structfile.StructFile method)</a>
+</li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.write_uint_le">write_uint_le() (whoosh.filedb.structfile.StructFile method)</a>
+</li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.write_ulong">write_ulong() (whoosh.filedb.structfile.StructFile method)</a>
+</li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.write_ushort">write_ushort() (whoosh.filedb.structfile.StructFile method)</a>
+</li>
+      <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.write_ushort_le">write_ushort_le() (whoosh.filedb.structfile.StructFile method)</a>
 </li>
       <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.write_varint">write_varint() (whoosh.filedb.structfile.StructFile method)</a>
 </li>
