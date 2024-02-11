@@ -502,7 +502,7 @@
         <span class="n">lp</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">lp</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="ow">and</span> <span class="n">text</span><span class="p">[</span><span class="n">lp</span><span class="p">]</span> <span class="ow">in</span> <span class="s2">&quot;*?&quot;</span><span class="p">:</span>
             <span class="c1"># we stripped something starting from * or ? - they both MAY mean</span>
-            <span class="c1"># &quot;0 times&quot;. As we had stripped starting from FIRST special char,</span>
+            <span class="c1"># &quot;0 times&quot;. As we had stripped starting from first special char,</span>
             <span class="c1"># that implies there were only ordinary chars left of it. Thus,</span>
             <span class="c1"># the very last of them is not part of the real prefix:</span>
             <span class="n">prefix</span> <span class="o">=</span> <span class="n">prefix</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>

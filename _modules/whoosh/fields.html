@@ -615,7 +615,7 @@
 <span class="sd">            document.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">analyzer</span> <span class="o">=</span> <span class="n">analyzer</span> <span class="ow">or</span> <span class="n">analysis</span><span class="o">.</span><span class="n">IDAnalyzer</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">analyzer</span> <span class="o">=</span> <span class="n">analyzer</span> <span class="ow">or</span> <span class="n">analysis</span><span class="o">.</span><span class="n">id_analyzer</span><span class="p">()</span>
         <span class="c1"># Don&#39;t store any information other than the doc ID</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">format</span> <span class="o">=</span> <span class="n">formats</span><span class="o">.</span><span class="n">Existence</span><span class="p">(</span><span class="n">field_boost</span><span class="o">=</span><span class="n">field_boost</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stored</span> <span class="o">=</span> <span class="n">stored</span>
@@ -640,7 +640,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">expression</span> <span class="o">=</span> <span class="n">expression</span> <span class="ow">or</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[^\r\n\t ,;]+&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">analyzer</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">RegexAnalyzer</span><span class="p">(</span><span class="n">expression</span><span class="o">=</span><span class="n">expression</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">analyzer</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">regex_analyzer</span><span class="p">(</span><span class="n">expression</span><span class="o">=</span><span class="n">expression</span><span class="p">)</span>
         <span class="c1"># Don&#39;t store any information other than the doc ID</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">format</span> <span class="o">=</span> <span class="n">formats</span><span class="o">.</span><span class="n">Existence</span><span class="p">(</span><span class="n">field_boost</span><span class="o">=</span><span class="n">field_boost</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stored</span> <span class="o">=</span> <span class="n">stored</span>
@@ -757,7 +757,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">decimal_places</span> <span class="o">=</span> <span class="n">decimal_places</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">shift_step</span> <span class="o">=</span> <span class="n">shift_step</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">signed</span> <span class="o">=</span> <span class="n">signed</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">analyzer</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">IDAnalyzer</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">analyzer</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">id_analyzer</span><span class="p">()</span>
         <span class="c1"># Don&#39;t store any information other than the doc ID</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">format</span> <span class="o">=</span> <span class="n">formats</span><span class="o">.</span><span class="n">Existence</span><span class="p">(</span><span class="n">field_boost</span><span class="o">=</span><span class="n">field_boost</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">min_value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_min_max</span><span class="p">()</span>
@@ -1203,7 +1203,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">analyzer</span><span class="p">:</span>
-            <span class="n">analyzer</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">KeywordAnalyzer</span><span class="p">(</span><span class="n">lowercase</span><span class="o">=</span><span class="n">lowercase</span><span class="p">,</span> <span class="n">commas</span><span class="o">=</span><span class="n">commas</span><span class="p">)</span>
+            <span class="n">analyzer</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">keyword_analyzer</span><span class="p">(</span><span class="n">lowercase</span><span class="o">=</span><span class="n">lowercase</span><span class="p">,</span> <span class="n">commas</span><span class="o">=</span><span class="n">commas</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">analyzer</span> <span class="o">=</span> <span class="n">analyzer</span>
 
         <span class="c1"># Store field lengths and weights along with doc ID</span>
@@ -1247,7 +1247,7 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :param analyzer: The analysis.Analyzer to use to index the field</span>
 <span class="sd">            contents. See the analysis module for more information. If you omit</span>
-<span class="sd">            this argument, the field uses analysis.StandardAnalyzer.</span>
+<span class="sd">            this argument, the field uses analysis.standard_analyzer.</span>
 <span class="sd">        :param phrase: Whether the store positional information to allow phrase</span>
 <span class="sd">            searching.</span>
 <span class="sd">        :param chars: Whether to store character ranges along with positions.</span>
@@ -1265,7 +1265,7 @@
 <span class="sd">            column type. If you pass a :class:`whoosh.columns.Column` instance</span>
 <span class="sd">            instead of True, the field will use the given column type.</span>
 <span class="sd">        :param lang: automaticaly configure a</span>
-<span class="sd">            :class:`whoosh.analysis.LanguageAnalyzer` for the given language.</span>
+<span class="sd">            :class:`whoosh.analysis.language_analyzer` for the given language.</span>
 <span class="sd">            This is ignored if you also specify an ``analyzer``.</span>
 <span class="sd">        :param vector: if this value evaluates to true, store a list of the</span>
 <span class="sd">            terms in this field in each document. If the value is an instance</span>
@@ -1277,9 +1277,9 @@
         <span class="k">if</span> <span class="n">analyzer</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">analyzer</span> <span class="o">=</span> <span class="n">analyzer</span>
         <span class="k">elif</span> <span class="n">lang</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">analyzer</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">LanguageAnalyzer</span><span class="p">(</span><span class="n">lang</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">analyzer</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">language_analyzer</span><span class="p">(</span><span class="n">lang</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">analyzer</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">StandardAnalyzer</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">analyzer</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">standard_analyzer</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="n">chars</span><span class="p">:</span>
             <span class="n">formatclass</span> <span class="o">=</span> <span class="n">formats</span><span class="o">.</span><span class="n">Characters</span>
@@ -1400,9 +1400,9 @@
         <span class="k">if</span> <span class="n">phrase</span><span class="p">:</span>
             <span class="n">formatclass</span> <span class="o">=</span> <span class="n">formats</span><span class="o">.</span><span class="n">Positions</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">analyzer</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">NgramAnalyzer</span><span class="p">(</span><span class="n">minsize</span><span class="p">,</span> <span class="n">maxsize</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">analyzer</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">ngram_analyzer</span><span class="p">(</span><span class="n">minsize</span><span class="p">,</span> <span class="n">maxsize</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">format</span> <span class="o">=</span> <span class="n">formatclass</span><span class="p">(</span><span class="n">field_boost</span><span class="o">=</span><span class="n">field_boost</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">analyzer</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">NgramAnalyzer</span><span class="p">(</span><span class="n">minsize</span><span class="p">,</span> <span class="n">maxsize</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">analyzer</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">ngram_analyzer</span><span class="p">(</span><span class="n">minsize</span><span class="p">,</span> <span class="n">maxsize</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stored</span> <span class="o">=</span> <span class="n">stored</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">queryor</span> <span class="o">=</span> <span class="n">queryor</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_sortable</span><span class="p">(</span><span class="n">sortable</span><span class="p">)</span>
@@ -1459,7 +1459,7 @@
 <span class="sd">            default is to combine N-grams with an And query.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">analyzer</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">NgramWordAnalyzer</span><span class="p">(</span><span class="n">minsize</span><span class="p">,</span> <span class="n">maxsize</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">at</span><span class="o">=</span><span class="n">at</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">analyzer</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">ngram_word_analyzer</span><span class="p">(</span><span class="n">minsize</span><span class="p">,</span> <span class="n">maxsize</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">at</span><span class="o">=</span><span class="n">at</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">format</span> <span class="o">=</span> <span class="n">formats</span><span class="o">.</span><span class="n">Frequency</span><span class="p">(</span><span class="n">field_boost</span><span class="o">=</span><span class="n">field_boost</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stored</span> <span class="o">=</span> <span class="n">stored</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">queryor</span> <span class="o">=</span> <span class="n">queryor</span>

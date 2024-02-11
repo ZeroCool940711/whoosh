@@ -70,7 +70,7 @@
 <li class="toctree-l1"><a class="reference internal" href="fieldcaches.html">Field caches</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Tips for speeding up batch indexing</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#stemminganalyzer-cache">StemmingAnalyzer cache</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#stemming-analyzer-cache">stemming_analyzer cache</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#the-limitmb-parameter">The <code class="docutils literal notranslate"><span class="pre">limitmb</span></code> parameter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#the-procs-parameter">The <code class="docutils literal notranslate"><span class="pre">procs</span></code> parameter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#the-multisegment-parameter">The <code class="docutils literal notranslate"><span class="pre">multisegment</span></code> parameter</a></li>
@@ -116,8 +116,8 @@ one at a time as they are created (as in a web application), and adding a bunch
 of documents at once (batch indexing).</p>
 <p>The following settings and alternate workflows can make batch indexing faster.</p>
 </section>
-<section id="stemminganalyzer-cache">
-<h2>StemmingAnalyzer cache<a class="headerlink" href="#stemminganalyzer-cache" title="Permalink to this heading">¶</a></h2>
+<section id="stemming-analyzer-cache">
+<h2>stemming_analyzer cache<a class="headerlink" href="#stemming-analyzer-cache" title="Permalink to this heading">¶</a></h2>
 <p>The stemming analyzer by default uses a least-recently-used (LRU) cache to limit
 the amount of memory it uses, to prevent the cache from growing very large if
 the analyzer is reused for a long period of time. However, the LRU cache can

@@ -421,7 +421,7 @@
 <span class="c1"># Analyzers</span>
 
 
-<div class="viewcode-block" id="NgramAnalyzer"><a class="viewcode-back" href="../../../api/analysis.html#whoosh.analysis.NgramAnalyzer">[docs]</a><span class="k">def</span> <span class="nf">NgramAnalyzer</span><span class="p">(</span><span class="n">minsize</span><span class="p">,</span> <span class="n">maxsize</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ngram_analyzer"><a class="viewcode-back" href="../../../api/analysis.html#whoosh.analysis.ngram_analyzer">[docs]</a><span class="k">def</span> <span class="nf">ngram_analyzer</span><span class="p">(</span><span class="n">minsize</span><span class="p">,</span> <span class="n">maxsize</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Composes an NgramTokenizer and a LowercaseFilter.</span>
 
@@ -433,14 +433,14 @@
 <span class="sd">        Analyzer: An analyzer that tokenizes text into n-grams and applies lowercase filtering.</span>
 
 <span class="sd">    Examples:</span>
-<span class="sd">        &gt;&gt;&gt; ana = NgramAnalyzer(4)</span>
+<span class="sd">        &gt;&gt;&gt; ana = ngram_analyzer(4)</span>
 <span class="sd">        &gt;&gt;&gt; [token.text for token in ana(&quot;hi there&quot;)]</span>
 <span class="sd">        [&quot;hi t&quot;, &quot;i th&quot;, &quot; the&quot;, &quot;ther&quot;, &quot;here&quot;]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">NgramTokenizer</span><span class="p">(</span><span class="n">minsize</span><span class="p">,</span> <span class="n">maxsize</span><span class="o">=</span><span class="n">maxsize</span><span class="p">)</span> <span class="o">|</span> <span class="n">LowercaseFilter</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="NgramWordAnalyzer"><a class="viewcode-back" href="../../../api/analysis.html#whoosh.analysis.NgramWordAnalyzer">[docs]</a><span class="k">def</span> <span class="nf">NgramWordAnalyzer</span><span class="p">(</span><span class="n">minsize</span><span class="p">,</span> <span class="n">maxsize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tokenizer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">at</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ngram_word_analyzer"><a class="viewcode-back" href="../../../api/analysis.html#whoosh.analysis.ngram_word_analyzer">[docs]</a><span class="k">def</span> <span class="nf">ngram_word_analyzer</span><span class="p">(</span><span class="n">minsize</span><span class="p">,</span> <span class="n">maxsize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tokenizer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">at</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Creates an analyzer that tokenizes text into n-grams.</span>
 
@@ -454,7 +454,7 @@
 <span class="sd">        Analyzer: The n-gram word analyzer.</span>
 
 <span class="sd">    Example:</span>
-<span class="sd">        &gt;&gt;&gt; analyzer = NgramWordAnalyzer(2, 3)</span>
+<span class="sd">        &gt;&gt;&gt; analyzer = ngram_word_analyzer(2, 3)</span>
 <span class="sd">        &gt;&gt;&gt; tokens = analyzer(&quot;Hello world&quot;)</span>
 <span class="sd">        &gt;&gt;&gt; list(tokens)</span>
 <span class="sd">        [&#39;he&#39;, &#39;el&#39;, &#39;ll&#39;, &#39;lo&#39;, &#39;wo&#39;, &#39;or&#39;, &#39;rl&#39;, &#39;ld&#39;]</span>

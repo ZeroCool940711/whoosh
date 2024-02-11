@@ -136,9 +136,9 @@ emails without attachments, you would omit the attachments field.</p>
 <dl>
 <dt>:class:` whoosh.fields.TEXT`</dt><dd><p>This type is for body text. It indexes (and optionally stores) the text and
 stores term positions to allow phrase searching.</p>
-<p><code class="docutils literal notranslate"><span class="pre">TEXT</span></code> fields use <code class="xref py py-class docutils literal notranslate"><span class="pre">StandardAnalyzer</span></code> by default. To specify a different
+<p><code class="docutils literal notranslate"><span class="pre">TEXT</span></code> fields use <code class="xref py py-class docutils literal notranslate"><span class="pre">standard_analyzer</span></code> by default. To specify a different
 analyzer, use the <code class="docutils literal notranslate"><span class="pre">analyzer</span></code> keyword argument to the constructor, e.g.
-<code class="docutils literal notranslate"><span class="pre">TEXT(analyzer=analysis.StemmingAnalyzer())</span></code>. See <a class="reference internal" href="analysis.html"><span class="doc">About analyzers</span></a>.</p>
+<code class="docutils literal notranslate"><span class="pre">TEXT(analyzer=analysis.stemming_analyzer())</span></code>. See <a class="reference internal" href="analysis.html"><span class="doc">About analyzers</span></a>.</p>
 <p>By default, <code class="docutils literal notranslate"><span class="pre">TEXT</span></code> fields store position information for each indexed term, to
 allow you to search for phrases. If you don’t need to be able to search for
 phrases in a text field, you can turn off storing term positions to save
@@ -193,12 +193,12 @@ sortable format.</p>
 <h2>Creating a Schema<a class="headerlink" href="#creating-a-schema" title="Permalink to this heading">¶</a></h2>
 <p>To create a schema:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">whoosh.fields</span> <span class="kn">import</span> <span class="n">Schema</span><span class="p">,</span> <span class="n">TEXT</span><span class="p">,</span> <span class="n">KEYWORD</span><span class="p">,</span> <span class="n">ID</span><span class="p">,</span> <span class="n">STORED</span>
-<span class="kn">from</span> <span class="nn">whoosh.analysis</span> <span class="kn">import</span> <span class="n">StemmingAnalyzer</span>
+<span class="kn">from</span> <span class="nn">whoosh.analysis</span> <span class="kn">import</span> <span class="n">stemming_analyzer</span>
 
 <span class="n">schema</span> <span class="o">=</span> <span class="n">Schema</span><span class="p">(</span><span class="n">from_addr</span><span class="o">=</span><span class="n">ID</span><span class="p">(</span><span class="n">stored</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
                 <span class="n">to_addr</span><span class="o">=</span><span class="n">ID</span><span class="p">(</span><span class="n">stored</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
                 <span class="n">subject</span><span class="o">=</span><span class="n">TEXT</span><span class="p">(</span><span class="n">stored</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-                <span class="n">body</span><span class="o">=</span><span class="n">TEXT</span><span class="p">(</span><span class="n">analyzer</span><span class="o">=</span><span class="n">StemmingAnalyzer</span><span class="p">()),</span>
+                <span class="n">body</span><span class="o">=</span><span class="n">TEXT</span><span class="p">(</span><span class="n">analyzer</span><span class="o">=</span><span class="n">stemming_analyzer</span><span class="p">()),</span>
                 <span class="n">tags</span><span class="o">=</span><span class="n">KEYWORD</span><span class="p">)</span>
 </pre></div>
 </div>

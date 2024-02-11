@@ -188,7 +188,7 @@ tokenizers, and filters shipped with Whoosh.</p>
 <h2>Using analyzers<a class="headerlink" href="#using-analyzers" title="Permalink to this heading">¶</a></h2>
 <p>When you create a field in a schema, you can specify your analyzer as a keyword
 argument to the field object:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">schema</span> <span class="o">=</span> <span class="n">Schema</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">TEXT</span><span class="p">(</span><span class="n">analyzer</span><span class="o">=</span><span class="n">StemmingAnalyzer</span><span class="p">()))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">schema</span> <span class="o">=</span> <span class="n">Schema</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">TEXT</span><span class="p">(</span><span class="n">analyzer</span><span class="o">=</span><span class="n">stemming_analyzer</span><span class="p">()))</span>
 </pre></div>
 </div>
 </section>
@@ -429,8 +429,8 @@ stop-words in the stream.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">removestops</span></code> parameter passed to the analyzer’s <code class="docutils literal notranslate"><span class="pre">__call__</span></code> method (and
 copied to the <code class="docutils literal notranslate"><span class="pre">Token</span></code> object as an attribute) specifies whether stop words should
 be removed from the stream or left in.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">whoosh.analysis</span> <span class="kn">import</span> <span class="n">StandardAnalyzer</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">analyzer</span> <span class="o">=</span> <span class="n">StandardAnalyzer</span><span class="p">()</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">whoosh.analysis</span> <span class="kn">import</span> <span class="n">standard_analyzer</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">analyzer</span> <span class="o">=</span> <span class="n">standard_analyzer</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="p">[(</span><span class="n">t</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">stopped</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">analyzer</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;This is a test&quot;</span><span class="p">)]</span>
 <span class="go">[(u&#39;test&#39;, False)]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="p">[(</span><span class="n">t</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">stopped</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">analyzer</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;This is a test&quot;</span><span class="p">,</span> <span class="n">removestops</span><span class="o">=</span><span class="kc">False</span><span class="p">)]</span>

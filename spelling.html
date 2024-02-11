@@ -138,7 +138,7 @@ might. However, it is still very useful.</p>
 However, if you have an analyzer that modifies the indexed words (such as
 stemming), you can add <code class="docutils literal notranslate"><span class="pre">spelling=True</span></code> to a field to have it store separate
 unmodified versions of the terms for spelling suggestions:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ana</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">StemmingAnalyzer</span><span class="p">()</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ana</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">stemming_analyzer</span><span class="p">()</span>
 <span class="n">schema</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Schema</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">TEXT</span><span class="p">(</span><span class="n">analyzer</span><span class="o">=</span><span class="n">ana</span><span class="p">,</span> <span class="n">spelling</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
 </pre></div>
 </div>

@@ -137,8 +137,8 @@ locations of matched terms in the text.</p></li>
 best fragments by whatever criterion.</p></li>
 <li><p><strong>Order functions</strong> control in what order the top-scoring fragments are
 presented to the user. For example, you can show the fragments in the order
-they appear in the document (FIRST) or show higher-scoring fragments first
-(SCORE)</p></li>
+they appear in the document (first) or show higher-scoring fragments first
+(score)</p></li>
 <li><p><strong>Formatters</strong> turn the fragment objects into human-readable output, such as
 an HTML string.</p></li>
 </ul>
@@ -300,16 +300,16 @@ to sort the highest-scoring fragments before presenting them to the user (where
 fragments with lower values appear before fragments with higher values).</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">highlight</span></code> module has the following order functions.</p>
 <dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">FIRST</span></code> (the default)</dt><dd><p>Show fragments in the order they appear in the document.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">first</span></code> (the default)</dt><dd><p>Show fragments in the order they appear in the document.</p>
 </dd>
-<dt><code class="docutils literal notranslate"><span class="pre">SCORE</span></code></dt><dd><p>Show highest scoring fragments first.</p>
+<dt><code class="docutils literal notranslate"><span class="pre">score</span></code></dt><dd><p>Show highest scoring fragments first.</p>
 </dd>
 </dl>
-<p>The <code class="docutils literal notranslate"><span class="pre">highlight</span></code> module also includes <code class="docutils literal notranslate"><span class="pre">LONGER</span></code> (longer fragments first) and
-<code class="docutils literal notranslate"><span class="pre">SHORTER</span></code> (shorter fragments first), but they probably aren’t as generally
+<p>The <code class="docutils literal notranslate"><span class="pre">highlight</span></code> module also includes <code class="docutils literal notranslate"><span class="pre">longer</span></code> (longer fragments first) and
+<code class="docutils literal notranslate"><span class="pre">shorter</span></code> (shorter fragments first), but they probably aren’t as generally
 useful.</p>
 <p>To use a different order:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">results</span><span class="o">.</span><span class="n">order</span> <span class="o">=</span> <span class="n">highlight</span><span class="o">.</span><span class="n">SCORE</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">results</span><span class="o">.</span><span class="n">order</span> <span class="o">=</span> <span class="n">highlight</span><span class="o">.</span><span class="n">score</span>
 </pre></div>
 </div>
 </section>
@@ -454,7 +454,7 @@ an analyzer:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">whoosh.highlight</span> <span class="kn">import</span> <span class="n">highlight</span>
 
 <span class="n">excerpts</span> <span class="o">=</span> <span class="n">highlight</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">terms</span><span class="p">,</span> <span class="n">analyzer</span><span class="p">,</span> <span class="n">fragmenter</span><span class="p">,</span> <span class="n">formatter</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-                     <span class="n">scorer</span><span class="o">=</span><span class="n">BasicFragmentScorer</span><span class="p">,</span> <span class="n">minscore</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">FIRST</span><span class="p">)</span>
+                     <span class="n">scorer</span><span class="o">=</span><span class="n">BasicFragmentScorer</span><span class="p">,</span> <span class="n">minscore</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">first</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="simple">

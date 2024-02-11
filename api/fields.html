@@ -594,7 +594,7 @@ searching. This field type is always scorable.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>analyzer</strong> – The analysis.Analyzer to use to index the field
 contents. See the analysis module for more information. If you omit
-this argument, the field uses analysis.StandardAnalyzer.</p></li>
+this argument, the field uses analysis.standard_analyzer.</p></li>
 <li><p><strong>phrase</strong> – Whether the store positional information to allow phrase
 searching.</p></li>
 <li><p><strong>chars</strong> – Whether to store character ranges along with positions.
@@ -612,7 +612,7 @@ to use the unchanged word forms as spelling suggestions.</p></li>
 column type. If you pass a <a class="reference internal" href="columns.html#whoosh.columns.Column" title="whoosh.columns.Column"><code class="xref py py-class docutils literal notranslate"><span class="pre">whoosh.columns.Column</span></code></a> instance
 instead of True, the field will use the given column type.</p></li>
 <li><p><strong>lang</strong> – automaticaly configure a
-<a class="reference internal" href="analysis.html#whoosh.analysis.LanguageAnalyzer" title="whoosh.analysis.LanguageAnalyzer"><code class="xref py py-class docutils literal notranslate"><span class="pre">whoosh.analysis.LanguageAnalyzer</span></code></a> for the given language.
+<a class="reference internal" href="analysis.html#whoosh.analysis.language_analyzer" title="whoosh.analysis.language_analyzer"><code class="xref py py-class docutils literal notranslate"><span class="pre">whoosh.analysis.language_analyzer</span></code></a> for the given language.
 This is ignored if you also specify an <code class="docutils literal notranslate"><span class="pre">analyzer</span></code>.</p></li>
 <li><p><strong>vector</strong> – if this value evaluates to true, store a list of the
 terms in this field in each document. If the value is an instance
