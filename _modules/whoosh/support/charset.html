@@ -1403,11 +1403,11 @@
 <span class="sd">    character or None if the character is not a valid word character.</span>
 
 <span class="sd">    The Sphinx charset table format is described at</span>
-<span class="sd">    http://www.sphinxsearch.com/docs/current.html#conf-charset-table.</span>
+<span class="sd">    https://www.sphinxsearch.com/docs/current.html#conf-charset-table.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c1"># map = {}</span>
-    <span class="nb">map</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="c1"># map_dict = {}</span>
+    <span class="n">map_dict</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="kc">None</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">tablestring</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">line</span> <span class="ow">or</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">):</span>
             <span class="k">continue</span>
@@ -1426,7 +1426,7 @@
                     <span class="k">for</span> <span class="n">fromord</span><span class="p">,</span> <span class="n">tooord</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span>
                         <span class="nb">range</span><span class="p">(</span><span class="n">start1</span><span class="p">,</span> <span class="n">end1</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="n">start2</span><span class="p">,</span> <span class="n">end2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
                     <span class="p">):</span>
-                        <span class="nb">map</span><span class="p">[</span><span class="n">fromord</span><span class="p">]</span> <span class="o">=</span> <span class="nb">chr</span><span class="p">(</span><span class="n">tooord</span><span class="p">)</span>
+                        <span class="n">map_dict</span><span class="p">[</span><span class="n">fromord</span><span class="p">]</span> <span class="o">=</span> <span class="nb">chr</span><span class="p">(</span><span class="n">tooord</span><span class="p">)</span>
                 <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
                     <span class="k">pass</span>
                 <span class="k">continue</span>
@@ -1436,16 +1436,16 @@
                 <span class="n">fromord</span> <span class="o">=</span> <span class="n">charspec_to_int</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
                 <span class="n">toord</span> <span class="o">=</span> <span class="n">charspec_to_int</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
                 <span class="k">try</span><span class="p">:</span>
-                    <span class="nb">map</span><span class="p">[</span><span class="n">fromord</span><span class="p">]</span> <span class="o">=</span> <span class="nb">chr</span><span class="p">(</span><span class="n">toord</span><span class="p">)</span>
+                    <span class="n">map_dict</span><span class="p">[</span><span class="n">fromord</span><span class="p">]</span> <span class="o">=</span> <span class="nb">chr</span><span class="p">(</span><span class="n">toord</span><span class="p">)</span>
                 <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
                     <span class="k">pass</span>
                 <span class="k">continue</span>
 
             <span class="n">match</span> <span class="o">=</span> <span class="n">_stray_char</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
-                <span class="nb">ord</span> <span class="o">=</span> <span class="n">charspec_to_int</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+                <span class="n">ord_charspec</span> <span class="o">=</span> <span class="n">charspec_to_int</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
                 <span class="k">try</span><span class="p">:</span>
-                    <span class="nb">map</span><span class="p">[</span><span class="nb">ord</span><span class="p">]</span> <span class="o">=</span> <span class="nb">chr</span><span class="p">(</span><span class="nb">ord</span><span class="p">)</span>
+                    <span class="n">map_dict</span><span class="p">[</span><span class="n">ord_charspec</span><span class="p">]</span> <span class="o">=</span> <span class="nb">chr</span><span class="p">(</span><span class="n">ord_charspec</span><span class="p">)</span>
                 <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
                     <span class="k">pass</span>
                 <span class="k">continue</span>
@@ -1455,8 +1455,8 @@
                 <span class="n">start</span> <span class="o">=</span> <span class="n">charspec_to_int</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
                 <span class="n">end</span> <span class="o">=</span> <span class="n">charspec_to_int</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
                 <span class="k">try</span><span class="p">:</span>
-                    <span class="k">for</span> <span class="nb">ord</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-                        <span class="nb">map</span><span class="p">[</span><span class="nb">ord</span><span class="p">]</span> <span class="o">=</span> <span class="nb">chr</span><span class="p">(</span><span class="nb">ord</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">ord_charspec</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                        <span class="n">map_dict</span><span class="p">[</span><span class="n">ord_charspec</span><span class="p">]</span> <span class="o">=</span> <span class="nb">chr</span><span class="p">(</span><span class="n">ord_charspec</span><span class="p">)</span>
                 <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
                     <span class="k">pass</span>
                 <span class="k">continue</span>
@@ -1466,16 +1466,16 @@
                 <span class="n">fromord</span> <span class="o">=</span> <span class="n">charspec_to_int</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
                 <span class="n">toord</span> <span class="o">=</span> <span class="n">charspec_to_int</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
                 <span class="k">assert</span> <span class="n">toord</span> <span class="o">-</span> <span class="n">fromord</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span>
-                <span class="k">for</span> <span class="nb">ord</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">fromord</span><span class="p">,</span> <span class="n">toord</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">ord_charspec</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">fromord</span><span class="p">,</span> <span class="n">toord</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
                     <span class="k">try</span><span class="p">:</span>
-                        <span class="nb">map</span><span class="p">[</span><span class="nb">ord</span><span class="p">]</span> <span class="o">=</span> <span class="nb">chr</span><span class="p">(</span><span class="nb">ord</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-                        <span class="nb">map</span><span class="p">[</span><span class="nb">ord</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">chr</span><span class="p">(</span><span class="nb">ord</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                        <span class="n">map_dict</span><span class="p">[</span><span class="n">ord_charspec</span><span class="p">]</span> <span class="o">=</span> <span class="nb">chr</span><span class="p">(</span><span class="n">ord_charspec</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                        <span class="n">map_dict</span><span class="p">[</span><span class="n">ord_charspec</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nb">chr</span><span class="p">(</span><span class="n">ord_charspec</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
                     <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
                         <span class="k">pass</span>
                 <span class="k">continue</span>
 
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Don&#39;t know what to do with </span><span class="si">{</span><span class="n">item</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">map</span><span class="p">)</span></div>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Don&#39;t know what to do with </span><span class="si">{</span><span class="n">item</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">map_dict</span><span class="p">)</span></div>
 </pre></div>
 
            </div>
