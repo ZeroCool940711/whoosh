@@ -373,6 +373,10 @@
 </li>
         <li><a href="api/filedb/filestore.html#id0">(whoosh.filedb.filestore.Storage method)</a>, <a href="api/filedb/filestore.html#whoosh.filedb.filestore.Storage.close">[1]</a>
 </li>
+        <li><a href="api/filedb/filetables.html#whoosh.filedb.filetables.HashReader.close">(whoosh.filedb.filetables.HashReader method)</a>
+</li>
+        <li><a href="api/filedb/filetables.html#id0">(whoosh.filedb.filetables.HashWriter method)</a>, <a href="api/filedb/filetables.html#whoosh.filedb.filetables.HashWriter.close">[1]</a>
+</li>
         <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.close">(whoosh.filedb.structfile.StructFile method)</a>
 </li>
         <li><a href="api/index.html#whoosh.index.Index.close">(whoosh.index.Index method)</a>
@@ -380,6 +384,8 @@
         <li><a href="api/reading.html#whoosh.reading.IndexReader.close">(whoosh.reading.IndexReader method)</a>
 </li>
       </ul></li>
+      <li><a href="api/filedb/filetables.html#whoosh.filedb.filetables.OrderedHashReader.closest_key">closest_key() (whoosh.filedb.filetables.OrderedHashReader method)</a>
+</li>
       <li><a href="api/codec/base.html#whoosh.codec.base.Codec">Codec (class in whoosh.codec.base)</a>
 </li>
       <li><a href="api/codec/base.html#whoosh.codec.base.Segment.codec">codec() (whoosh.codec.base.Segment method)</a>
@@ -410,14 +416,14 @@
 </li>
       <li><a href="api/columns.html#whoosh.columns.Column">Column (class in whoosh.columns)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/codec/base.html#whoosh.codec.base.PerDocumentReader.column_reader">column_reader() (whoosh.codec.base.PerDocumentReader method)</a>
 
       <ul>
         <li><a href="api/reading.html#whoosh.reading.IndexReader.column_reader">(whoosh.reading.IndexReader method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/columns.html#whoosh.columns.ColumnReader">ColumnReader (class in whoosh.columns)</a>
 </li>
       <li><a href="api/columns.html#whoosh.columns.ColumnWriter">ColumnWriter (class in whoosh.columns)</a>
@@ -513,6 +519,8 @@
       <li><a href="api/sorting.html#whoosh.sorting.DateRangeFacet">DateRangeFacet (class in whoosh.sorting)</a>
 </li>
       <li><a href="api/fields.html#whoosh.fields.DATETIME">DATETIME (class in whoosh.fields)</a>
+</li>
+      <li><a href="api/filedb/filetables.html#whoosh.filedb.filetables.HashWriter.dbfile">dbfile (whoosh.filedb.filetables.HashWriter attribute)</a>
 </li>
       <li><a href="api/formats.html#whoosh.formats.Format.decode_as">decode_as() (whoosh.formats.Format method)</a>
 </li>
@@ -670,10 +678,10 @@
 </li>
       <li><a href="api/searching.html#whoosh.searching.Results.estimated_min_length">estimated_min_length() (whoosh.searching.Results method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/query.html#whoosh.query.Every">Every (class in whoosh.query)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/qparser.html#whoosh.qparser.EveryPlugin">EveryPlugin (class in whoosh.qparser)</a>
 </li>
       <li><a href="api/formats.html#whoosh.formats.Existence">Existence (class in whoosh.formats)</a>
@@ -691,6 +699,8 @@
       <li><a href="api/analysis.html#whoosh.analysis.PathTokenizer.expr">expr (whoosh.analysis.PathTokenizer attribute)</a>
 </li>
       <li><a href="api/searching.html#whoosh.searching.Results.extend">extend() (whoosh.searching.Results method)</a>
+</li>
+      <li><a href="api/filedb/filetables.html#whoosh.filedb.filetables.HashWriter.extras">extras (whoosh.filedb.filetables.HashWriter attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -749,6 +759,8 @@
       <li><a href="api/fields.html#whoosh.fields.FieldType">FieldType (class in whoosh.fields)</a>
 </li>
       <li><a href="api/codec/base.html#whoosh.codec.base.FieldWriter">FieldWriter (class in whoosh.codec.base)</a>
+</li>
+      <li><a href="api/filedb/filetables.html#whoosh.filedb.filetables.HashReader.file">file() (whoosh.filedb.filetables.HashReader method)</a>
 </li>
       <li><a href="api/filedb/filestore.html#id6">file_exists() (whoosh.filedb.filestore.Storage method)</a>, <a href="api/filedb/filestore.html#whoosh.filedb.filestore.Storage.file_exists">[1]</a>
 </li>
@@ -858,12 +870,14 @@
 </li>
       <li><a href="api/highlight.html#whoosh.highlight.GenshiFormatter">GenshiFormatter (class in whoosh.highlight)</a>
 </li>
-      <li><a href="api/searching.html#whoosh.searching.Searcher.get_parent">get_parent() (whoosh.searching.Searcher method)</a>
+      <li><a href="api/filedb/filetables.html#whoosh.filedb.filetables.HashReader.get">get() (whoosh.filedb.filetables.HashReader method)</a>
 </li>
-      <li><a href="api/writing.html#whoosh.writing.IndexWriter.group">group() (whoosh.writing.IndexWriter method)</a>
+      <li><a href="api/searching.html#whoosh.searching.Searcher.get_parent">get_parent() (whoosh.searching.Searcher method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/writing.html#whoosh.writing.IndexWriter.group">group() (whoosh.writing.IndexWriter method)</a>
+</li>
       <li><a href="api/qparser.html#whoosh.qparser.GroupNode">GroupNode (class in whoosh.qparser)</a>
 </li>
       <li><a href="api/qparser.html#whoosh.qparser.GroupPlugin">GroupPlugin (class in whoosh.qparser)</a>
@@ -902,7 +916,11 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/filedb/filetables.html#whoosh.filedb.filetables.HashWriter.hashfn">hashfn (whoosh.filedb.filetables.HashWriter attribute)</a>
+</li>
       <li><a href="api/filedb/filetables.html#whoosh.filedb.filetables.HashReader">HashReader (class in whoosh.filedb.filetables)</a>
+</li>
+      <li><a href="api/filedb/filetables.html#whoosh.filedb.filetables.HashWriter.hashtype">hashtype (whoosh.filedb.filetables.HashWriter attribute)</a>
 </li>
       <li><a href="api/filedb/filetables.html#whoosh.filedb.filetables.HashWriter">HashWriter (class in whoosh.filedb.filetables)</a>
 </li>
@@ -940,11 +958,15 @@
 </li>
       <li><a href="api/index.html#whoosh.index.Index">Index (class in whoosh.index)</a>
 </li>
+      <li><a href="api/filedb/filetables.html#whoosh.filedb.filetables.OrderedHashWriter.index">index (whoosh.filedb.filetables.OrderedHashWriter attribute)</a>
+</li>
       <li><a href="api/fields.html#whoosh.fields.FieldType.index">index() (whoosh.fields.FieldType method)</a>
 </li>
       <li><a href="api/filedb/filestore.html#id9">index_exists() (whoosh.filedb.filestore.Storage method)</a>, <a href="api/filedb/filestore.html#whoosh.filedb.filestore.Storage.index_exists">[1]</a>
 </li>
       <li><a href="api/codec/base.html#whoosh.codec.base.Segment.index_name">index_name() (whoosh.codec.base.Segment method)</a>
+</li>
+      <li><a href="api/filedb/filetables.html#whoosh.filedb.filetables.OrderedHashReader.indexbase">indexbase (whoosh.filedb.filetables.OrderedHashReader attribute)</a>
 </li>
       <li><a href="api/codec/base.html#whoosh.codec.base.TermsReader.indexed_field_names">indexed_field_names() (whoosh.codec.base.TermsReader method)</a>
 
@@ -958,7 +980,11 @@
 </li>
       <li><a href="api/writing.html#whoosh.writing.IndexingError">IndexingError</a>
 </li>
+      <li><a href="api/filedb/filetables.html#whoosh.filedb.filetables.OrderedHashReader.indexlen">indexlen (whoosh.filedb.filetables.OrderedHashReader attribute)</a>
+</li>
       <li><a href="api/reading.html#whoosh.reading.IndexReader">IndexReader (class in whoosh.reading)</a>
+</li>
+      <li><a href="api/filedb/filetables.html#whoosh.filedb.filetables.OrderedHashReader.indexsize">indexsize (whoosh.filedb.filetables.OrderedHashReader attribute)</a>
 </li>
       <li><a href="api/index.html#whoosh.index.IndexVersionError">IndexVersionError</a>
 </li>
@@ -972,10 +998,10 @@
 </li>
       <li><a href="api/matching.html#whoosh.matching.InverseMatcher">InverseMatcher (class in whoosh.matching)</a>
 </li>
-      <li><a href="api/idsets.html#whoosh.idsets.DocIdSet.invert_update">invert_update() (whoosh.idsets.DocIdSet method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/idsets.html#whoosh.idsets.DocIdSet.invert_update">invert_update() (whoosh.idsets.DocIdSet method)</a>
+</li>
       <li><a href="api/matching.html#whoosh.matching.Matcher.is_active">is_active() (whoosh.matching.Matcher method)</a>
 </li>
       <li><a href="api/codec/base.html#whoosh.codec.base.Segment.is_compound">is_compound() (whoosh.codec.base.Segment method)</a>
@@ -1009,6 +1035,8 @@
       <ul>
         <li><a href="api/fields.html#whoosh.fields.Schema.items">(whoosh.fields.Schema method)</a>
 </li>
+        <li><a href="api/filedb/filetables.html#whoosh.filedb.filetables.HashReader.items">(whoosh.filedb.filetables.HashReader method)</a>
+</li>
         <li><a href="api/searching.html#whoosh.searching.Results.items">(whoosh.searching.Results method)</a>
 </li>
         <li><a href="api/sorting.html#whoosh.sorting.Facets.items">(whoosh.sorting.Facets method)</a>
@@ -1017,7 +1045,11 @@
       <li><a href="api/matching.html#whoosh.matching.Matcher.items_as">items_as() (whoosh.matching.Matcher method)</a>
 </li>
       <li><a href="api/codec/base.html#whoosh.codec.base.TermsReader.items_from">items_from() (whoosh.codec.base.TermsReader method)</a>
+
+      <ul>
+        <li><a href="api/filedb/filetables.html#whoosh.filedb.filetables.OrderedHashReader.items_from">(whoosh.filedb.filetables.OrderedHashReader method)</a>
 </li>
+      </ul></li>
       <li><a href="api/query.html#whoosh.query.Query.iter_all_terms">iter_all_terms() (whoosh.query.Query method)</a>
 </li>
       <li><a href="api/codec/base.html#whoosh.codec.base.PerDocumentReader.iter_docs">iter_docs() (whoosh.codec.base.PerDocumentReader method)</a>
@@ -1040,6 +1072,10 @@
 <h2 id="K">K</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/filedb/filetables.html#whoosh.filedb.filetables.HashReader.key_and_range_at">key_and_range_at() (whoosh.filedb.filetables.HashReader method)</a>
+</li>
+      <li><a href="api/filedb/filetables.html#whoosh.filedb.filetables.HashReader.key_at">key_at() (whoosh.filedb.filetables.HashReader method)</a>
+</li>
       <li><a href="api/sorting.html#whoosh.sorting.Categorizer.key_for">key_for() (whoosh.sorting.Categorizer method)</a>
 </li>
       <li><a href="api/searching.html#whoosh.searching.Results.key_terms">key_terms() (whoosh.searching.Results method)</a>
@@ -1054,7 +1090,11 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/sorting.html#whoosh.sorting.Categorizer.key_to_name">key_to_name() (whoosh.sorting.Categorizer method)</a>
 </li>
+      <li><a href="api/filedb/filetables.html#whoosh.filedb.filetables.HashReader.keys">keys() (whoosh.filedb.filetables.HashReader method)</a>
+</li>
       <li><a href="api/sorting.html#whoosh.sorting.Categorizer.keys_for">keys_for() (whoosh.sorting.Categorizer method)</a>
+</li>
+      <li><a href="api/filedb/filetables.html#whoosh.filedb.filetables.OrderedHashReader.keys_from">keys_from() (whoosh.filedb.filetables.OrderedHashReader method)</a>
 </li>
       <li><a href="api/fields.html#whoosh.fields.KEYWORD">KEYWORD (class in whoosh.fields)</a>
 </li>
@@ -1072,6 +1112,8 @@
 </li>
       <li><a href="api/index.html#whoosh.index.Index.last_modified">last_modified() (whoosh.index.Index method)</a>
 </li>
+      <li><a href="api/filedb/filetables.html#whoosh.filedb.filetables.OrderedHashWriter.lastkey">lastkey (whoosh.filedb.filetables.OrderedHashWriter attribute)</a>
+</li>
       <li><a href="api/index.html#whoosh.index.Index.latest_generation">latest_generation() (whoosh.index.Index method)</a>
 </li>
       <li><a href="api/reading.html#whoosh.reading.IndexReader.leaf_readers">leaf_readers() (whoosh.reading.IndexReader method)</a>
@@ -1082,10 +1124,10 @@
 </li>
       <li><a href="api/reading.html#whoosh.reading.IndexReader.lexicon">lexicon() (whoosh.reading.IndexReader method)</a>
 </li>
-      <li><a href="api/filedb/filestore.html#id10">list() (whoosh.filedb.filestore.Storage method)</a>, <a href="api/filedb/filestore.html#whoosh.filedb.filestore.Storage.list">[1]</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/filedb/filestore.html#id10">list() (whoosh.filedb.filestore.Storage method)</a>, <a href="api/filedb/filestore.html#whoosh.filedb.filestore.Storage.list">[1]</a>
+</li>
       <li><a href="api/codec/base.html#whoosh.codec.base.PerDocumentReader.list_columns">list_columns() (whoosh.codec.base.PerDocumentReader method)</a>
 </li>
       <li><a href="api/codec/base.html#whoosh.codec.base.Segment.list_files">list_files() (whoosh.codec.base.Segment method)</a>
@@ -1507,11 +1549,15 @@
 </li>
       <li><a href="api/util.html#whoosh.util.random_name">random_name() (in module whoosh.util)</a>
 </li>
+      <li><a href="api/filedb/filetables.html#whoosh.filedb.filetables.HashReader.range_for_key">range_for_key() (whoosh.filedb.filetables.HashReader method)</a>
+</li>
       <li><a href="api/sorting.html#whoosh.sorting.RangeFacet">RangeFacet (class in whoosh.sorting)</a>
 </li>
       <li><a href="api/qparser.html#whoosh.qparser.RangePlugin">RangePlugin (class in whoosh.qparser)</a>
 </li>
       <li><a href="api/filedb/filetables.html#whoosh.filedb.filetables.HashReader.ranges_for_key">ranges_for_key() (whoosh.filedb.filetables.HashReader method)</a>
+</li>
+      <li><a href="api/filedb/filetables.html#whoosh.filedb.filetables.OrderedHashReader.ranges_from">ranges_from() (whoosh.filedb.filetables.OrderedHashReader method)</a>
 </li>
       <li><a href="api/filedb/structfile.html#whoosh.filedb.structfile.StructFile.read_pickle">read_pickle() (whoosh.filedb.structfile.StructFile method)</a>
 </li>
@@ -1559,10 +1605,10 @@
       </ul></li>
       <li><a href="api/query.html#whoosh.query.Regex">Regex (class in whoosh.query)</a>
 </li>
-      <li><a href="api/analysis.html#whoosh.analysis.RegexAnalyzer">RegexAnalyzer() (in module whoosh.analysis)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/analysis.html#whoosh.analysis.RegexAnalyzer">RegexAnalyzer() (in module whoosh.analysis)</a>
+</li>
       <li><a href="api/qparser.html#whoosh.qparser.RegexPlugin">RegexPlugin (class in whoosh.qparser)</a>
 </li>
       <li><a href="api/analysis.html#whoosh.analysis.RegexTokenizer">RegexTokenizer (class in whoosh.analysis)</a>
@@ -1741,10 +1787,10 @@
 </li>
       <li><a href="api/query.html#whoosh.query.Span">Span (class in whoosh.query)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/query.html#whoosh.query.SpanBefore">SpanBefore (class in whoosh.query)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/query.html#whoosh.query.SpanCondition">SpanCondition (class in whoosh.query)</a>
 </li>
       <li><a href="api/query.html#whoosh.query.SpanContains">SpanContains (class in whoosh.query)</a>
@@ -1778,6 +1824,8 @@
       <li><a href="api/codec/base.html#id18">start_postings() (whoosh.codec.base.PostingsWriter method)</a>, <a href="api/codec/base.html#whoosh.codec.base.PostingsWriter.start_postings">[1]</a>
 </li>
       <li><a href="api/codec/base.html#whoosh.codec.base.FieldWriter.start_term">start_term() (whoosh.codec.base.FieldWriter method)</a>
+</li>
+      <li><a href="api/filedb/filetables.html#whoosh.filedb.filetables.HashWriter.startoffset">startoffset (whoosh.filedb.filetables.HashWriter attribute)</a>
 </li>
       <li><a href="api/lang/porter.html#whoosh.lang.porter.stem">stem() (in module whoosh.lang.porter)</a>
 </li>
@@ -1871,6 +1919,8 @@
       </ul></li>
       <li><a href="api/analysis.html#whoosh.analysis.TeeFilter">TeeFilter (class in whoosh.analysis)</a>
 </li>
+      <li><a href="api/filedb/filetables.html#id1">tell() (whoosh.filedb.filetables.HashWriter method)</a>, <a href="api/filedb/filetables.html#whoosh.filedb.filetables.HashWriter.tell">[1]</a>
+</li>
       <li><a href="api/filedb/filestore.html#id16">temp_storage() (whoosh.filedb.filestore.Storage method)</a>, <a href="api/filedb/filestore.html#whoosh.filedb.filestore.Storage.temp_storage">[1]</a>
 </li>
       <li><a href="api/query.html#whoosh.query.Term">Term (class in whoosh.query)</a>
@@ -1901,14 +1951,14 @@
         <li><a href="api/query.html#whoosh.query.Query.terms">(whoosh.query.Query method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/codec/base.html#whoosh.codec.base.TermsReader.terms_from">terms_from() (whoosh.codec.base.TermsReader method)</a>
 
       <ul>
         <li><a href="api/reading.html#whoosh.reading.IndexReader.terms_from">(whoosh.reading.IndexReader method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/codec/base.html#whoosh.codec.base.Codec.terms_reader">terms_reader() (whoosh.codec.base.Codec method)</a>
 </li>
       <li><a href="api/reading.html#whoosh.reading.IndexReader.terms_within">terms_within() (whoosh.reading.IndexReader method)</a>
@@ -1993,14 +2043,16 @@
 </li>
       <li><a href="api/matching.html#whoosh.matching.Matcher.value_as">value_as() (whoosh.matching.Matcher method)</a>
 </li>
+      <li><a href="api/filedb/filetables.html#whoosh.filedb.filetables.HashReader.values">values() (whoosh.filedb.filetables.HashReader method)</a>
+</li>
       <li><a href="api/columns.html#whoosh.columns.VarBytesColumn">VarBytesColumn (class in whoosh.columns)</a>
 </li>
       <li><a href="api/query.html#whoosh.query.Variations">Variations (class in whoosh.query)</a>
 </li>
-      <li><a href="api/lang/morph_en.html#whoosh.lang.morph_en.variations">variations() (in module whoosh.lang.morph_en)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/lang/morph_en.html#whoosh.lang.morph_en.variations">variations() (in module whoosh.lang.morph_en)</a>
+</li>
       <li><a href="api/codec/base.html#whoosh.codec.base.PerDocumentReader.vector">vector() (whoosh.codec.base.PerDocumentReader method)</a>
 
       <ul>
