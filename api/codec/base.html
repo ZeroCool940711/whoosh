@@ -150,25 +150,593 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="whoosh.codec.base.Codec">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">whoosh.codec.base.</span></span><span class="sig-name descname"><span class="pre">Codec</span></span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#Codec"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.Codec" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>The base class for defining codecs in Whoosh.</p>
+<p>A codec is responsible for defining how data is stored and retrieved from the index.
+It provides implementations for various operations such as per-document value writing,
+inverted index writing, postings writing and reading, index readers, and segment and
+generation management.</p>
+<p>Subclasses of Codec should implement the abstract methods to provide the specific
+functionality required by the codec.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="whoosh.codec.base.Codec.length_stats">
+<span class="sig-name descname"><span class="pre">length_stats</span></span><a class="headerlink" href="#whoosh.codec.base.Codec.length_stats" title="Permalink to this definition">¶</a></dt>
+<dd><p>Indicates whether length statistics should be enabled for the codec.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.Codec.automata">
+<span class="sig-name descname"><span class="pre">automata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">storage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">segment</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#Codec.automata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.Codec.automata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an automata object for the given storage and segment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>storage</strong> (<a class="reference internal" href="../filedb/filestore.html#whoosh.filedb.filestore.Storage" title="whoosh.filedb.filestore.Storage"><em>Storage</em></a>) – The storage object for the index.</p></li>
+<li><p><strong>segment</strong> (<a class="reference internal" href="#whoosh.codec.base.Segment" title="whoosh.codec.base.Segment"><em>Segment</em></a>) – The segment object representing a portion of the index.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The automata object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Automata</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.Codec.field_writer">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">field_writer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">storage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">segment</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#Codec.field_writer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.Codec.field_writer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an inverted index writer for the given storage and segment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>storage</strong> (<a class="reference internal" href="../filedb/filestore.html#whoosh.filedb.filestore.Storage" title="whoosh.filedb.filestore.Storage"><em>Storage</em></a>) – The storage object for the index.</p></li>
+<li><p><strong>segment</strong> (<a class="reference internal" href="#whoosh.codec.base.Segment" title="whoosh.codec.base.Segment"><em>Segment</em></a>) – The segment object representing a portion of the index.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The inverted index writer.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#whoosh.codec.base.FieldWriter" title="whoosh.codec.base.FieldWriter">FieldWriter</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.12)"><strong>NotImplementedError</strong></a> – If the method is not implemented by the subclass.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.Codec.new_segment">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">new_segment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">storage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indexname</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#Codec.new_segment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.Codec.new_segment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new segment for the given storage and index name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>storage</strong> (<a class="reference internal" href="../filedb/filestore.html#whoosh.filedb.filestore.Storage" title="whoosh.filedb.filestore.Storage"><em>Storage</em></a>) – The storage object for the index.</p></li>
+<li><p><strong>indexname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The name of the index.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The new segment.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#whoosh.codec.base.Segment" title="whoosh.codec.base.Segment">Segment</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.12)"><strong>NotImplementedError</strong></a> – If the method is not implemented by the subclass.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.Codec.per_document_reader">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">per_document_reader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">storage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">segment</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#Codec.per_document_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.Codec.per_document_reader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a per-document value reader for the given storage and segment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>storage</strong> (<a class="reference internal" href="../filedb/filestore.html#whoosh.filedb.filestore.Storage" title="whoosh.filedb.filestore.Storage"><em>Storage</em></a>) – The storage object for the index.</p></li>
+<li><p><strong>segment</strong> (<a class="reference internal" href="#whoosh.codec.base.Segment" title="whoosh.codec.base.Segment"><em>Segment</em></a>) – The segment object representing a portion of the index.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The per-document value reader.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#whoosh.codec.base.PerDocumentReader" title="whoosh.codec.base.PerDocumentReader">PerDocumentReader</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.12)"><strong>NotImplementedError</strong></a> – If the method is not implemented by the subclass.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.Codec.per_document_writer">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">per_document_writer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">storage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">segment</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#Codec.per_document_writer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.Codec.per_document_writer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a per-document value writer for the given storage and segment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>storage</strong> (<a class="reference internal" href="../filedb/filestore.html#whoosh.filedb.filestore.Storage" title="whoosh.filedb.filestore.Storage"><em>Storage</em></a>) – The storage object for the index.</p></li>
+<li><p><strong>segment</strong> (<a class="reference internal" href="#whoosh.codec.base.Segment" title="whoosh.codec.base.Segment"><em>Segment</em></a>) – The segment object representing a portion of the index.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The per-document value writer.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#whoosh.codec.base.PerDocumentWriter" title="whoosh.codec.base.PerDocumentWriter">PerDocumentWriter</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.12)"><strong>NotImplementedError</strong></a> – If the method is not implemented by the subclass.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.Codec.postings_reader">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">postings_reader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dbfile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">terminfo</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format_</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">term</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scorer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#Codec.postings_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.Codec.postings_reader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a postings reader for the given database file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dbfile</strong> (<em>File</em>) – The file object representing the database file.</p></li>
+<li><p><strong>terminfo</strong> (<a class="reference internal" href="../reading.html#whoosh.reading.TermInfo" title="whoosh.reading.TermInfo"><em>TermInfo</em></a>) – The term information object.</p></li>
+<li><p><strong>format</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The format of the postings.</p></li>
+<li><p><strong>term</strong> (<a class="reference internal" href="../query.html#whoosh.query.Term" title="whoosh.query.Term"><em>Term</em></a><em>, </em><em>optional</em>) – The term to read the postings for.</p></li>
+<li><p><strong>scorer</strong> (<em>Scorer</em><em>, </em><em>optional</em>) – The scorer object for scoring the postings.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The postings reader.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>PostingsReader</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.12)"><strong>NotImplementedError</strong></a> – If the method is not implemented by the subclass.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.Codec.postings_writer">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">postings_writer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dbfile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">byteids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#Codec.postings_writer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.Codec.postings_writer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a postings writer for the given database file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dbfile</strong> (<em>File</em>) – The file object representing the database file.</p></li>
+<li><p><strong>byteids</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a><em>, </em><em>optional</em>) – Indicates whether the postings should be written using byte IDs.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The postings writer.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#whoosh.codec.base.PostingsWriter" title="whoosh.codec.base.PostingsWriter">PostingsWriter</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.12)"><strong>NotImplementedError</strong></a> – If the method is not implemented by the subclass.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.Codec.terms_reader">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">terms_reader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">storage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">segment</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#Codec.terms_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.Codec.terms_reader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a terms reader for the given storage and segment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>storage</strong> (<a class="reference internal" href="../filedb/filestore.html#whoosh.filedb.filestore.Storage" title="whoosh.filedb.filestore.Storage"><em>Storage</em></a>) – The storage object for the index.</p></li>
+<li><p><strong>segment</strong> (<a class="reference internal" href="#whoosh.codec.base.Segment" title="whoosh.codec.base.Segment"><em>Segment</em></a>) – The segment object representing a portion of the index.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The terms reader.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#whoosh.codec.base.TermsReader" title="whoosh.codec.base.TermsReader">TermsReader</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.12)"><strong>NotImplementedError</strong></a> – If the method is not implemented by the subclass.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="whoosh.codec.base.PerDocumentWriter">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">whoosh.codec.base.</span></span><span class="sig-name descname"><span class="pre">PerDocumentWriter</span></span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#PerDocumentWriter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.PerDocumentWriter" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>The PerDocumentWriter class is an abstract base class that defines the interface for writing per-document data
+during the indexing process.</p>
+<p>Subclasses of PerDocumentWriter must implement the following methods:
+- start_doc(docnum): Called at the beginning of writing a new document.
+- add_field(fieldname, fieldobj, value, length): Called to add a field and its value to the document.
+- add_column_value(fieldname, columnobj, value): Called to add a column value to the document.
+- add_vector_items(fieldname, fieldobj, items): Called to add vector items to the document.</p>
+<p>The PerDocumentWriter class also provides default implementations for the following methods:
+- add_vector_matcher(fieldname, fieldobj, vmatcher): Adds vector items to the document using a vector matcher.
+- finish_doc(): Called at the end of writing a document.
+- close(): Called to close the writer.</p>
+<p>Usage:
+1. Create a subclass of PerDocumentWriter.
+2. Implement the required methods.
+3. Use the subclass to write per-document data during the indexing process.</p>
+<p>Example:
+<a href="#id1"><span class="problematic" id="id2">``</span></a><a href="#id3"><span class="problematic" id="id4">`</span></a>python
+class MyDocumentWriter(PerDocumentWriter):</p>
+<blockquote>
+<div><dl class="simple">
+<dt>def start_doc(self, docnum):</dt><dd><p># Implementation goes here</p>
+</dd>
+<dt>def add_field(self, fieldname, fieldobj, value, length):</dt><dd><p># Implementation goes here</p>
+</dd>
+<dt>def add_column_value(self, fieldname, columnobj, value):</dt><dd><p># Implementation goes here</p>
+</dd>
+<dt>def add_vector_items(self, fieldname, fieldobj, items):</dt><dd><p># Implementation goes here</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>writer = MyDocumentWriter()
+writer.start_doc(1)
+writer.add_field(“title”, fieldobj, “Sample Title”, 1)
+writer.finish_doc()
+writer.close()
+<a href="#id5"><span class="problematic" id="id6">``</span></a><a href="#id7"><span class="problematic" id="id8">`</span></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.PerDocumentWriter.add_column_value">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">add_column_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fieldname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columnobj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#PerDocumentWriter.add_column_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.PerDocumentWriter.add_column_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called to add a column value to the document.</p>
+<p>Parameters:
+- fieldname (str): The name of the field.
+- columnobj: The column object.
+- value: The value of the column.</p>
+<p>Raises:
+- NotImplementedError: If the method is not implemented by the subclass.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.PerDocumentWriter.add_field">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">add_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fieldname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fieldobj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#PerDocumentWriter.add_field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.PerDocumentWriter.add_field" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called to add a field and its value to the document.</p>
+<p>Parameters:
+- fieldname (str): The name of the field.
+- fieldobj: The field object.
+- value: The value of the field.
+- length (int): The length of the field.</p>
+<p>Raises:
+- NotImplementedError: If the method is not implemented by the subclass.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.PerDocumentWriter.add_vector_items">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">add_vector_items</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fieldname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fieldobj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">items</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#PerDocumentWriter.add_vector_items"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.PerDocumentWriter.add_vector_items" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called to add vector items to the document.</p>
+<p>Parameters:
+- fieldname (str): The name of the field.
+- fieldobj: The field object.
+- items: An iterable of vector items.</p>
+<p>Raises:
+- NotImplementedError: If the method is not implemented by the subclass.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.PerDocumentWriter.add_vector_matcher">
+<span class="sig-name descname"><span class="pre">add_vector_matcher</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fieldname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fieldobj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vmatcher</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#PerDocumentWriter.add_vector_matcher"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.PerDocumentWriter.add_vector_matcher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds vector items to the document using a vector matcher.</p>
+<p>Parameters:
+- fieldname (str): The name of the field.
+- fieldobj: The field object.
+- vmatcher: The vector matcher.</p>
+<p>Note:
+This method provides a default implementation that reads vector items from the vector matcher
+and calls the add_vector_items method.</p>
+<p>Raises:
+- NotImplementedError: If the add_vector_items method is not implemented by the subclass.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.PerDocumentWriter.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#PerDocumentWriter.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.PerDocumentWriter.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called to close the writer.</p>
+<p>Note:
+This method is intentionally left empty.</p>
+<p>Usage:
+Subclasses can override this method to perform any necessary cleanup or closing steps.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.PerDocumentWriter.finish_doc">
+<span class="sig-name descname"><span class="pre">finish_doc</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#PerDocumentWriter.finish_doc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.PerDocumentWriter.finish_doc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called at the end of writing a document.</p>
+<p>Note:
+This method is intentionally left empty.</p>
+<p>Usage:
+Subclasses can override this method to perform any necessary cleanup or finalization steps.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.PerDocumentWriter.start_doc">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">start_doc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">docnum</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#PerDocumentWriter.start_doc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.PerDocumentWriter.start_doc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called at the beginning of writing a new document.</p>
+<p>Parameters:
+- docnum (int): The document number.</p>
+<p>Raises:
+- NotImplementedError: If the method is not implemented by the subclass.</p>
+</dd></dl>
+
+</dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="whoosh.codec.base.FieldWriter">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">whoosh.codec.base.</span></span><span class="sig-name descname"><span class="pre">FieldWriter</span></span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#FieldWriter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.FieldWriter" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>The FieldWriter class is responsible for translating a generator of postings into calls to various methods
+such as start_field(), start_term(), add(), finish_term(), finish_field(), etc. It is used in the process
+of writing fields and terms to an index.</p>
+<p>Usage:
+1. Create an instance of FieldWriter.
+2. Implement the abstract methods: start_field(), start_term(), add(), finish_term().
+3. Optionally, implement the add_spell_word() method if you need to add spelling words.
+4. Use the add_postings() method to process a generator of postings and write them to the index.
+5. Call the close() method to perform any necessary cleanup.</p>
+<p>Example:
+<a href="#id9"><span class="problematic" id="id10">``</span></a><a href="#id11"><span class="problematic" id="id12">`</span></a>python
+class MyFieldWriter(FieldWriter):</p>
+<blockquote>
+<div><dl class="simple">
+<dt>def start_field(self, fieldname, fieldobj):</dt><dd><p># Implementation goes here</p>
+</dd>
+<dt>def start_term(self, text):</dt><dd><p># Implementation goes here</p>
+</dd>
+<dt>def add(self, docnum, weight, vbytes, length):</dt><dd><p># Implementation goes here</p>
+</dd>
+<dt>def finish_term(self):</dt><dd><p># Implementation goes here</p>
+</dd>
+<dt>def add_spell_word(self, fieldname, text):</dt><dd><p># Implementation goes here</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>writer = MyFieldWriter()
+writer.add_postings(schema, lengths, items)
+writer.close()
+<a href="#id13"><span class="problematic" id="id14">``</span></a><a href="#id15"><span class="problematic" id="id16">`</span></a></p>
+<p>Note: The finish_field() method is intentionally left empty and does not need to be implemented.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.FieldWriter.add">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">docnum</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vbytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#FieldWriter.add"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.FieldWriter.add" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a document to the codec.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>docnum</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – The document number.</p></li>
+<li><p><strong>weight</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – The weight of the document.</p></li>
+<li><p><strong>vbytes</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.12)"><em>bytes</em></a>) – The encoded document data.</p></li>
+<li><p><strong>length</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – The length of the document in bytes.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.12)"><strong>NotImplementedError</strong></a> – This method should be implemented by a subclass.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.FieldWriter.add_postings">
+<span class="sig-name descname"><span class="pre">add_postings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lengths</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">items</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#FieldWriter.add_postings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.FieldWriter.add_postings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Translates a generator of (fieldname, btext, docnum, w, v) postings into calls to start_field(), start_term(),
+add(), finish_term(), finish_field(), etc.</p>
+<p>Parameters:
+- schema (Schema): The schema object that defines the fields in the index.
+- lengths (Lengths): The lengths object that provides the document field lengths.
+- items (generator): A generator of (fieldname, btext, docnum, weight, value) postings.</p>
+<p>Raises:
+- OutOfOrderError: If the postings are out of order.</p>
+<p>Returns:
+- None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.FieldWriter.add_spell_word">
+<span class="sig-name descname"><span class="pre">add_spell_word</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fieldname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#FieldWriter.add_spell_word"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.FieldWriter.add_spell_word" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a spell word to the specified field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fieldname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The name of the field to add the spell word to.</p></li>
+<li><p><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The spell word to add.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.12)"><strong>NotImplementedError</strong></a> – This method is not implemented in the base class.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.FieldWriter.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#FieldWriter.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.FieldWriter.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Closes the codec.</p>
+<p>This method is called when the codec needs to be closed. It should release any resources
+held by the codec and perform any necessary cleanup.</p>
+<p>Example usage:
+codec = MyCodec()
+# … do some operations with the codec …
+codec.close()</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.FieldWriter.finish_field">
+<span class="sig-name descname"><span class="pre">finish_field</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#FieldWriter.finish_field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.FieldWriter.finish_field" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finish processing the current field.</p>
+<p>This method is called after all the terms in a field have been processed.
+It can be overridden in subclasses to perform any necessary finalization
+steps for the field.</p>
+<dl class="simple">
+<dt>Usage:</dt><dd><p>codec = BaseCodec()
+codec.finish_field()</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.FieldWriter.finish_term">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">finish_term</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#FieldWriter.finish_term"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.FieldWriter.finish_term" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finish processing the current term.</p>
+<p>This method is called to finalize the processing of the current term. Subclasses should implement this method
+to perform any necessary cleanup or finalization steps for the term.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.12)"><strong>NotImplementedError</strong></a> – This method is meant to be overridden by subclasses.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.FieldWriter.start_field">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">start_field</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fieldname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fieldobj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#FieldWriter.start_field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.FieldWriter.start_field" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is called when starting to process a new field during indexing or searching.</p>
+<p>Parameters:
+- fieldname (str): The name of the field being processed.
+- fieldobj: The field object representing the field being processed.</p>
+<p>Raises:
+- NotImplementedError: This method should be implemented by subclasses.</p>
+<p>Notes:
+- This method is typically used for initializing any necessary resources or state for processing the field.
+- Subclasses should override this method to provide their own implementation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.FieldWriter.start_term">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">start_term</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#FieldWriter.start_term"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.FieldWriter.start_term" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is called to indicate the start of a term during indexing or searching.</p>
+<p>Parameters:
+- text (str): The text of the term.</p>
+<p>Raises:
+- NotImplementedError: This method should be implemented by subclasses.</p>
+</dd></dl>
+
+</dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="whoosh.codec.base.PostingsWriter">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">whoosh.codec.base.</span></span><span class="sig-name descname"><span class="pre">PostingsWriter</span></span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#PostingsWriter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.PostingsWriter" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="py method">
+<dd><p>Abstract base class for writing postings lists to disk.</p>
+<p>This class defines the interface for writing postings lists to disk in a specific format.
+Subclasses must implement the abstract methods to provide the necessary functionality.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="whoosh.codec.base.PostingsWriter.None">
+<span class="sig-name descname"><span class="pre">None</span></span><a class="headerlink" href="#whoosh.codec.base.PostingsWriter.None" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.PostingsWriter.start_postings">
+<span class="sig-name descname"><span class="pre">start_postings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">format_</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">terminfo</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#PostingsWriter.start_postings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.PostingsWriter.start_postings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start writing a new postings list.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.PostingsWriter.add_posting">
+<span class="sig-name descname"><span class="pre">add_posting</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vbytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#PostingsWriter.add_posting"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.PostingsWriter.add_posting" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a posting to the current postings list.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.PostingsWriter.finish_postings">
+<span class="sig-name descname"><span class="pre">finish_postings</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#PostingsWriter.finish_postings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.PostingsWriter.finish_postings" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finish writing the current postings list.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="whoosh.codec.base.PostingsWriter.written">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">written</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#PostingsWriter.written"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.PostingsWriter.written" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns True if this object has already written to disk.</p>
+<span class="sig-name descname"><span class="pre">written</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#PostingsWriter.written"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.PostingsWriter.written" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if this object has already written to disk.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id0">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">add_posting</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weight</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vbytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#PostingsWriter.add_posting"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a posting to the current postings list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – The identifier of the posting.</p></li>
+<li><p><strong>weight</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – The weight of the posting.</p></li>
+<li><p><strong>vbytes</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.12)"><em>bytes</em></a>) – The encoded bytes of the posting.</p></li>
+<li><p><strong>length</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a><em>, </em><em>optional</em>) – The length of the posting. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.12)"><strong>NotImplementedError</strong></a> – This method must be implemented by subclasses.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id17">
+<span class="sig-name descname"><span class="pre">finish_postings</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#PostingsWriter.finish_postings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id17" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finish writing the current postings list.</p>
+<p>This method is intentionally left empty.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id18">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">start_postings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">format_</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">terminfo</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#PostingsWriter.start_postings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id18" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start writing a new postings list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>format</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The format of the postings list.</p></li>
+<li><p><strong>terminfo</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><em>object</em></a>) – The term information associated with the postings list.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.12)"><strong>NotImplementedError</strong></a> – This method must be implemented by subclasses.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id19">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">written</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#PostingsWriter.written"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id19" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if this object has already written to disk.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>None</strong> – </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if this object has already written to disk, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)">bool</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.12)"><strong>NotImplementedError</strong></a> – This method must be implemented by subclasses.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -176,15 +744,559 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="whoosh.codec.base.TermsReader">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">whoosh.codec.base.</span></span><span class="sig-name descname"><span class="pre">TermsReader</span></span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#TermsReader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.TermsReader" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>A base class for reading terms and their associated information from an index.</p>
+<p>This class provides methods for retrieving terms, term frequencies, document frequencies,
+and creating term matchers for querying the index.</p>
+<p>Subclasses of <cite>TermsReader</cite> should implement the abstract methods to provide the necessary
+functionality for reading terms from a specific index format.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.TermsReader.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#TermsReader.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.TermsReader.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close the terms reader.</p>
+<p>This method is intentionally left empty.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.TermsReader.cursor">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cursor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fieldname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fieldobj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#TermsReader.cursor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.TermsReader.cursor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a cursor for iterating over the terms in a field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fieldname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The name of the field.</p></li>
+<li><p><strong>fieldobj</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><em>object</em></a>) – The field object.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A cursor object for iterating over the terms in the field.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)">object</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.12)"><strong>NotImplementedError</strong></a> – If the method is not implemented by the subclass.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.TermsReader.doc_frequency">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">doc_frequency</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fieldname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#TermsReader.doc_frequency"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.TermsReader.doc_frequency" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the document frequency for a specific term in a field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fieldname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The name of the field.</p></li>
+<li><p><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The term to get the document frequency for.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The document frequency for the specified term in the field.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)">int</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.12)"><strong>NotImplementedError</strong></a> – If the method is not implemented by the subclass.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.TermsReader.frequency">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">frequency</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fieldname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#TermsReader.frequency"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.TermsReader.frequency" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the term frequency for a specific term in a field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fieldname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The name of the field.</p></li>
+<li><p><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The term to get the frequency for.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The term frequency for the specified term in the field.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)">int</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.12)"><strong>NotImplementedError</strong></a> – If the method is not implemented by the subclass.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.TermsReader.indexed_field_names">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">indexed_field_names</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#TermsReader.indexed_field_names"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.TermsReader.indexed_field_names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a list of all field names in the index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list of all field names in the index.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)">list</a></p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.12)"><strong>NotImplementedError</strong></a> – If the method is not implemented by the subclass.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.TermsReader.items">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">items</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#TermsReader.items"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.TermsReader.items" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a list of all (fieldname, term) pairs in the index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list of all (fieldname, term) pairs in the index.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)">list</a></p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.12)"><strong>NotImplementedError</strong></a> – If the method is not implemented by the subclass.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.TermsReader.items_from">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">items_from</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fieldname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#TermsReader.items_from"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.TermsReader.items_from" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a list of (fieldname, term) pairs starting with a given prefix in a specific field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fieldname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The name of the field.</p></li>
+<li><p><strong>prefix</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The prefix to match.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of (fieldname, term) pairs starting with the given prefix in the field.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)">list</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.12)"><strong>NotImplementedError</strong></a> – If the method is not implemented by the subclass.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.TermsReader.matcher">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">matcher</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fieldname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format_</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scorer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#TermsReader.matcher"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.TermsReader.matcher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a term matcher for a specific term in a field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fieldname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The name of the field.</p></li>
+<li><p><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The term to create the matcher for.</p></li>
+<li><p><strong>format</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><em>object</em></a>) – The format object for the field.</p></li>
+<li><p><strong>scorer</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><em>object</em></a><em>, </em><em>optional</em>) – The scorer object to use for scoring the matches.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A term matcher for the specified term in the field.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)">object</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.12)"><strong>NotImplementedError</strong></a> – If the method is not implemented by the subclass.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.TermsReader.term_info">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">term_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fieldname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#TermsReader.term_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.TermsReader.term_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the term information for a specific term in a field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fieldname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The name of the field.</p></li>
+<li><p><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The term to get information for.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The term information object for the specified term in the field.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)">object</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.12)"><strong>NotImplementedError</strong></a> – If the method is not implemented by the subclass.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.TermsReader.terms">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">terms</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#TermsReader.terms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.TermsReader.terms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a list of all terms in the index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A list of all terms in the index.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)">list</a></p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.12)"><strong>NotImplementedError</strong></a> – If the method is not implemented by the subclass.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.TermsReader.terms_from">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">terms_from</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fieldname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#TermsReader.terms_from"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.TermsReader.terms_from" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a list of terms starting with a given prefix in a specific field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fieldname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The name of the field.</p></li>
+<li><p><strong>prefix</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The prefix to match.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of terms starting with the given prefix in the field.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)">list</a></p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.12)"><strong>NotImplementedError</strong></a> – If the method is not implemented by the subclass.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="whoosh.codec.base.PerDocumentReader">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">whoosh.codec.base.</span></span><span class="sig-name descname"><span class="pre">PerDocumentReader</span></span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#PerDocumentReader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.PerDocumentReader" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="py method">
+<dd><p>The PerDocumentReader class represents a base class for reading per-document data in a search index.</p>
+<p>This class provides methods for accessing and manipulating per-document data, such as deletions, columns, bitmaps,
+lengths, vectors, and stored fields.</p>
+<p>Subclasses of PerDocumentReader should implement the abstract methods to provide the specific functionality
+required for a particular codec.</p>
+<p>Usage:
+1. Create an instance of a subclass of PerDocumentReader.
+2. Use the provided methods to access and manipulate per-document data.</p>
+<p>Example:
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">reader</span> <span class="pre">=</span> <span class="pre">MyPerDocumentReader()</span>
+<span class="pre">count</span> <span class="pre">=</span> <span class="pre">reader.doc_count()</span>
+<span class="pre">print(f&quot;Total</span> <span class="pre">number</span> <span class="pre">of</span> <span class="pre">documents:</span> <span class="pre">{count}&quot;)</span>
+<span class="pre">`</span></code></p>
+<dl class="py method">
 <dt class="sig sig-object py" id="whoosh.codec.base.PerDocumentReader.all_doc_ids">
 <span class="sig-name descname"><span class="pre">all_doc_ids</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#PerDocumentReader.all_doc_ids"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.PerDocumentReader.all_doc_ids" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns an iterator of all (undeleted) document IDs in the reader.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>An iterator of document IDs.</p>
+</dd>
+</dl>
+<p>Example:
+<a href="#id20"><span class="problematic" id="id21">``</span></a>`
+for doc_id in reader.all_doc_ids():</p>
+<blockquote>
+<div><p>print(doc_id)</p>
+</div></blockquote>
+<p><a href="#id22"><span class="problematic" id="id23">``</span></a><a href="#id24"><span class="problematic" id="id25">`</span></a></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.PerDocumentReader.all_stored_fields">
+<span class="sig-name descname"><span class="pre">all_stored_fields</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#PerDocumentReader.all_stored_fields"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.PerDocumentReader.all_stored_fields" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an iterator over the stored fields of all (undeleted) documents in the reader.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Yields<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>dict</em> – The stored fields of a document.</p>
+</dd>
+</dl>
+<p>Example:
+<a href="#id26"><span class="problematic" id="id27">``</span></a>`
+for fields in reader.all_stored_fields():</p>
+<blockquote>
+<div><p>print(fields)</p>
+</div></blockquote>
+<p><a href="#id28"><span class="problematic" id="id29">``</span></a><a href="#id30"><span class="problematic" id="id31">`</span></a></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.PerDocumentReader.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#PerDocumentReader.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.PerDocumentReader.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Closes the PerDocumentReader and releases any resources associated with it.</p>
+<p>This method should be called when the PerDocumentReader is no longer needed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.PerDocumentReader.column_reader">
+<span class="sig-name descname"><span class="pre">column_reader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fieldname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#PerDocumentReader.column_reader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.PerDocumentReader.column_reader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a reader for accessing the values in the specified column.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fieldname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The name of the column field.</p></li>
+<li><p><strong>column</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The name of the column.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.12)"><strong>NotImplementedError</strong></a> – If the method is not implemented by the subclass.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.PerDocumentReader.deleted_docs">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">deleted_docs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#PerDocumentReader.deleted_docs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.PerDocumentReader.deleted_docs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a set of document numbers that are deleted.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.12)"><strong>NotImplementedError</strong></a> – If the method is not implemented by the subclass.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.PerDocumentReader.doc_count">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">doc_count</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#PerDocumentReader.doc_count"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.PerDocumentReader.doc_count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of documents in the reader.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.12)"><strong>NotImplementedError</strong></a> – If the method is not implemented by the subclass.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.PerDocumentReader.doc_count_all">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">doc_count_all</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#PerDocumentReader.doc_count_all"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.PerDocumentReader.doc_count_all" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the total number of documents, including deleted documents, in the reader.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.12)"><strong>NotImplementedError</strong></a> – If the method is not implemented by the subclass.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.PerDocumentReader.doc_field_length">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">doc_field_length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">docnum</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fieldname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#PerDocumentReader.doc_field_length"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.PerDocumentReader.doc_field_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the length of the specified field in the specified document.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>docnum</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – The document number.</p></li>
+<li><p><strong>fieldname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The name of the field.</p></li>
+<li><p><strong>default</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a><em>, </em><em>optional</em>) – The default length to return if the field does not exist. Defaults to 0.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.12)"><strong>NotImplementedError</strong></a> – If the method is not implemented by the subclass.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.PerDocumentReader.field_docs">
+<span class="sig-name descname"><span class="pre">field_docs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fieldname</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#PerDocumentReader.field_docs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.PerDocumentReader.field_docs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the bitmap of documents that have a value for the specified field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>fieldname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The name of the field.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The bitmap of documents or None if the field does not exist.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Bitmap or None</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.12)"><strong>NotImplementedError</strong></a> – If the method is not implemented by the subclass.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.PerDocumentReader.field_length">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">field_length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fieldname</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#PerDocumentReader.field_length"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.PerDocumentReader.field_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the total length of the specified field across all documents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>fieldname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The name of the field.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.12)"><strong>NotImplementedError</strong></a> – If the method is not implemented by the subclass.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.PerDocumentReader.has_column">
+<span class="sig-name descname"><span class="pre">has_column</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fieldname</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#PerDocumentReader.has_column"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.PerDocumentReader.has_column" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if the reader has a column with the given fieldname, False otherwise.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>fieldname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The name of the column field.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the reader has the column, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.PerDocumentReader.has_deletions">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">has_deletions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#PerDocumentReader.has_deletions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.PerDocumentReader.has_deletions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if the reader has deletions, False otherwise.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.12)"><strong>NotImplementedError</strong></a> – If the method is not implemented by the subclass.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.PerDocumentReader.has_vector">
+<span class="sig-name descname"><span class="pre">has_vector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">docnum</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fieldname</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#PerDocumentReader.has_vector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.PerDocumentReader.has_vector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if the specified document has a vector for the specified field, False otherwise.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>docnum</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – The document number.</p></li>
+<li><p><strong>fieldname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The name of the field.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the document has a vector, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.PerDocumentReader.is_deleted">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_deleted</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">docnum</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#PerDocumentReader.is_deleted"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.PerDocumentReader.is_deleted" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if the document with the given docnum is deleted, False otherwise.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>docnum</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – The document number.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.12)"><strong>NotImplementedError</strong></a> – If the method is not implemented by the subclass.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.PerDocumentReader.iter_docs">
+<span class="sig-name descname"><span class="pre">iter_docs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#PerDocumentReader.iter_docs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.PerDocumentReader.iter_docs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an iterator over all (undeleted) documents in the reader.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Yields<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>Tuple[int, dict]</em> – A tuple containing the document number and the stored fields of the document.</p>
+</dd>
+</dl>
+<p>Example:
+<a href="#id32"><span class="problematic" id="id33">``</span></a>`
+for docnum, fields in reader.iter_docs():</p>
+<blockquote>
+<div><p>print(f”Document {docnum}: {fields}”)</p>
+</div></blockquote>
+<p><a href="#id34"><span class="problematic" id="id35">``</span></a><a href="#id36"><span class="problematic" id="id37">`</span></a></p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.PerDocumentReader.list_columns">
+<span class="sig-name descname"><span class="pre">list_columns</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#PerDocumentReader.list_columns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.PerDocumentReader.list_columns" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of all column names in the reader.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.12)"><strong>NotImplementedError</strong></a> – If the method is not implemented by the subclass.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.PerDocumentReader.max_field_length">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">max_field_length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fieldname</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#PerDocumentReader.max_field_length"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.PerDocumentReader.max_field_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the maximum length of the specified field across all documents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>fieldname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The name of the field.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.12)"><strong>NotImplementedError</strong></a> – If the method is not implemented by the subclass.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.PerDocumentReader.min_field_length">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">min_field_length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fieldname</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#PerDocumentReader.min_field_length"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.PerDocumentReader.min_field_length" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the minimum length of the specified field across all documents.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>fieldname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The name of the field.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.12)"><strong>NotImplementedError</strong></a> – If the method is not implemented by the subclass.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.PerDocumentReader.stored_fields">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">stored_fields</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">docnum</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#PerDocumentReader.stored_fields"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.PerDocumentReader.stored_fields" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the stored fields of the specified document.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>docnum</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – The document number.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.12)"><strong>NotImplementedError</strong></a> – If the method is not implemented by the subclass.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.PerDocumentReader.supports_columns">
+<span class="sig-name descname"><span class="pre">supports_columns</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#PerDocumentReader.supports_columns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.PerDocumentReader.supports_columns" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if the reader supports columns, False otherwise.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if the reader supports columns, False otherwise.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.PerDocumentReader.vector">
+<span class="sig-name descname"><span class="pre">vector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">docnum</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fieldname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format_</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#PerDocumentReader.vector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.PerDocumentReader.vector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the vector for the specified document and field.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>docnum</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – The document number.</p></li>
+<li><p><strong>fieldname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The name of the field.</p></li>
+<li><p><strong>format</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The format of the vector.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.12)"><strong>NotImplementedError</strong></a> – If the method is not implemented by the subclass.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -202,24 +1314,61 @@ the new documents, and have the index overlay the new segment over previous
 ones for purposes of reading/search. “Optimizing” the index combines the
 contents of existing segments into one (removing any deleted documents
 along the way).</p>
+<p>Initializes a Segment object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>indexname</strong> – The name of the index.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.Segment.codec">
+<span class="sig-name descname"><span class="pre">codec</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#Segment.codec"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.Segment.codec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the codec used by the segment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The codec used by the segment.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.Segment.create_compound_file">
+<span class="sig-name descname"><span class="pre">create_compound_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">storage</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#Segment.create_compound_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.Segment.create_compound_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a compound file in the given storage by combining the segment’s files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>storage</strong> – The storage object.</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="whoosh.codec.base.Segment.create_file">
 <span class="sig-name descname"><span class="pre">create_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">storage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ext</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#Segment.create_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.Segment.create_file" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convenience method to create a new file in the given storage named
-with this segment’s ID and the given extension. Any keyword arguments
-are passed to the storage’s create_file method.</p>
+<dd><p>Creates a new file in the given storage with the segment’s ID and the given extension.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>storage</strong> – The storage object.</p></li>
+<li><p><strong>ext</strong> – The extension of the file.</p></li>
+<li><p><strong>kwargs</strong> – Additional keyword arguments passed to the storage’s create_file method.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The created file object.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="whoosh.codec.base.Segment.delete_document">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">delete_document</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">docnum</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delete</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#Segment.delete_document"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.Segment.delete_document" title="Permalink to this definition">¶</a></dt>
-<dd><p>Deletes the given document number. The document is not actually
-removed from the index until it is optimized.</p>
+<dd><p>Deletes or undeletes the given document number.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>docnum</strong> – The document number to delete.</p></li>
-<li><p><strong>delete</strong> – If False, this undeletes a deleted document.</p></li>
+<li><p><strong>docnum</strong> – The document number to delete or undelete.</p></li>
+<li><p><strong>delete</strong> – If False, undeletes the document. Default is True.</p></li>
 </ul>
 </dd>
 </dl>
@@ -229,6 +1378,12 @@ removed from the index until it is optimized.</p>
 <dt class="sig sig-object py" id="whoosh.codec.base.Segment.deleted_count">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">deleted_count</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#Segment.deleted_count"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.Segment.deleted_count" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the total number of deleted documents in this segment.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.Segment.deleted_docs">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">deleted_docs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#Segment.deleted_docs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.Segment.deleted_docs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of deleted document numbers in this segment.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -247,21 +1402,141 @@ segment.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="whoosh.codec.base.Segment.has_deletions">
 <span class="sig-name descname"><span class="pre">has_deletions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#Segment.has_deletions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.Segment.has_deletions" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns True if any documents in this segment are deleted.</p>
+<dd><p>Checks if any documents in this segment are deleted.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if there are deleted documents, False otherwise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.Segment.index_name">
+<span class="sig-name descname"><span class="pre">index_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#Segment.index_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.Segment.index_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the name of the index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The name of the index.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.Segment.is_compound">
+<span class="sig-name descname"><span class="pre">is_compound</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#Segment.is_compound"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.Segment.is_compound" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if the segment is a compound segment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if the segment is compound, False otherwise.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="whoosh.codec.base.Segment.is_deleted">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_deleted</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">docnum</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#Segment.is_deleted"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.Segment.is_deleted" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns True if the given document number is deleted.</p>
+<dd><p>Checks if the given document number is deleted.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>docnum</strong> – The document number.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the document is deleted, False otherwise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.Segment.list_files">
+<span class="sig-name descname"><span class="pre">list_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">storage</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#Segment.list_files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.Segment.list_files" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lists the files associated with the segment in the given storage.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>storage</strong> – The storage object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of file names.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.Segment.make_filename">
+<span class="sig-name descname"><span class="pre">make_filename</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ext</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#Segment.make_filename"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.Segment.make_filename" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a filename for the segment with the given extension.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ext</strong> – The extension of the filename.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The filename.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.Segment.open_compound_file">
+<span class="sig-name descname"><span class="pre">open_compound_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">storage</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#Segment.open_compound_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.Segment.open_compound_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Opens the compound file associated with the segment in the given storage.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>storage</strong> – The storage object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The opened compound file object.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="whoosh.codec.base.Segment.open_file">
 <span class="sig-name descname"><span class="pre">open_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">storage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ext</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#Segment.open_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.Segment.open_file" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convenience method to open a file in the given storage named with
-this segment’s ID and the given extension. Any keyword arguments are
-passed to the storage’s open_file method.</p>
+<dd><p>Opens a file in the given storage with the segment’s ID and the given extension.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>storage</strong> – The storage object.</p></li>
+<li><p><strong>ext</strong> – The extension of the file.</p></li>
+<li><p><strong>kwargs</strong> – Additional keyword arguments passed to the storage’s open_file method.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The opened file object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.Segment.segment_id">
+<span class="sig-name descname"><span class="pre">segment_id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#Segment.segment_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.Segment.segment_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the ID of the segment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The ID of the segment.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.Segment.set_doc_count">
+<span class="sig-name descname"><span class="pre">set_doc_count</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doccount</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#Segment.set_doc_count"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.Segment.set_doc_count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the number of documents in the segment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>doccount</strong> – The number of documents.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.codec.base.Segment.should_assemble">
+<span class="sig-name descname"><span class="pre">should_assemble</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/codec/base.html#Segment.should_assemble"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.codec.base.Segment.should_assemble" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if the segment should be assembled.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if the segment should be assembled, False otherwise.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>

@@ -347,6 +347,51 @@ the value into strings, then encodes them into bytes using UTF-8.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="whoosh.fields.FieldType.on_add">
+<span class="sig-name descname"><span class="pre">on_add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fieldname</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/fields.html#FieldType.on_add"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.fields.FieldType.on_add" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is called when a field is added to a schema.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>schema</strong> (<a class="reference internal" href="#whoosh.fields.Schema" title="whoosh.fields.Schema"><em>Schema</em></a>) – The schema object to which the field is being added.</p></li>
+<li><p><strong>fieldname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The name of the field being added.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>This method can be overridden in subclasses to perform custom actions when a field is added.</p></li>
+<li><p>By default, this method does nothing.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.fields.FieldType.on_remove">
+<span class="sig-name descname"><span class="pre">on_remove</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fieldname</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/fields.html#FieldType.on_remove"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.fields.FieldType.on_remove" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is called when a field is removed from the schema.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>schema</strong> (<a class="reference internal" href="#whoosh.fields.Schema" title="whoosh.fields.Schema"><em>Schema</em></a>) – The schema object from which the field is being removed.</p></li>
+<li><p><strong>fieldname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The name of the field being removed.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>This method can be overridden in a custom field class to perform any necessary cleanup or
+additional actions when a field is removed from the schema.</p></li>
+<li><p>By default, this method does nothing.</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="whoosh.fields.FieldType.parse_query">
 <span class="sig-name descname"><span class="pre">parse_query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fieldname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qstring</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boost</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/fields.html#FieldType.parse_query"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.fields.FieldType.parse_query" title="Permalink to this definition">¶</a></dt>
 <dd><p>When <code class="docutils literal notranslate"><span class="pre">self_parsing()</span></code> returns True, the query parser will call
@@ -512,6 +557,10 @@ spaces, commas, and semicolons.</p></li>
 <dt class="sig sig-object py" id="whoosh.fields.STORED">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">whoosh.fields.</span></span><span class="sig-name descname"><span class="pre">STORED</span></span><a class="reference internal" href="../_modules/whoosh/fields.html#STORED"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.fields.STORED" title="Permalink to this definition">¶</a></dt>
 <dd><p>Configured field type for fields you want to store but not index.</p>
+<p>Initialize a new instance of the class.</p>
+<p>This method is called when a new object of the class is created. It does not take any arguments.</p>
+<p>Usage:
+field = Field()</p>
 </dd></dl>
 
 <dl class="py class">

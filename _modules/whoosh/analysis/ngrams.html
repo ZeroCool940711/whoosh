@@ -135,32 +135,59 @@
 <div class="viewcode-block" id="NgramTokenizer"><a class="viewcode-back" href="../../../api/analysis.html#whoosh.analysis.NgramTokenizer">[docs]</a><span class="k">class</span> <span class="nc">NgramTokenizer</span><span class="p">(</span><span class="n">Tokenizer</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Splits input text into N-grams instead of words.</span>
 
-<span class="sd">    &gt;&gt;&gt; ngt = NgramTokenizer(4)</span>
-<span class="sd">    &gt;&gt;&gt; [token.text for token in ngt(&quot;hi there&quot;)]</span>
-<span class="sd">    [&quot;hi t&quot;, &quot;i th&quot;, &quot; the&quot;, &quot;ther&quot;, &quot;here&quot;]</span>
+<span class="sd">    This tokenizer splits the input text into N-grams, where an N-gram is a</span>
+<span class="sd">    contiguous sequence of N characters. The N-grams emitted by this tokenizer</span>
+<span class="sd">    may contain whitespace, punctuation, and other characters. If you only want</span>
+<span class="sd">    sub-word N-grams without whitespace, you can combine a RegexTokenizer with</span>
+<span class="sd">    NgramFilter instead.</span>
 
-<span class="sd">    Note that this tokenizer does NOT use a regular expression to extract</span>
-<span class="sd">    words, so the grams emitted by it will contain whitespace, punctuation,</span>
-<span class="sd">    etc. You may want to massage the input or add a custom filter to this</span>
-<span class="sd">    tokenizer&#39;s output.</span>
+<span class="sd">    Example:</span>
+<span class="sd">        ngt = NgramTokenizer(4)</span>
+<span class="sd">        tokens = [token.text for token in ngt(&quot;hi there&quot;)]</span>
+<span class="sd">        # tokens = [&quot;hi t&quot;, &quot;i th&quot;, &quot; the&quot;, &quot;ther&quot;, &quot;here&quot;]</span>
 
-<span class="sd">    Alternatively, if you only want sub-word grams without whitespace, you</span>
-<span class="sd">    could combine a RegexTokenizer with NgramFilter instead.</span>
+<span class="sd">    Note:</span>
+<span class="sd">        This tokenizer does not use a regular expression to extract words, so</span>
+<span class="sd">        the N-grams emitted by it will contain whitespace, punctuation, etc.</span>
+<span class="sd">        You may want to massage the input or add a custom filter to this</span>
+<span class="sd">        tokenizer&#39;s output.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        minsize (int): The minimum size of the N-grams.</span>
+<span class="sd">        maxsize (int, optional): The maximum size of the N-grams. If not</span>
+<span class="sd">            provided, maxsize will be set to minsize.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        min (int): The minimum size of the N-grams.</span>
+<span class="sd">        max (int): The maximum size of the N-grams.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">__inittypes__</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;minsize&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="s2">&quot;maxsize&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">}</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">minsize</span><span class="p">,</span> <span class="n">maxsize</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        :param minsize: The minimum size of the N-grams.</span>
-<span class="sd">        :param maxsize: The maximum size of the N-grams. If you omit</span>
-<span class="sd">            this parameter, maxsize == minsize.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        Initialize the NgramTokenizer.</span>
 
+<span class="sd">        Args:</span>
+<span class="sd">            minsize (int): The minimum size of the N-grams.</span>
+<span class="sd">            maxsize (int, optional): The maximum size of the N-grams. If not</span>
+<span class="sd">                provided, maxsize will be set to minsize.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">min</span> <span class="o">=</span> <span class="n">minsize</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">max</span> <span class="o">=</span> <span class="n">maxsize</span> <span class="ow">or</span> <span class="n">minsize</span>
 
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check if two ngram objects are equal.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            other (Ngram): The other ngram object to compare with.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if the ngram objects are equal, False otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="n">other</span><span class="o">.</span><span class="vm">__class__</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">min</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">min</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">max</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">max</span><span class="p">:</span>
                 <span class="k">return</span> <span class="kc">True</span>
@@ -178,6 +205,37 @@
         <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Tokenizes the given value into n-grams.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            value (str): The input string to be tokenized.</span>
+<span class="sd">            positions (bool, optional): Whether to include position information in the tokens. Defaults to False.</span>
+<span class="sd">            chars (bool, optional): Whether to include character offset information in the tokens. Defaults to False.</span>
+<span class="sd">            keeporiginal (bool, optional): Whether to keep the original token text. Defaults to False.</span>
+<span class="sd">            removestops (bool, optional): Whether to remove stop words from the tokens. Defaults to True.</span>
+<span class="sd">            start_pos (int, optional): The starting position for position information. Defaults to 0.</span>
+<span class="sd">            start_char (int, optional): The starting character offset. Defaults to 0.</span>
+<span class="sd">            mode (str, optional): The tokenization mode. Defaults to &quot;&quot;.</span>
+
+<span class="sd">        Yields:</span>
+<span class="sd">            Token: The generated tokens.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            AssertionError: If the input value is not a string.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            This method tokenizes the input string into n-grams based on the specified parameters. It generates tokens</span>
+<span class="sd">            by sliding a window of size `self.min` to `self.max` over the input string. The generated tokens can include</span>
+<span class="sd">            position information, character offset information, and original token text depending on the specified</span>
+<span class="sd">            parameters.</span>
+
+<span class="sd">            If `mode` is set to &quot;query&quot;, the method generates tokens by sliding a window of size `self.max` over the</span>
+<span class="sd">            input string. This is typically used for query tokenization.</span>
+
+<span class="sd">            If `mode` is not set to &quot;query&quot;, the method generates tokens by sliding a window of size `self.min` to</span>
+<span class="sd">            `self.max` over the input string. This is typically used for indexing tokenization.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">value</span><span class="si">!r}</span><span class="s2"> is not unicode&quot;</span>
 
         <span class="n">inlen</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
@@ -222,8 +280,6 @@
 
 
 <span class="c1"># Filter</span>
-
-
 <div class="viewcode-block" id="NgramFilter"><a class="viewcode-back" href="../../../api/analysis.html#whoosh.analysis.NgramFilter">[docs]</a><span class="k">class</span> <span class="nc">NgramFilter</span><span class="p">(</span><span class="n">Filter</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Splits token text into N-grams.</span>
 
@@ -255,6 +311,15 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">at</span> <span class="o">=</span> <span class="mi">1</span>
 
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check if two ngrams objects are equal.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            other (object): The object to compare with.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if the two ngrams objects are equal, False otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="n">other</span>
             <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="n">other</span><span class="o">.</span><span class="vm">__class__</span>
@@ -263,6 +328,29 @@
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tokens</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Tokenizes the given tokens into N-grams.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            tokens (iterable): The input tokens to be tokenized.</span>
+
+<span class="sd">        Yields:</span>
+<span class="sd">            Token: The generated N-gram tokens.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            AssertionError: If the input tokens are not iterable.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            This method tokenizes the input tokens into N-grams based on the specified parameters. It generates N-gram tokens by sliding a window of size `self.min` to `self.max` over the input tokens.</span>
+
+<span class="sd">            If the token&#39;s text length is less than `self.min`, the token is skipped.</span>
+
+<span class="sd">            If the token&#39;s mode is set to &quot;query&quot;, the method generates N-gram tokens by sliding a window of size `self.max` over the token&#39;s text. This is typically used for query tokenization.</span>
+
+<span class="sd">            If the token&#39;s mode is not set to &quot;query&quot;, the method generates N-gram tokens by sliding a window of size `self.min` to `self.max` over the token&#39;s text. This is typically used for indexing tokenization.</span>
+
+<span class="sd">            The generated N-gram tokens can include position information, character offset information, and original token text depending on the specified parameters.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">assert</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">tokens</span><span class="p">,</span> <span class="s2">&quot;__iter__&quot;</span><span class="p">)</span>
         <span class="n">at</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">at</span>
         <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">:</span>
@@ -334,17 +422,43 @@
 
 
 <div class="viewcode-block" id="NgramAnalyzer"><a class="viewcode-back" href="../../../api/analysis.html#whoosh.analysis.NgramAnalyzer">[docs]</a><span class="k">def</span> <span class="nf">NgramAnalyzer</span><span class="p">(</span><span class="n">minsize</span><span class="p">,</span> <span class="n">maxsize</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Composes an NgramTokenizer and a LowercaseFilter.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Composes an NgramTokenizer and a LowercaseFilter.</span>
 
-<span class="sd">    &gt;&gt;&gt; ana = NgramAnalyzer(4)</span>
-<span class="sd">    &gt;&gt;&gt; [token.text for token in ana(&quot;hi there&quot;)]</span>
-<span class="sd">    [&quot;hi t&quot;, &quot;i th&quot;, &quot; the&quot;, &quot;ther&quot;, &quot;here&quot;]</span>
+<span class="sd">    Args:</span>
+<span class="sd">        minsize (int): The minimum size of the n-grams.</span>
+<span class="sd">        maxsize (int, optional): The maximum size of the n-grams. Defaults to None.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Analyzer: An analyzer that tokenizes text into n-grams and applies lowercase filtering.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; ana = NgramAnalyzer(4)</span>
+<span class="sd">        &gt;&gt;&gt; [token.text for token in ana(&quot;hi there&quot;)]</span>
+<span class="sd">        [&quot;hi t&quot;, &quot;i th&quot;, &quot; the&quot;, &quot;ther&quot;, &quot;here&quot;]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="k">return</span> <span class="n">NgramTokenizer</span><span class="p">(</span><span class="n">minsize</span><span class="p">,</span> <span class="n">maxsize</span><span class="o">=</span><span class="n">maxsize</span><span class="p">)</span> <span class="o">|</span> <span class="n">LowercaseFilter</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="NgramWordAnalyzer"><a class="viewcode-back" href="../../../api/analysis.html#whoosh.analysis.NgramWordAnalyzer">[docs]</a><span class="k">def</span> <span class="nf">NgramWordAnalyzer</span><span class="p">(</span><span class="n">minsize</span><span class="p">,</span> <span class="n">maxsize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tokenizer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">at</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Creates an analyzer that tokenizes text into n-grams.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        minsize (int): The minimum size of the n-grams.</span>
+<span class="sd">        maxsize (int, optional): The maximum size of the n-grams. Defaults to None.</span>
+<span class="sd">        tokenizer (Tokenizer, optional): The tokenizer to use. Defaults to None.</span>
+<span class="sd">        at (str, optional): The position at which to split the n-grams. Defaults to None.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Analyzer: The n-gram word analyzer.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; analyzer = NgramWordAnalyzer(2, 3)</span>
+<span class="sd">        &gt;&gt;&gt; tokens = analyzer(&quot;Hello world&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; list(tokens)</span>
+<span class="sd">        [&#39;he&#39;, &#39;el&#39;, &#39;ll&#39;, &#39;lo&#39;, &#39;wo&#39;, &#39;or&#39;, &#39;rl&#39;, &#39;ld&#39;]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">tokenizer</span><span class="p">:</span>
         <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">RegexTokenizer</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">tokenizer</span> <span class="o">|</span> <span class="n">LowercaseFilter</span><span class="p">()</span> <span class="o">|</span> <span class="n">NgramFilter</span><span class="p">(</span><span class="n">minsize</span><span class="p">,</span> <span class="n">maxsize</span><span class="p">,</span> <span class="n">at</span><span class="o">=</span><span class="n">at</span><span class="p">)</span></div>

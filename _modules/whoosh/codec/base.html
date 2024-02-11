@@ -142,6 +142,17 @@
 
 
 <span class="k">class</span> <span class="nc">OutOfOrderError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Exception raised when encountering out-of-order data during decoding.</span>
+
+<span class="sd">    This exception is raised when the codec encounters data that is out of order</span>
+<span class="sd">    during the decoding process. It typically indicates a corruption or</span>
+<span class="sd">    inconsistency in the data being decoded.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        message -- explanation of the error</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">pass</span>
 
 
@@ -149,79 +160,314 @@
 
 
 <div class="viewcode-block" id="Codec"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.Codec">[docs]</a><span class="k">class</span> <span class="nc">Codec</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The base class for defining codecs in Whoosh.</span>
+
+<span class="sd">    A codec is responsible for defining how data is stored and retrieved from the index.</span>
+<span class="sd">    It provides implementations for various operations such as per-document value writing,</span>
+<span class="sd">    inverted index writing, postings writing and reading, index readers, and segment and</span>
+<span class="sd">    generation management.</span>
+
+<span class="sd">    Subclasses of Codec should implement the abstract methods to provide the specific</span>
+<span class="sd">    functionality required by the codec.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        length_stats (bool): Indicates whether length statistics should be enabled for the codec.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">length_stats</span> <span class="o">=</span> <span class="kc">True</span>
 
-    <span class="c1"># Per document value writer</span>
-
-    <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="Codec.per_document_writer"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.Codec.per_document_writer">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">per_document_writer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage</span><span class="p">,</span> <span class="n">segment</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a per-document value writer for the given storage and segment.</span>
 
-    <span class="c1"># Inverted index writer</span>
+<span class="sd">        Args:</span>
+<span class="sd">            storage (Storage): The storage object for the index.</span>
+<span class="sd">            segment (Segment): The segment object representing a portion of the index.</span>
 
-    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">field_writer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage</span><span class="p">,</span> <span class="n">segment</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            PerDocumentWriter: The per-document value writer.</span>
 
-    <span class="c1"># Postings</span>
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: If the method is not implemented by the subclass.</span>
 
-    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">postings_writer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbfile</span><span class="p">,</span> <span class="n">byteids</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
-    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">postings_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbfile</span><span class="p">,</span> <span class="n">terminfo</span><span class="p">,</span> <span class="n">format_</span><span class="p">,</span> <span class="n">term</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">scorer</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
-
-    <span class="c1"># Index readers</span>
-
-    <span class="k">def</span> <span class="nf">automata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage</span><span class="p">,</span> <span class="n">segment</span><span class="p">):</span>
-        <span class="n">_</span> <span class="o">=</span> <span class="n">storage</span><span class="p">,</span> <span class="n">segment</span>  <span class="c1"># Unused arguments</span>
-        <span class="k">return</span> <span class="n">Automata</span><span class="p">()</span>
-
-    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">terms_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage</span><span class="p">,</span> <span class="n">segment</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
-
-    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">per_document_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage</span><span class="p">,</span> <span class="n">segment</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
-
-    <span class="c1"># Segments and generations</span>
-
-    <span class="nd">@abstractmethod</span>
-    <span class="k">def</span> <span class="nf">new_segment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage</span><span class="p">,</span> <span class="n">indexname</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="Codec.field_writer"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.Codec.field_writer">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">field_writer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage</span><span class="p">,</span> <span class="n">segment</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns an inverted index writer for the given storage and segment.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            storage (Storage): The storage object for the index.</span>
+<span class="sd">            segment (Segment): The segment object representing a portion of the index.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            FieldWriter: The inverted index writer.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: If the method is not implemented by the subclass.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="Codec.postings_writer"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.Codec.postings_writer">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">postings_writer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbfile</span><span class="p">,</span> <span class="n">byteids</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a postings writer for the given database file.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            dbfile (File): The file object representing the database file.</span>
+<span class="sd">            byteids (bool, optional): Indicates whether the postings should be written using byte IDs.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            PostingsWriter: The postings writer.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: If the method is not implemented by the subclass.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="Codec.postings_reader"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.Codec.postings_reader">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">postings_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbfile</span><span class="p">,</span> <span class="n">terminfo</span><span class="p">,</span> <span class="n">format_</span><span class="p">,</span> <span class="n">term</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">scorer</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a postings reader for the given database file.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            dbfile (File): The file object representing the database file.</span>
+<span class="sd">            terminfo (TermInfo): The term information object.</span>
+<span class="sd">            format_ (str): The format of the postings.</span>
+<span class="sd">            term (Term, optional): The term to read the postings for.</span>
+<span class="sd">            scorer (Scorer, optional): The scorer object for scoring the postings.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            PostingsReader: The postings reader.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: If the method is not implemented by the subclass.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="Codec.automata"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.Codec.automata">[docs]</a>    <span class="k">def</span> <span class="nf">automata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage</span><span class="p">,</span> <span class="n">segment</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns an automata object for the given storage and segment.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            storage (Storage): The storage object for the index.</span>
+<span class="sd">            segment (Segment): The segment object representing a portion of the index.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Automata: The automata object.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">_</span> <span class="o">=</span> <span class="n">storage</span><span class="p">,</span> <span class="n">segment</span>  <span class="c1"># Unused arguments</span>
+        <span class="k">return</span> <span class="n">Automata</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Codec.terms_reader"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.Codec.terms_reader">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">terms_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage</span><span class="p">,</span> <span class="n">segment</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a terms reader for the given storage and segment.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            storage (Storage): The storage object for the index.</span>
+<span class="sd">            segment (Segment): The segment object representing a portion of the index.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            TermsReader: The terms reader.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: If the method is not implemented by the subclass.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="Codec.per_document_reader"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.Codec.per_document_reader">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">per_document_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage</span><span class="p">,</span> <span class="n">segment</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a per-document value reader for the given storage and segment.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            storage (Storage): The storage object for the index.</span>
+<span class="sd">            segment (Segment): The segment object representing a portion of the index.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            PerDocumentReader: The per-document value reader.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: If the method is not implemented by the subclass.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="Codec.new_segment"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.Codec.new_segment">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">new_segment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage</span><span class="p">,</span> <span class="n">indexname</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a new segment for the given storage and index name.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            storage (Storage): The storage object for the index.</span>
+<span class="sd">            indexname (str): The name of the index.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Segment: The new segment.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: If the method is not implemented by the subclass.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div></div>
 
 
 <span class="k">class</span> <span class="nc">WrappingCodec</span><span class="p">(</span><span class="n">Codec</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A codec that wraps another codec.</span>
+
+<span class="sd">    This codec delegates all the method calls to the wrapped codec.</span>
+<span class="sd">    It can be used to extend or modify the behavior of an existing codec.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    - child (Codec): The codec to be wrapped.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">child</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes a new instance of the WrappingCodec class.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        - child (Codec): The codec to be wrapped.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_child</span> <span class="o">=</span> <span class="n">child</span>
 
     <span class="k">def</span> <span class="nf">per_document_writer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage</span><span class="p">,</span> <span class="n">segment</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a per-document writer for the given storage and segment.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        - storage (Storage): The storage object.</span>
+<span class="sd">        - segment (Segment): The segment object.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        - PerDocumentWriter: The per-document writer.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_child</span><span class="o">.</span><span class="n">per_document_writer</span><span class="p">(</span><span class="n">storage</span><span class="p">,</span> <span class="n">segment</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">field_writer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage</span><span class="p">,</span> <span class="n">segment</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a field writer for the given storage and segment.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        - storage (Storage): The storage object.</span>
+<span class="sd">        - segment (Segment): The segment object.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        - FieldWriter: The field writer.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_child</span><span class="o">.</span><span class="n">field_writer</span><span class="p">(</span><span class="n">storage</span><span class="p">,</span> <span class="n">segment</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">postings_writer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbfile</span><span class="p">,</span> <span class="n">byteids</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a postings writer for the given dbfile.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        - dbfile (DBFile): The dbfile object.</span>
+<span class="sd">        - byteids (bool): Whether to use byteids.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        - PostingsWriter: The postings writer.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_child</span><span class="o">.</span><span class="n">postings_writer</span><span class="p">(</span><span class="n">dbfile</span><span class="p">,</span> <span class="n">byteids</span><span class="o">=</span><span class="n">byteids</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">postings_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbfile</span><span class="p">,</span> <span class="n">terminfo</span><span class="p">,</span> <span class="n">format_</span><span class="p">,</span> <span class="n">term</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">scorer</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a postings reader for the given dbfile, terminfo, format, term, and scorer.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        - dbfile (DBFile): The dbfile object.</span>
+<span class="sd">        - terminfo (TermInfo): The terminfo object.</span>
+<span class="sd">        - format_ (str): The format.</span>
+<span class="sd">        - term (Term): The term object.</span>
+<span class="sd">        - scorer (Scorer): The scorer object.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        - PostingsReader: The postings reader.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_child</span><span class="o">.</span><span class="n">postings_reader</span><span class="p">(</span>
             <span class="n">dbfile</span><span class="p">,</span> <span class="n">terminfo</span><span class="p">,</span> <span class="n">format_</span><span class="p">,</span> <span class="n">term</span><span class="o">=</span><span class="n">term</span><span class="p">,</span> <span class="n">scorer</span><span class="o">=</span><span class="n">scorer</span>
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">automata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage</span><span class="p">,</span> <span class="n">segment</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns an automata object for the given storage and segment.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        - storage (Storage): The storage object.</span>
+<span class="sd">        - segment (Segment): The segment object.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        - Automata: The automata object.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_child</span><span class="o">.</span><span class="n">automata</span><span class="p">(</span><span class="n">storage</span><span class="p">,</span> <span class="n">segment</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">terms_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage</span><span class="p">,</span> <span class="n">segment</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a terms reader for the given storage and segment.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        - storage (Storage): The storage object.</span>
+<span class="sd">        - segment (Segment): The segment object.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        - TermsReader: The terms reader.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_child</span><span class="o">.</span><span class="n">terms_reader</span><span class="p">(</span><span class="n">storage</span><span class="p">,</span> <span class="n">segment</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">per_document_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage</span><span class="p">,</span> <span class="n">segment</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a per-document reader for the given storage and segment.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        - storage (Storage): The storage object.</span>
+<span class="sd">        - segment (Segment): The segment object.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        - PerDocumentReader: The per-document reader.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_child</span><span class="o">.</span><span class="n">per_document_reader</span><span class="p">(</span><span class="n">storage</span><span class="p">,</span> <span class="n">segment</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">new_segment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage</span><span class="p">,</span> <span class="n">indexname</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a new segment for the given storage and indexname.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        - storage (Storage): The storage object.</span>
+<span class="sd">        - indexname (str): The indexname.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        - Segment: The new segment.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_child</span><span class="o">.</span><span class="n">new_segment</span><span class="p">(</span><span class="n">storage</span><span class="p">,</span> <span class="n">indexname</span><span class="p">)</span>
 
 
@@ -229,23 +475,125 @@
 
 
 <div class="viewcode-block" id="PerDocumentWriter"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.PerDocumentWriter">[docs]</a><span class="k">class</span> <span class="nc">PerDocumentWriter</span><span class="p">:</span>
-    <span class="nd">@abstractmethod</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The PerDocumentWriter class is an abstract base class that defines the interface for writing per-document data</span>
+<span class="sd">    during the indexing process.</span>
+
+<span class="sd">    Subclasses of PerDocumentWriter must implement the following methods:</span>
+<span class="sd">    - start_doc(docnum): Called at the beginning of writing a new document.</span>
+<span class="sd">    - add_field(fieldname, fieldobj, value, length): Called to add a field and its value to the document.</span>
+<span class="sd">    - add_column_value(fieldname, columnobj, value): Called to add a column value to the document.</span>
+<span class="sd">    - add_vector_items(fieldname, fieldobj, items): Called to add vector items to the document.</span>
+
+<span class="sd">    The PerDocumentWriter class also provides default implementations for the following methods:</span>
+<span class="sd">    - add_vector_matcher(fieldname, fieldobj, vmatcher): Adds vector items to the document using a vector matcher.</span>
+<span class="sd">    - finish_doc(): Called at the end of writing a document.</span>
+<span class="sd">    - close(): Called to close the writer.</span>
+
+<span class="sd">    Usage:</span>
+<span class="sd">    1. Create a subclass of PerDocumentWriter.</span>
+<span class="sd">    2. Implement the required methods.</span>
+<span class="sd">    3. Use the subclass to write per-document data during the indexing process.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">    ```python</span>
+<span class="sd">    class MyDocumentWriter(PerDocumentWriter):</span>
+<span class="sd">        def start_doc(self, docnum):</span>
+<span class="sd">            # Implementation goes here</span>
+
+<span class="sd">        def add_field(self, fieldname, fieldobj, value, length):</span>
+<span class="sd">            # Implementation goes here</span>
+
+<span class="sd">        def add_column_value(self, fieldname, columnobj, value):</span>
+<span class="sd">            # Implementation goes here</span>
+
+<span class="sd">        def add_vector_items(self, fieldname, fieldobj, items):</span>
+<span class="sd">            # Implementation goes here</span>
+
+<span class="sd">    writer = MyDocumentWriter()</span>
+<span class="sd">    writer.start_doc(1)</span>
+<span class="sd">    writer.add_field(&quot;title&quot;, fieldobj, &quot;Sample Title&quot;, 1)</span>
+<span class="sd">    writer.finish_doc()</span>
+<span class="sd">    writer.close()</span>
+<span class="sd">    ```</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="PerDocumentWriter.start_doc"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.PerDocumentWriter.start_doc">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">start_doc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">docnum</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Called at the beginning of writing a new document.</span>
 
-    <span class="nd">@abstractmethod</span>
+<span class="sd">        Parameters:</span>
+<span class="sd">        - docnum (int): The document number.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">        - NotImplementedError: If the method is not implemented by the subclass.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="PerDocumentWriter.add_field"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.PerDocumentWriter.add_field">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">add_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">,</span> <span class="n">fieldobj</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">length</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Called to add a field and its value to the document.</span>
 
-    <span class="nd">@abstractmethod</span>
+<span class="sd">        Parameters:</span>
+<span class="sd">        - fieldname (str): The name of the field.</span>
+<span class="sd">        - fieldobj: The field object.</span>
+<span class="sd">        - value: The value of the field.</span>
+<span class="sd">        - length (int): The length of the field.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">        - NotImplementedError: If the method is not implemented by the subclass.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="PerDocumentWriter.add_column_value"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.PerDocumentWriter.add_column_value">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">add_column_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">,</span> <span class="n">columnobj</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Codec does not implement writing columns&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Called to add a column value to the document.</span>
 
-    <span class="nd">@abstractmethod</span>
+<span class="sd">        Parameters:</span>
+<span class="sd">        - fieldname (str): The name of the field.</span>
+<span class="sd">        - columnobj: The column object.</span>
+<span class="sd">        - value: The value of the column.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">        - NotImplementedError: If the method is not implemented by the subclass.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Codec does not implement writing columns&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PerDocumentWriter.add_vector_items"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.PerDocumentWriter.add_vector_items">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">add_vector_items</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">,</span> <span class="n">fieldobj</span><span class="p">,</span> <span class="n">items</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Called to add vector items to the document.</span>
 
-    <span class="k">def</span> <span class="nf">add_vector_matcher</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">,</span> <span class="n">fieldobj</span><span class="p">,</span> <span class="n">vmatcher</span><span class="p">):</span>
+<span class="sd">        Parameters:</span>
+<span class="sd">        - fieldname (str): The name of the field.</span>
+<span class="sd">        - fieldobj: The field object.</span>
+<span class="sd">        - items: An iterable of vector items.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">        - NotImplementedError: If the method is not implemented by the subclass.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="PerDocumentWriter.add_vector_matcher"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.PerDocumentWriter.add_vector_matcher">[docs]</a>    <span class="k">def</span> <span class="nf">add_vector_matcher</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">,</span> <span class="n">fieldobj</span><span class="p">,</span> <span class="n">vmatcher</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds vector items to the document using a vector matcher.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        - fieldname (str): The name of the field.</span>
+<span class="sd">        - fieldobj: The field object.</span>
+<span class="sd">        - vmatcher: The vector matcher.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">        This method provides a default implementation that reads vector items from the vector matcher</span>
+<span class="sd">        and calls the add_vector_items method.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">        - NotImplementedError: If the add_vector_items method is not implemented by the subclass.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="k">def</span> <span class="nf">readitems</span><span class="p">():</span>
             <span class="k">while</span> <span class="n">vmatcher</span><span class="o">.</span><span class="n">is_active</span><span class="p">():</span>
                 <span class="n">text</span> <span class="o">=</span> <span class="n">vmatcher</span><span class="o">.</span><span class="n">id</span><span class="p">()</span>
@@ -254,23 +602,88 @@
                 <span class="k">yield</span> <span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">valuestring</span><span class="p">)</span>
                 <span class="n">vmatcher</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_vector_items</span><span class="p">(</span><span class="n">fieldname</span><span class="p">,</span> <span class="n">fieldobj</span><span class="p">,</span> <span class="n">readitems</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_vector_items</span><span class="p">(</span><span class="n">fieldname</span><span class="p">,</span> <span class="n">fieldobj</span><span class="p">,</span> <span class="n">readitems</span><span class="p">())</span></div>
 
-    <span class="k">def</span> <span class="nf">finish_doc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># This method is intentionally left empty.</span>
-        <span class="k">pass</span>
+<div class="viewcode-block" id="PerDocumentWriter.finish_doc"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.PerDocumentWriter.finish_doc">[docs]</a>    <span class="k">def</span> <span class="nf">finish_doc</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Called at the end of writing a document.</span>
 
-    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># This method is intentionally left empty.</span>
+<span class="sd">        Note:</span>
+<span class="sd">        This method is intentionally left empty.</span>
+
+<span class="sd">        Usage:</span>
+<span class="sd">        Subclasses can override this method to perform any necessary cleanup or finalization steps.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="PerDocumentWriter.close"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.PerDocumentWriter.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Called to close the writer.</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">        This method is intentionally left empty.</span>
+
+<span class="sd">        Usage:</span>
+<span class="sd">        Subclasses can override this method to perform any necessary cleanup or closing steps.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div></div>
 
 
 <div class="viewcode-block" id="FieldWriter"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.FieldWriter">[docs]</a><span class="k">class</span> <span class="nc">FieldWriter</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">add_postings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="p">,</span> <span class="n">lengths</span><span class="p">,</span> <span class="n">items</span><span class="p">):</span>
-        <span class="c1"># This method translates a generator of (fieldname, btext, docnum, w, v)</span>
-        <span class="c1"># postings into calls to start_field(), start_term(), add(),</span>
-        <span class="c1"># finish_term(), finish_field(), etc.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The FieldWriter class is responsible for translating a generator of postings into calls to various methods</span>
+<span class="sd">    such as start_field(), start_term(), add(), finish_term(), finish_field(), etc. It is used in the process</span>
+<span class="sd">    of writing fields and terms to an index.</span>
 
+<span class="sd">    Usage:</span>
+<span class="sd">    1. Create an instance of FieldWriter.</span>
+<span class="sd">    2. Implement the abstract methods: start_field(), start_term(), add(), finish_term().</span>
+<span class="sd">    3. Optionally, implement the add_spell_word() method if you need to add spelling words.</span>
+<span class="sd">    4. Use the add_postings() method to process a generator of postings and write them to the index.</span>
+<span class="sd">    5. Call the close() method to perform any necessary cleanup.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">    ```python</span>
+<span class="sd">    class MyFieldWriter(FieldWriter):</span>
+<span class="sd">        def start_field(self, fieldname, fieldobj):</span>
+<span class="sd">            # Implementation goes here</span>
+
+<span class="sd">        def start_term(self, text):</span>
+<span class="sd">            # Implementation goes here</span>
+
+<span class="sd">        def add(self, docnum, weight, vbytes, length):</span>
+<span class="sd">            # Implementation goes here</span>
+
+<span class="sd">        def finish_term(self):</span>
+<span class="sd">            # Implementation goes here</span>
+
+<span class="sd">        def add_spell_word(self, fieldname, text):</span>
+<span class="sd">            # Implementation goes here</span>
+
+<span class="sd">    writer = MyFieldWriter()</span>
+<span class="sd">    writer.add_postings(schema, lengths, items)</span>
+<span class="sd">    writer.close()</span>
+<span class="sd">    ```</span>
+
+<span class="sd">    Note: The finish_field() method is intentionally left empty and does not need to be implemented.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="FieldWriter.add_postings"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.FieldWriter.add_postings">[docs]</a>    <span class="k">def</span> <span class="nf">add_postings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="p">,</span> <span class="n">lengths</span><span class="p">,</span> <span class="n">items</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Translates a generator of (fieldname, btext, docnum, w, v) postings into calls to start_field(), start_term(),</span>
+<span class="sd">        add(), finish_term(), finish_field(), etc.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        - schema (Schema): The schema object that defines the fields in the index.</span>
+<span class="sd">        - lengths (Lengths): The lengths object that provides the document field lengths.</span>
+<span class="sd">        - items (generator): A generator of (fieldname, btext, docnum, weight, value) postings.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">        - OutOfOrderError: If the postings are out of order.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        - None</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">start_field</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_field</span>
         <span class="n">start_term</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_term</span>
         <span class="n">add</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span>
@@ -287,7 +700,7 @@
         <span class="c1"># The bytes text of the previous posting</span>
         <span class="n">lasttext</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="c1"># The (fieldname, btext) of the previous spelling posting</span>
-        <span class="n">lastspell</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># lastspell = None</span>
         <span class="c1"># The field object for the current field</span>
         <span class="n">fieldobj</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">for</span> <span class="n">fieldname</span><span class="p">,</span> <span class="n">btext</span><span class="p">,</span> <span class="n">docnum</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
@@ -341,132 +754,495 @@
         <span class="k">if</span> <span class="n">lasttext</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">finish_term</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">lastfn</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">finish_field</span><span class="p">()</span>
+            <span class="n">finish_field</span><span class="p">()</span></div>
 
-    <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="FieldWriter.start_field"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.FieldWriter.start_field">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">start_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">,</span> <span class="n">fieldobj</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This method is called when starting to process a new field during indexing or searching.</span>
 
-    <span class="nd">@abstractmethod</span>
+<span class="sd">        Parameters:</span>
+<span class="sd">        - fieldname (str): The name of the field being processed.</span>
+<span class="sd">        - fieldobj: The field object representing the field being processed.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">        - NotImplementedError: This method should be implemented by subclasses.</span>
+
+<span class="sd">        Notes:</span>
+<span class="sd">        - This method is typically used for initializing any necessary resources or state for processing the field.</span>
+<span class="sd">        - Subclasses should override this method to provide their own implementation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="FieldWriter.start_term"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.FieldWriter.start_term">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">start_term</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This method is called to indicate the start of a term during indexing or searching.</span>
 
-    <span class="nd">@abstractmethod</span>
+<span class="sd">        Parameters:</span>
+<span class="sd">        - text (str): The text of the term.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">        - NotImplementedError: This method should be implemented by subclasses.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="FieldWriter.add"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.FieldWriter.add">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">docnum</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">vbytes</span><span class="p">,</span> <span class="n">length</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds a document to the codec.</span>
 
-    <span class="k">def</span> <span class="nf">add_spell_word</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+<span class="sd">        Args:</span>
+<span class="sd">            docnum (int): The document number.</span>
+<span class="sd">            weight (float): The weight of the document.</span>
+<span class="sd">            vbytes (bytes): The encoded document data.</span>
+<span class="sd">            length (int): The length of the document in bytes.</span>
 
-    <span class="nd">@abstractmethod</span>
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: This method should be implemented by a subclass.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="FieldWriter.add_spell_word"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.FieldWriter.add_spell_word">[docs]</a>    <span class="k">def</span> <span class="nf">add_spell_word</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds a spell word to the specified field.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            fieldname (str): The name of the field to add the spell word to.</span>
+<span class="sd">            text (str): The spell word to add.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: This method is not implemented in the base class.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="FieldWriter.finish_term"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.FieldWriter.finish_term">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">finish_term</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Finish processing the current term.</span>
 
-    <span class="k">def</span> <span class="nf">finish_field</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="sd">        This method is called to finalize the processing of the current term. Subclasses should implement this method</span>
+<span class="sd">        to perform any necessary cleanup or finalization steps for the term.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: This method is meant to be overridden by subclasses.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="FieldWriter.finish_field"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.FieldWriter.finish_field">[docs]</a>    <span class="k">def</span> <span class="nf">finish_field</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Finish processing the current field.</span>
+
+<span class="sd">        This method is called after all the terms in a field have been processed.</span>
+<span class="sd">        It can be overridden in subclasses to perform any necessary finalization</span>
+<span class="sd">        steps for the field.</span>
+
+<span class="sd">        Usage:</span>
+<span class="sd">            codec = BaseCodec()</span>
+<span class="sd">            codec.finish_field()</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># This method is intentionally left empty.</span>
-        <span class="k">pass</span>
-
-    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="FieldWriter.close"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.FieldWriter.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Closes the codec.</span>
+
+<span class="sd">        This method is called when the codec needs to be closed. It should release any resources</span>
+<span class="sd">        held by the codec and perform any necessary cleanup.</span>
+
+<span class="sd">        Example usage:</span>
+<span class="sd">        codec = MyCodec()</span>
+<span class="sd">        # ... do some operations with the codec ...</span>
+<span class="sd">        codec.close()</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div></div>
 
 
 <span class="c1"># Postings</span>
-
-
 <div class="viewcode-block" id="PostingsWriter"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.PostingsWriter">[docs]</a><span class="k">class</span> <span class="nc">PostingsWriter</span><span class="p">:</span>
-    <span class="nd">@abstractmethod</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Abstract base class for writing postings lists to disk.</span>
+
+<span class="sd">    This class defines the interface for writing postings lists to disk in a specific format.</span>
+<span class="sd">    Subclasses must implement the abstract methods to provide the necessary functionality.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        None</span>
+
+<span class="sd">    Methods:</span>
+<span class="sd">        start_postings(format_, terminfo): Start writing a new postings list.</span>
+<span class="sd">        add_posting(id_, weight, vbytes, length=None): Add a posting to the current postings list.</span>
+<span class="sd">        finish_postings(): Finish writing the current postings list.</span>
+<span class="sd">        written(): Check if this object has already written to disk.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="PostingsWriter.start_postings"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.PostingsWriter.start_postings">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">start_postings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">format_</span><span class="p">,</span> <span class="n">terminfo</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Start writing a new postings list.</span>
 
-    <span class="nd">@abstractmethod</span>
+<span class="sd">        Args:</span>
+<span class="sd">            format_ (str): The format of the postings list.</span>
+<span class="sd">            terminfo (object): The term information associated with the postings list.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: This method must be implemented by subclasses.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="PostingsWriter.add_posting"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.PostingsWriter.add_posting">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">add_posting</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">id_</span><span class="p">,</span> <span class="n">weight</span><span class="p">,</span> <span class="n">vbytes</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a posting to the current postings list.</span>
 
-    <span class="k">def</span> <span class="nf">finish_postings</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># This method is intentionally left empty.</span>
-        <span class="k">pass</span>
+<span class="sd">        Args:</span>
+<span class="sd">            id_ (int): The identifier of the posting.</span>
+<span class="sd">            weight (float): The weight of the posting.</span>
+<span class="sd">            vbytes (bytes): The encoded bytes of the posting.</span>
+<span class="sd">            length (int, optional): The length of the posting. Defaults to None.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: This method must be implemented by subclasses.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="PostingsWriter.finish_postings"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.PostingsWriter.finish_postings">[docs]</a>    <span class="k">def</span> <span class="nf">finish_postings</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Finish writing the current postings list.</span>
+
+<span class="sd">        This method is intentionally left empty.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            None</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">pass</span></div>
 
 <div class="viewcode-block" id="PostingsWriter.written"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.PostingsWriter.written">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">written</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns True if this object has already written to disk.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if this object has already written to disk.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            None</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if this object has already written to disk, False otherwise.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: This method must be implemented by subclasses.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div></div>
 
 
 <span class="c1"># Reader classes</span>
-
-
 <span class="k">class</span> <span class="nc">FieldCursor</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A cursor for navigating through a field&#39;s data.</span>
+
+<span class="sd">    This class provides methods for navigating through a field&#39;s data,</span>
+<span class="sd">    such as moving to the first position, finding a specific string,</span>
+<span class="sd">    moving to the next position, and retrieving the current term.</span>
+
+<span class="sd">    Usage:</span>
+<span class="sd">        cursor = FieldCursor()</span>
+<span class="sd">        cursor.first()  # Move to the first position</span>
+<span class="sd">        cursor.find(&quot;example&quot;)  # Find the position of the string &quot;example&quot;</span>
+<span class="sd">        cursor.next()  # Move to the next position</span>
+<span class="sd">        term = cursor.term()  # Retrieve the current term</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        This class is meant to be subclassed and the methods should be</span>
+<span class="sd">        implemented according to the specific requirements of the field&#39;s</span>
+<span class="sd">        data format.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="nf">first</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Move the cursor to the first position.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: This method should be implemented by</span>
+<span class="sd">                subclasses.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
     <span class="k">def</span> <span class="nf">find</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find the position of a specific string.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            string (str): The string to find.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: This method should be implemented by</span>
+<span class="sd">                subclasses.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
     <span class="k">def</span> <span class="nf">next</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Move the cursor to the next position.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: This method should be implemented by</span>
+<span class="sd">                subclasses.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
     <span class="k">def</span> <span class="nf">term</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve the current term.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: The current term.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: This method should be implemented by</span>
+<span class="sd">                subclasses.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
 
 <div class="viewcode-block" id="TermsReader"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.TermsReader">[docs]</a><span class="k">class</span> <span class="nc">TermsReader</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A base class for reading terms and their associated information from an index.</span>
+
+<span class="sd">    This class provides methods for retrieving terms, term frequencies, document frequencies,</span>
+<span class="sd">    and creating term matchers for querying the index.</span>
+
+<span class="sd">    Subclasses of `TermsReader` should implement the abstract methods to provide the necessary</span>
+<span class="sd">    functionality for reading terms from a specific index format.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">term</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if a term exists in the index.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            term (str): The term to check.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if the term exists in the index, False otherwise.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: If the method is not implemented by the subclass.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
-    <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="TermsReader.cursor"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.TermsReader.cursor">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">cursor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">,</span> <span class="n">fieldobj</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a cursor for iterating over the terms in a field.</span>
 
-    <span class="nd">@abstractmethod</span>
+<span class="sd">        Args:</span>
+<span class="sd">            fieldname (str): The name of the field.</span>
+<span class="sd">            fieldobj (object): The field object.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            object: A cursor object for iterating over the terms in the field.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: If the method is not implemented by the subclass.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="TermsReader.terms"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.TermsReader.terms">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">terms</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a list of all terms in the index.</span>
 
-    <span class="nd">@abstractmethod</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            list: A list of all terms in the index.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: If the method is not implemented by the subclass.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="TermsReader.terms_from"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.TermsReader.terms_from">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">terms_from</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">,</span> <span class="n">prefix</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a list of terms starting with a given prefix in a specific field.</span>
 
-    <span class="nd">@abstractmethod</span>
+<span class="sd">        Args:</span>
+<span class="sd">            fieldname (str): The name of the field.</span>
+<span class="sd">            prefix (str): The prefix to match.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list: A list of terms starting with the given prefix in the field.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: If the method is not implemented by the subclass.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="TermsReader.items"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.TermsReader.items">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">items</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a list of all (fieldname, term) pairs in the index.</span>
 
-    <span class="nd">@abstractmethod</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            list: A list of all (fieldname, term) pairs in the index.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: If the method is not implemented by the subclass.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="TermsReader.items_from"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.TermsReader.items_from">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">items_from</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">,</span> <span class="n">prefix</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a list of (fieldname, term) pairs starting with a given prefix in a specific field.</span>
 
-    <span class="nd">@abstractmethod</span>
+<span class="sd">        Args:</span>
+<span class="sd">            fieldname (str): The name of the field.</span>
+<span class="sd">            prefix (str): The prefix to match.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list: A list of (fieldname, term) pairs starting with the given prefix in the field.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: If the method is not implemented by the subclass.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="TermsReader.term_info"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.TermsReader.term_info">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">term_info</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the term information for a specific term in a field.</span>
 
-    <span class="nd">@abstractmethod</span>
+<span class="sd">        Args:</span>
+<span class="sd">            fieldname (str): The name of the field.</span>
+<span class="sd">            text (str): The term to get information for.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            object: The term information object for the specified term in the field.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: If the method is not implemented by the subclass.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="TermsReader.frequency"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.TermsReader.frequency">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">frequency</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">term_info</span><span class="p">(</span><span class="n">fieldname</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span><span class="o">.</span><span class="n">weight</span><span class="p">()</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the term frequency for a specific term in a field.</span>
 
-    <span class="nd">@abstractmethod</span>
+<span class="sd">        Args:</span>
+<span class="sd">            fieldname (str): The name of the field.</span>
+<span class="sd">            text (str): The term to get the frequency for.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            int: The term frequency for the specified term in the field.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: If the method is not implemented by the subclass.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">term_info</span><span class="p">(</span><span class="n">fieldname</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span><span class="o">.</span><span class="n">weight</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="TermsReader.doc_frequency"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.TermsReader.doc_frequency">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">doc_frequency</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">term_info</span><span class="p">(</span><span class="n">fieldname</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span><span class="o">.</span><span class="n">doc_frequency</span><span class="p">()</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the document frequency for a specific term in a field.</span>
 
-    <span class="nd">@abstractmethod</span>
+<span class="sd">        Args:</span>
+<span class="sd">            fieldname (str): The name of the field.</span>
+<span class="sd">            text (str): The term to get the document frequency for.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            int: The document frequency for the specified term in the field.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: If the method is not implemented by the subclass.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">term_info</span><span class="p">(</span><span class="n">fieldname</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span><span class="o">.</span><span class="n">doc_frequency</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="TermsReader.matcher"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.TermsReader.matcher">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">matcher</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">format_</span><span class="p">,</span> <span class="n">scorer</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a term matcher for a specific term in a field.</span>
 
-    <span class="nd">@abstractmethod</span>
+<span class="sd">        Args:</span>
+<span class="sd">            fieldname (str): The name of the field.</span>
+<span class="sd">            text (str): The term to create the matcher for.</span>
+<span class="sd">            format_ (object): The format object for the field.</span>
+<span class="sd">            scorer (object, optional): The scorer object to use for scoring the matches.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            object: A term matcher for the specified term in the field.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: If the method is not implemented by the subclass.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="TermsReader.indexed_field_names"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.TermsReader.indexed_field_names">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">indexed_field_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get a list of all field names in the index.</span>
 
-    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># This method is intentionally left empty.</span>
-        <span class="k">pass</span></div>
+<span class="sd">        Returns:</span>
+<span class="sd">            list: A list of all field names in the index.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: If the method is not implemented by the subclass.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="TermsReader.close"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.TermsReader.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Close the terms reader.</span>
+
+<span class="sd">        This method is intentionally left empty.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div></div>
 
 
 <span class="k">class</span> <span class="nc">Automata</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The Automata class provides methods for working with automata used in string matching operations.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">levenshtein_dfa</span><span class="p">(</span><span class="n">uterm</span><span class="p">,</span> <span class="n">maxdist</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generates a deterministic finite automaton (DFA) for performing approximate string matching using the Levenshtein distance algorithm.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            uterm (str): The target term to match against.</span>
+<span class="sd">            maxdist (int): The maximum allowed edit distance between the target term and the matched terms.</span>
+<span class="sd">            prefix (int, optional): The length of the common prefix between the target term and the matched terms. Defaults to 0.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            DFA: The generated DFA for performing approximate string matching.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">lev</span><span class="o">.</span><span class="n">levenshtein_automaton</span><span class="p">(</span><span class="n">uterm</span><span class="p">,</span> <span class="n">maxdist</span><span class="p">,</span> <span class="n">prefix</span><span class="p">)</span><span class="o">.</span><span class="n">to_dfa</span><span class="p">()</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">find_matches</span><span class="p">(</span><span class="n">dfa</span><span class="p">,</span> <span class="n">cur</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Finds all matches in a given cursor using a DFA.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            dfa (DFA): The DFA used for matching.</span>
+<span class="sd">            cur (Cursor): The cursor to search for matches.</span>
+
+<span class="sd">        Yields:</span>
+<span class="sd">            str: The matched terms found in the cursor.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">unull</span> <span class="o">=</span> <span class="nb">chr</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
         <span class="n">term</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">text</span><span class="p">()</span>
@@ -485,43 +1261,126 @@
             <span class="n">match</span> <span class="o">=</span> <span class="n">dfa</span><span class="o">.</span><span class="n">next_valid_string</span><span class="p">(</span><span class="n">term</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">terms_within</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldcur</span><span class="p">,</span> <span class="n">uterm</span><span class="p">,</span> <span class="n">maxdist</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Finds all terms within a given cursor that are within a specified edit distance of a target term.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            fieldcur (Cursor): The cursor representing the field to search within.</span>
+<span class="sd">            uterm (str): The target term to match against.</span>
+<span class="sd">            maxdist (int): The maximum allowed edit distance between the target term and the matched terms.</span>
+<span class="sd">            prefix (int, optional): The length of the common prefix between the target term and the matched terms. Defaults to 0.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Generator[str]: A generator that yields the matched terms found within the cursor.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">dfa</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">levenshtein_dfa</span><span class="p">(</span><span class="n">uterm</span><span class="p">,</span> <span class="n">maxdist</span><span class="p">,</span> <span class="n">prefix</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">find_matches</span><span class="p">(</span><span class="n">dfa</span><span class="p">,</span> <span class="n">fieldcur</span><span class="p">)</span>
 
 
 <span class="c1"># Per-doc value reader</span>
-
-
 <div class="viewcode-block" id="PerDocumentReader"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.PerDocumentReader">[docs]</a><span class="k">class</span> <span class="nc">PerDocumentReader</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># This method is intentionally left empty.</span>
-        <span class="k">pass</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The PerDocumentReader class represents a base class for reading per-document data in a search index.</span>
 
-    <span class="nd">@abstractmethod</span>
+<span class="sd">    This class provides methods for accessing and manipulating per-document data, such as deletions, columns, bitmaps,</span>
+<span class="sd">    lengths, vectors, and stored fields.</span>
+
+<span class="sd">    Subclasses of PerDocumentReader should implement the abstract methods to provide the specific functionality</span>
+<span class="sd">    required for a particular codec.</span>
+
+<span class="sd">    Usage:</span>
+<span class="sd">    1. Create an instance of a subclass of PerDocumentReader.</span>
+<span class="sd">    2. Use the provided methods to access and manipulate per-document data.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">    ```</span>
+<span class="sd">    reader = MyPerDocumentReader()</span>
+<span class="sd">    count = reader.doc_count()</span>
+<span class="sd">    print(f&quot;Total number of documents: {count}&quot;)</span>
+<span class="sd">    ```</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="PerDocumentReader.close"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.PerDocumentReader.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Closes the PerDocumentReader and releases any resources associated with it.</span>
+
+<span class="sd">        This method should be called when the PerDocumentReader is no longer needed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="PerDocumentReader.doc_count"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.PerDocumentReader.doc_count">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">doc_count</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the number of documents in the reader.</span>
 
-    <span class="nd">@abstractmethod</span>
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: If the method is not implemented by the subclass.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="PerDocumentReader.doc_count_all"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.PerDocumentReader.doc_count_all">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">doc_count_all</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the total number of documents, including deleted documents, in the reader.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: If the method is not implemented by the subclass.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
     <span class="c1"># Deletions</span>
 
-    <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="PerDocumentReader.has_deletions"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.PerDocumentReader.has_deletions">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">has_deletions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns True if the reader has deletions, False otherwise.</span>
 
-    <span class="nd">@abstractmethod</span>
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: If the method is not implemented by the subclass.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="PerDocumentReader.is_deleted"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.PerDocumentReader.is_deleted">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">is_deleted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">docnum</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns True if the document with the given docnum is deleted, False otherwise.</span>
 
-    <span class="nd">@abstractmethod</span>
+<span class="sd">        Args:</span>
+<span class="sd">            docnum (int): The document number.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: If the method is not implemented by the subclass.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="PerDocumentReader.deleted_docs"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.PerDocumentReader.deleted_docs">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">deleted_docs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a set of document numbers that are deleted.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: If the method is not implemented by the subclass.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 <div class="viewcode-block" id="PerDocumentReader.all_doc_ids"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.PerDocumentReader.all_doc_ids">[docs]</a>    <span class="k">def</span> <span class="nf">all_doc_ids</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns an iterator of all (undeleted) document IDs in the reader.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            An iterator of document IDs.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">        ```</span>
+<span class="sd">        for doc_id in reader.all_doc_ids():</span>
+<span class="sd">            print(doc_id)</span>
+<span class="sd">        ```</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">is_deleted</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_deleted</span>
@@ -529,74 +1388,221 @@
             <span class="n">docnum</span> <span class="k">for</span> <span class="n">docnum</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">doc_count_all</span><span class="p">())</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">is_deleted</span><span class="p">(</span><span class="n">docnum</span><span class="p">)</span>
         <span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">iter_docs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="PerDocumentReader.iter_docs"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.PerDocumentReader.iter_docs">[docs]</a>    <span class="k">def</span> <span class="nf">iter_docs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns an iterator over all (undeleted) documents in the reader.</span>
+
+<span class="sd">        Yields:</span>
+<span class="sd">            Tuple[int, dict]: A tuple containing the document number and the stored fields of the document.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">        ```</span>
+<span class="sd">        for docnum, fields in reader.iter_docs():</span>
+<span class="sd">            print(f&quot;Document {docnum}: {fields}&quot;)</span>
+<span class="sd">        ```</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="k">for</span> <span class="n">docnum</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_doc_ids</span><span class="p">():</span>
-            <span class="k">yield</span> <span class="n">docnum</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">stored_fields</span><span class="p">(</span><span class="n">docnum</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="n">docnum</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">stored_fields</span><span class="p">(</span><span class="n">docnum</span><span class="p">)</span></div>
 
     <span class="c1"># Columns</span>
 
-    <span class="k">def</span> <span class="nf">supports_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="kc">False</span>
+<div class="viewcode-block" id="PerDocumentReader.supports_columns"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.PerDocumentReader.supports_columns">[docs]</a>    <span class="k">def</span> <span class="nf">supports_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns True if the reader supports columns, False otherwise.</span>
 
-    <span class="k">def</span> <span class="nf">has_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">):</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if the reader supports columns, False otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="PerDocumentReader.has_column"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.PerDocumentReader.has_column">[docs]</a>    <span class="k">def</span> <span class="nf">has_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns True if the reader has a column with the given fieldname, False otherwise.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            fieldname (str): The name of the column field.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if the reader has the column, False otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="n">_</span> <span class="o">=</span> <span class="n">fieldname</span>  <span class="c1"># Unused argument</span>
-        <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
 
-    <span class="k">def</span> <span class="nf">list_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+<div class="viewcode-block" id="PerDocumentReader.list_columns"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.PerDocumentReader.list_columns">[docs]</a>    <span class="k">def</span> <span class="nf">list_columns</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a list of all column names in the reader.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: If the method is not implemented by the subclass.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
     <span class="c1"># Don&#39;t need to override this if supports_columns() returns False</span>
-    <span class="k">def</span> <span class="nf">column_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">,</span> <span class="n">column</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+<div class="viewcode-block" id="PerDocumentReader.column_reader"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.PerDocumentReader.column_reader">[docs]</a>    <span class="k">def</span> <span class="nf">column_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">,</span> <span class="n">column</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a reader for accessing the values in the specified column.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            fieldname (str): The name of the column field.</span>
+<span class="sd">            column (str): The name of the column.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: If the method is not implemented by the subclass.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
     <span class="c1"># Bitmaps</span>
 
-    <span class="k">def</span> <span class="nf">field_docs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">):</span>
+<div class="viewcode-block" id="PerDocumentReader.field_docs"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.PerDocumentReader.field_docs">[docs]</a>    <span class="k">def</span> <span class="nf">field_docs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the bitmap of documents that have a value for the specified field.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            fieldname (str): The name of the field.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Bitmap or None: The bitmap of documents or None if the field does not exist.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: If the method is not implemented by the subclass.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="n">_</span> <span class="o">=</span> <span class="n">fieldname</span>  <span class="c1"># Unused argument</span>
-        <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
 
     <span class="c1"># Lengths</span>
 
-    <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="PerDocumentReader.doc_field_length"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.PerDocumentReader.doc_field_length">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">doc_field_length</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">docnum</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the length of the specified field in the specified document.</span>
 
-    <span class="nd">@abstractmethod</span>
+<span class="sd">        Args:</span>
+<span class="sd">            docnum (int): The document number.</span>
+<span class="sd">            fieldname (str): The name of the field.</span>
+<span class="sd">            default (int, optional): The default length to return if the field does not exist. Defaults to 0.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: If the method is not implemented by the subclass.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="PerDocumentReader.field_length"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.PerDocumentReader.field_length">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">field_length</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the total length of the specified field across all documents.</span>
 
-    <span class="nd">@abstractmethod</span>
+<span class="sd">        Args:</span>
+<span class="sd">            fieldname (str): The name of the field.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: If the method is not implemented by the subclass.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="PerDocumentReader.min_field_length"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.PerDocumentReader.min_field_length">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">min_field_length</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the minimum length of the specified field across all documents.</span>
 
-    <span class="nd">@abstractmethod</span>
+<span class="sd">        Args:</span>
+<span class="sd">            fieldname (str): The name of the field.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: If the method is not implemented by the subclass.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="PerDocumentReader.max_field_length"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.PerDocumentReader.max_field_length">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">max_field_length</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the maximum length of the specified field across all documents.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            fieldname (str): The name of the field.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: If the method is not implemented by the subclass.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
     <span class="c1"># Vectors</span>
 
-    <span class="k">def</span> <span class="nf">has_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">docnum</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">):</span>
+<div class="viewcode-block" id="PerDocumentReader.has_vector"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.PerDocumentReader.has_vector">[docs]</a>    <span class="k">def</span> <span class="nf">has_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">docnum</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns True if the specified document has a vector for the specified field, False otherwise.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            docnum (int): The document number.</span>
+<span class="sd">            fieldname (str): The name of the field.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if the document has a vector, False otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="n">_</span> <span class="o">=</span> <span class="n">docnum</span><span class="p">,</span> <span class="n">fieldname</span>  <span class="c1"># Unused arguments</span>
-        <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
 
     <span class="c1"># Don&#39;t need to override this if has_vector() always returns False</span>
-    <span class="k">def</span> <span class="nf">vector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">docnum</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">,</span> <span class="n">format_</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+<div class="viewcode-block" id="PerDocumentReader.vector"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.PerDocumentReader.vector">[docs]</a>    <span class="k">def</span> <span class="nf">vector</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">docnum</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">,</span> <span class="n">format_</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the vector for the specified document and field.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            docnum (int): The document number.</span>
+<span class="sd">            fieldname (str): The name of the field.</span>
+<span class="sd">            format_ (str): The format of the vector.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: If the method is not implemented by the subclass.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
     <span class="c1"># Stored</span>
 
-    <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="PerDocumentReader.stored_fields"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.PerDocumentReader.stored_fields">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">stored_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">docnum</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the stored fields of the specified document.</span>
 
-    <span class="k">def</span> <span class="nf">all_stored_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="sd">        Args:</span>
+<span class="sd">            docnum (int): The document number.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: If the method is not implemented by the subclass.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="PerDocumentReader.all_stored_fields"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.PerDocumentReader.all_stored_fields">[docs]</a>    <span class="k">def</span> <span class="nf">all_stored_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns an iterator over the stored fields of all (undeleted) documents in the reader.</span>
+
+<span class="sd">        Yields:</span>
+<span class="sd">            dict: The stored fields of a document.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">        ```</span>
+<span class="sd">        for fields in reader.all_stored_fields():</span>
+<span class="sd">            print(fields)</span>
+<span class="sd">        ```</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="k">for</span> <span class="n">docnum</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_doc_ids</span><span class="p">():</span>
-            <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">stored_fields</span><span class="p">(</span><span class="n">docnum</span><span class="p">)</span></div>
+            <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">stored_fields</span><span class="p">(</span><span class="n">docnum</span><span class="p">)</span></div></div>
 
 
 <span class="c1"># Segment base class</span>
-
-
 <div class="viewcode-block" id="Segment"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.Segment">[docs]</a><span class="k">class</span> <span class="nc">Segment</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Do not instantiate this object directly. It is used by the Index object</span>
 <span class="sd">    to hold information about a segment. A list of objects of this class are</span>
@@ -618,81 +1624,157 @@
     <span class="c1"># self.segid</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indexname</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes a Segment object.</span>
+
+<span class="sd">        :param indexname: The name of the index.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">indexname</span> <span class="o">=</span> <span class="n">indexname</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">segid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_random_id</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">compound</span> <span class="o">=</span> <span class="kc">False</span>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">_random_id</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">16</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generates a random ID for the segment.</span>
+
+<span class="sd">        :param size: The size of the random ID. Default is 16.</span>
+<span class="sd">        :return: The random ID.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">random_name</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a string representation of the Segment object.</span>
+
+<span class="sd">        :return: The string representation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">segment_id</span><span class="p">()</span><span class="si">}</span><span class="s2">&gt;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks if two Segment objects are equal.</span>
+
+<span class="sd">        :param other: The other Segment object to compare.</span>
+<span class="sd">        :return: True if the objects are equal, False otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">segment_id</span><span class="p">()</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">segment_id</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the hash value of the Segment object.</span>
+
+<span class="sd">        :return: The hash value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">hash</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">segment_id</span><span class="p">())</span>
 
-    <span class="k">def</span> <span class="nf">codec</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+<div class="viewcode-block" id="Segment.codec"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.Segment.codec">[docs]</a>    <span class="k">def</span> <span class="nf">codec</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the codec used by the segment.</span>
 
-    <span class="k">def</span> <span class="nf">index_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">indexname</span>
+<span class="sd">        :return: The codec used by the segment.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-    <span class="k">def</span> <span class="nf">segment_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Segment.index_name"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.Segment.index_name">[docs]</a>    <span class="k">def</span> <span class="nf">index_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the name of the index.</span>
+
+<span class="sd">        :return: The name of the index.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">indexname</span></div>
+
+<div class="viewcode-block" id="Segment.segment_id"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.Segment.segment_id">[docs]</a>    <span class="k">def</span> <span class="nf">segment_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the ID of the segment.</span>
+
+<span class="sd">        :return: The ID of the segment.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">):</span>
             <span class="c1"># Old segment class</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">index_name</span><span class="p">()</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">segid</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">index_name</span><span class="p">()</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">segid</span><span class="si">}</span><span class="s2">&quot;</span></div>
 
-    <span class="k">def</span> <span class="nf">is_compound</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Segment.is_compound"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.Segment.is_compound">[docs]</a>    <span class="k">def</span> <span class="nf">is_compound</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks if the segment is a compound segment.</span>
+
+<span class="sd">        :return: True if the segment is compound, False otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;compound&quot;</span><span class="p">):</span>
             <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">compound</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">compound</span></div>
 
     <span class="c1"># File convenience methods</span>
 
-    <span class="k">def</span> <span class="nf">make_filename</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ext</span><span class="p">):</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">segment_id</span><span class="p">()</span><span class="si">}{</span><span class="n">ext</span><span class="si">}</span><span class="s2">&quot;</span>
+<div class="viewcode-block" id="Segment.make_filename"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.Segment.make_filename">[docs]</a>    <span class="k">def</span> <span class="nf">make_filename</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ext</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a filename for the segment with the given extension.</span>
 
-    <span class="k">def</span> <span class="nf">list_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage</span><span class="p">):</span>
+<span class="sd">        :param ext: The extension of the filename.</span>
+<span class="sd">        :return: The filename.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">segment_id</span><span class="p">()</span><span class="si">}{</span><span class="n">ext</span><span class="si">}</span><span class="s2">&quot;</span></div>
+
+<div class="viewcode-block" id="Segment.list_files"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.Segment.list_files">[docs]</a>    <span class="k">def</span> <span class="nf">list_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Lists the files associated with the segment in the given storage.</span>
+
+<span class="sd">        :param storage: The storage object.</span>
+<span class="sd">        :return: A list of file names.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">prefix</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">segment_id</span><span class="p">()</span><span class="si">}</span><span class="s2">.&quot;</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">storage</span><span class="o">.</span><span class="n">list</span><span class="p">()</span> <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">prefix</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">storage</span><span class="o">.</span><span class="n">list</span><span class="p">()</span> <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">prefix</span><span class="p">)]</span></div>
 
 <div class="viewcode-block" id="Segment.create_file"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.Segment.create_file">[docs]</a>    <span class="k">def</span> <span class="nf">create_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage</span><span class="p">,</span> <span class="n">ext</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convenience method to create a new file in the given storage named</span>
-<span class="sd">        with this segment&#39;s ID and the given extension. Any keyword arguments</span>
-<span class="sd">        are passed to the storage&#39;s create_file method.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a new file in the given storage with the segment&#39;s ID and the given extension.</span>
 
+<span class="sd">        :param storage: The storage object.</span>
+<span class="sd">        :param ext: The extension of the file.</span>
+<span class="sd">        :param kwargs: Additional keyword arguments passed to the storage&#39;s create_file method.</span>
+<span class="sd">        :return: The created file object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">fname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_filename</span><span class="p">(</span><span class="n">ext</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">storage</span><span class="o">.</span><span class="n">create_file</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Segment.open_file"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.Segment.open_file">[docs]</a>    <span class="k">def</span> <span class="nf">open_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage</span><span class="p">,</span> <span class="n">ext</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convenience method to open a file in the given storage named with</span>
-<span class="sd">        this segment&#39;s ID and the given extension. Any keyword arguments are</span>
-<span class="sd">        passed to the storage&#39;s open_file method.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Opens a file in the given storage with the segment&#39;s ID and the given extension.</span>
 
+<span class="sd">        :param storage: The storage object.</span>
+<span class="sd">        :param ext: The extension of the file.</span>
+<span class="sd">        :param kwargs: Additional keyword arguments passed to the storage&#39;s open_file method.</span>
+<span class="sd">        :return: The opened file object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">fname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_filename</span><span class="p">(</span><span class="n">ext</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">storage</span><span class="o">.</span><span class="n">open_file</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">create_compound_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage</span><span class="p">):</span>
+<div class="viewcode-block" id="Segment.create_compound_file"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.Segment.create_compound_file">[docs]</a>    <span class="k">def</span> <span class="nf">create_compound_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a compound file in the given storage by combining the segment&#39;s files.</span>
+
+<span class="sd">        :param storage: The storage object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">segfiles</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">list_files</span><span class="p">(</span><span class="n">storage</span><span class="p">)</span>
         <span class="k">assert</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">COMPOUND_EXT</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">segfiles</span><span class="p">)</span>
         <span class="n">cfile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_file</span><span class="p">(</span><span class="n">storage</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">COMPOUND_EXT</span><span class="p">)</span>
         <span class="n">CompoundStorage</span><span class="o">.</span><span class="n">assemble</span><span class="p">(</span><span class="n">cfile</span><span class="p">,</span> <span class="n">storage</span><span class="p">,</span> <span class="n">segfiles</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">segfiles</span><span class="p">:</span>
             <span class="n">storage</span><span class="o">.</span><span class="n">delete_file</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">compound</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compound</span> <span class="o">=</span> <span class="kc">True</span></div>
 
-    <span class="k">def</span> <span class="nf">open_compound_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage</span><span class="p">):</span>
+<div class="viewcode-block" id="Segment.open_compound_file"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.Segment.open_compound_file">[docs]</a>    <span class="k">def</span> <span class="nf">open_compound_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Opens the compound file associated with the segment in the given storage.</span>
+
+<span class="sd">        :param storage: The storage object.</span>
+<span class="sd">        :return: The opened compound file object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_filename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">COMPOUND_EXT</span><span class="p">)</span>
         <span class="n">dbfile</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">open_file</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">CompoundStorage</span><span class="p">(</span><span class="n">dbfile</span><span class="p">,</span> <span class="n">use_mmap</span><span class="o">=</span><span class="n">storage</span><span class="o">.</span><span class="n">supports_mmap</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">CompoundStorage</span><span class="p">(</span><span class="n">dbfile</span><span class="p">,</span> <span class="n">use_mmap</span><span class="o">=</span><span class="n">storage</span><span class="o">.</span><span class="n">supports_mmap</span><span class="p">)</span></div>
 
     <span class="c1"># Abstract methods</span>
 
@@ -702,24 +1784,28 @@
 <span class="sd">        Returns the total number of documents, DELETED OR UNDELETED, in this</span>
 <span class="sd">        segment.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 <div class="viewcode-block" id="Segment.doc_count"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.Segment.doc_count">[docs]</a>    <span class="k">def</span> <span class="nf">doc_count</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the number of (undeleted) documents in this segment.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">doc_count_all</span><span class="p">()</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">deleted_count</span><span class="p">()</span></div>
 
-    <span class="k">def</span> <span class="nf">set_doc_count</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doccount</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+<div class="viewcode-block" id="Segment.set_doc_count"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.Segment.set_doc_count">[docs]</a>    <span class="k">def</span> <span class="nf">set_doc_count</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doccount</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the number of documents in the segment.</span>
+
+<span class="sd">        :param doccount: The number of documents.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 <div class="viewcode-block" id="Segment.has_deletions"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.Segment.has_deletions">[docs]</a>    <span class="k">def</span> <span class="nf">has_deletions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns True if any documents in this segment are deleted.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        Checks if any documents in this segment are deleted.</span>
 
+<span class="sd">        :return: True if there are deleted documents, False otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">deleted_count</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span></div>
 
 <div class="viewcode-block" id="Segment.deleted_count"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.Segment.deleted_count">[docs]</a>    <span class="nd">@abstractmethod</span>
@@ -727,106 +1813,308 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the total number of deleted documents in this segment.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-    <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="Segment.deleted_docs"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.Segment.deleted_docs">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">deleted_docs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a list of deleted document numbers in this segment.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 <div class="viewcode-block" id="Segment.delete_document"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.Segment.delete_document">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">delete_document</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">docnum</span><span class="p">,</span> <span class="n">delete</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Deletes the given document number. The document is not actually</span>
-<span class="sd">        removed from the index until it is optimized.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Deletes or undeletes the given document number.</span>
 
-<span class="sd">        :param docnum: The document number to delete.</span>
-<span class="sd">        :param delete: If False, this undeletes a deleted document.</span>
+<span class="sd">        :param docnum: The document number to delete or undelete.</span>
+<span class="sd">        :param delete: If False, undeletes the document. Default is True.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 <div class="viewcode-block" id="Segment.is_deleted"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.Segment.is_deleted">[docs]</a>    <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">is_deleted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">docnum</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns True if the given document number is deleted.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        Checks if the given document number is deleted.</span>
 
+<span class="sd">        :param docnum: The document number.</span>
+<span class="sd">        :return: True if the document is deleted, False otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
-    <span class="k">def</span> <span class="nf">should_assemble</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="kc">True</span></div>
+<div class="viewcode-block" id="Segment.should_assemble"><a class="viewcode-back" href="../../../api/codec/base.html#whoosh.codec.base.Segment.should_assemble">[docs]</a>    <span class="k">def</span> <span class="nf">should_assemble</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks if the segment should be assembled.</span>
+
+<span class="sd">        :return: True if the segment should be assembled, False otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">True</span></div></div>
 
 
 <span class="c1"># Wrapping Segment</span>
-
-
 <span class="k">class</span> <span class="nc">WrappingSegment</span><span class="p">(</span><span class="n">Segment</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A segment that wraps another segment.</span>
+
+<span class="sd">    This class serves as a wrapper around another segment, providing a way to modify or extend its behavior.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        child (Segment): The segment to be wrapped.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">child</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_child</span> <span class="o">=</span> <span class="n">child</span>
 
     <span class="k">def</span> <span class="nf">codec</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the codec used by the wrapped segment.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Codec: The codec used by the wrapped segment.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_child</span><span class="o">.</span><span class="n">codec</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">index_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the name of the index associated with the wrapped segment.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: The name of the index associated with the wrapped segment.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_child</span><span class="o">.</span><span class="n">index_name</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">segment_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the unique identifier of the wrapped segment.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: The unique identifier of the wrapped segment.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_child</span><span class="o">.</span><span class="n">segment_id</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">is_compound</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check if the wrapped segment is a compound segment.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if the wrapped segment is a compound segment, False otherwise.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_child</span><span class="o">.</span><span class="n">is_compound</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">should_assemble</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check if the wrapped segment should be assembled.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if the wrapped segment should be assembled, False otherwise.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_child</span><span class="o">.</span><span class="n">should_assemble</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">make_filename</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ext</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate a filename for the wrapped segment with the given extension.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            ext (str): The file extension.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: The generated filename for the wrapped segment.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_child</span><span class="o">.</span><span class="n">make_filename</span><span class="p">(</span><span class="n">ext</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">list_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        List all files associated with the wrapped segment in the given storage.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            storage: The storage object.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list: A list of filenames associated with the wrapped segment.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_child</span><span class="o">.</span><span class="n">list_files</span><span class="p">(</span><span class="n">storage</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">create_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage</span><span class="p">,</span> <span class="n">ext</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a new file for the wrapped segment with the given extension.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            storage: The storage object.</span>
+<span class="sd">            ext (str): The file extension.</span>
+<span class="sd">            **kwargs: Additional keyword arguments.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            File: The created file object.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_child</span><span class="o">.</span><span class="n">create_file</span><span class="p">(</span><span class="n">storage</span><span class="p">,</span> <span class="n">ext</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">open_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage</span><span class="p">,</span> <span class="n">ext</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Open an existing file for the wrapped segment with the given extension.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            storage: The storage object.</span>
+<span class="sd">            ext (str): The file extension.</span>
+<span class="sd">            **kwargs: Additional keyword arguments.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            File: The opened file object.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_child</span><span class="o">.</span><span class="n">open_file</span><span class="p">(</span><span class="n">storage</span><span class="p">,</span> <span class="n">ext</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">create_compound_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a compound file for the wrapped segment in the given storage.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            storage: The storage object.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            CompoundFile: The created compound file object.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_child</span><span class="o">.</span><span class="n">create_compound_file</span><span class="p">(</span><span class="n">storage</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">open_compound_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">storage</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Open a compound file for the wrapped segment in the given storage.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            storage: The storage object.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            CompoundFile: The opened compound file object.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_child</span><span class="o">.</span><span class="n">open_compound_file</span><span class="p">(</span><span class="n">storage</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">delete_document</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">docnum</span><span class="p">,</span> <span class="n">delete</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Delete a document from the wrapped segment.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            docnum (int): The document number.</span>
+<span class="sd">            delete (bool): Whether to mark the document as deleted or not. Default is True.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if the document was successfully deleted, False otherwise.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_child</span><span class="o">.</span><span class="n">delete_document</span><span class="p">(</span><span class="n">docnum</span><span class="p">,</span> <span class="n">delete</span><span class="o">=</span><span class="n">delete</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">has_deletions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check if the wrapped segment has any deleted documents.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if the wrapped segment has deleted documents, False otherwise.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_child</span><span class="o">.</span><span class="n">has_deletions</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">deleted_count</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the number of deleted documents in the wrapped segment.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            int: The number of deleted documents.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_child</span><span class="o">.</span><span class="n">deleted_count</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">deleted_docs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get a list of deleted document numbers in the wrapped segment.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list: A list of deleted document numbers.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_child</span><span class="o">.</span><span class="n">deleted_docs</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">is_deleted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">docnum</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check if a document with the given number is deleted in the wrapped segment.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            docnum (int): The document number.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if the document is deleted, False otherwise.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_child</span><span class="o">.</span><span class="n">is_deleted</span><span class="p">(</span><span class="n">docnum</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">set_doc_count</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doccount</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the total number of documents in the wrapped segment.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            doccount (int): The total number of documents.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_child</span><span class="o">.</span><span class="n">set_doc_count</span><span class="p">(</span><span class="n">doccount</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">doc_count</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the total number of documents in the wrapped segment.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            int: The total number of documents.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_child</span><span class="o">.</span><span class="n">doc_count</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">doc_count_all</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the total number of documents, including deleted ones, in the wrapped segment.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            int: The total number of documents.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_child</span><span class="o">.</span><span class="n">doc_count_all</span><span class="p">()</span>
 
 
 <span class="c1"># Multi per doc reader</span>
-
-
 <span class="k">class</span> <span class="nc">MultiPerDocumentReader</span><span class="p">(</span><span class="n">PerDocumentReader</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A reader that combines multiple per-document readers into a single reader.</span>
+
+<span class="sd">    This class is used to read documents from multiple per-document readers and present them as a single reader.</span>
+<span class="sd">    It provides methods to access document counts, check for deletions, access columns, and retrieve field lengths.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    - readers (list): A list of per-document readers to be combined.</span>
+<span class="sd">    - offset (int): The offset to be applied to the document numbers of each reader.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">    - _readers (list): The list of per-document readers.</span>
+<span class="sd">    - _doc_offsets (list): The list of document offsets for each reader.</span>
+<span class="sd">    - _doccount (int): The total number of documents across all readers.</span>
+<span class="sd">    - is_closed (bool): Indicates whether the reader is closed.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">readers</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes a MultiPerDocumentReader instance.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        - readers (list): A list of per-document readers to be combined.</span>
+<span class="sd">        - offset (int): The offset to be applied to the document numbers of each reader.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_readers</span> <span class="o">=</span> <span class="n">readers</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_doc_offsets</span> <span class="o">=</span> <span class="p">[]</span>
@@ -838,52 +2126,141 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">is_closed</span> <span class="o">=</span> <span class="kc">False</span>
 
     <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Closes the reader and releases any resources.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_readers</span><span class="p">:</span>
             <span class="n">r</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">is_closed</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="k">def</span> <span class="nf">doc_count_all</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the total number of documents across all readers.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        - int: The total number of documents.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_doccount</span>
 
     <span class="k">def</span> <span class="nf">doc_count</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the number of non-deleted documents across all readers.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        - int: The number of non-deleted documents.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_readers</span><span class="p">:</span>
             <span class="n">total</span> <span class="o">+=</span> <span class="n">r</span><span class="o">.</span><span class="n">doc_count</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">total</span>
 
     <span class="k">def</span> <span class="nf">_document_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">docnum</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the index of the reader that contains the specified document number.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        - docnum (int): The document number.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        - int: The index of the reader.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">bisect_right</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_doc_offsets</span><span class="p">,</span> <span class="n">docnum</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_reader_and_docnum</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">docnum</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the reader index and the document number within the reader for the specified document number.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        - docnum (int): The document number.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        - tuple: A tuple containing the reader index and the document number within the reader.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">rnum</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_document_reader</span><span class="p">(</span><span class="n">docnum</span><span class="p">)</span>
         <span class="n">offset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_doc_offsets</span><span class="p">[</span><span class="n">rnum</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">rnum</span><span class="p">,</span> <span class="n">docnum</span> <span class="o">-</span> <span class="n">offset</span>
 
-    <span class="c1"># Deletions</span>
-
     <span class="k">def</span> <span class="nf">has_deletions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks if any of the readers have deletions.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        - bool: True if any of the readers have deletions, False otherwise.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">any</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">has_deletions</span><span class="p">()</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_readers</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">is_deleted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">docnum</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks if the specified document number is deleted.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        - docnum (int): The document number.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        - bool: True if the document is deleted, False otherwise.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reader_and_docnum</span><span class="p">(</span><span class="n">docnum</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_readers</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">.</span><span class="n">is_deleted</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">deleted_docs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Yields the document numbers of all deleted documents across all readers.</span>
+
+<span class="sd">        Yields:</span>
+<span class="sd">        - int: The document number of a deleted document.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">r</span><span class="p">,</span> <span class="n">offset</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_readers</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_doc_offsets</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">docnum</span> <span class="ow">in</span> <span class="n">r</span><span class="o">.</span><span class="n">deleted_docs</span><span class="p">():</span>
                 <span class="k">yield</span> <span class="n">docnum</span> <span class="o">+</span> <span class="n">offset</span>
 
     <span class="k">def</span> <span class="nf">all_doc_ids</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Yields all document numbers across all readers.</span>
+
+<span class="sd">        Yields:</span>
+<span class="sd">        - int: The document number.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">r</span><span class="p">,</span> <span class="n">offset</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_readers</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_doc_offsets</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">docnum</span> <span class="ow">in</span> <span class="n">r</span><span class="o">.</span><span class="n">all_doc_ids</span><span class="p">():</span>
                 <span class="k">yield</span> <span class="n">docnum</span> <span class="o">+</span> <span class="n">offset</span>
 
-    <span class="c1"># Columns</span>
-
     <span class="k">def</span> <span class="nf">has_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks if any of the readers have the specified column.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        - fieldname (str): The name of the column.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        - bool: True if any of the readers have the column, False otherwise.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">any</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">has_column</span><span class="p">(</span><span class="n">fieldname</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_readers</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">column_reader</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">,</span> <span class="n">column</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a column reader for the specified fieldname and column.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        - fieldname (str): The name of the field.</span>
+<span class="sd">        - column (Column): The column object.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        - ColumnReader: The column reader.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">        - ValueError: If none of the readers have the specified column.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_column</span><span class="p">(</span><span class="n">fieldname</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No column </span><span class="si">{</span><span class="n">fieldname</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
 
@@ -901,74 +2278,215 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">columns</span><span class="o">.</span><span class="n">MultiColumnReader</span><span class="p">(</span><span class="n">colreaders</span><span class="p">)</span>
 
-    <span class="c1"># Lengths</span>
-
     <span class="k">def</span> <span class="nf">doc_field_length</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">docnum</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the length of the specified field in the specified document.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        - docnum (int): The document number.</span>
+<span class="sd">        - fieldname (str): The name of the field.</span>
+<span class="sd">        - default (int): The default value to return if the field is not found.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        - int: The length of the field in the document.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_reader_and_docnum</span><span class="p">(</span><span class="n">docnum</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_readers</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">.</span><span class="n">doc_field_length</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">,</span> <span class="n">default</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">field_length</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the total length of the specified field across all readers.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        - fieldname (str): The name of the field.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        - int: The total length of the field.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_readers</span><span class="p">:</span>
             <span class="n">total</span> <span class="o">+=</span> <span class="n">r</span><span class="o">.</span><span class="n">field_length</span><span class="p">(</span><span class="n">fieldname</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">total</span>
 
     <span class="k">def</span> <span class="nf">min_field_length</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the minimum field length across all readers.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        - int: The minimum field length.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">min_field_length</span><span class="p">()</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_readers</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">max_field_length</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the maximum field length across all readers.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        - int: The maximum field length.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">max_field_length</span><span class="p">()</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_readers</span><span class="p">)</span>
 
 
 <span class="c1"># Extended base classes</span>
-
-
 <span class="k">class</span> <span class="nc">PerDocWriterWithColumns</span><span class="p">(</span><span class="n">PerDocumentWriter</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A subclass of PerDocumentWriter that supports columns for storing additional data per document.</span>
+
+<span class="sd">    This class provides methods for adding and retrieving column values for a given fieldname.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        _storage (object): The storage object used for storing the column data.</span>
+<span class="sd">        _segment (object): The segment object representing the current segment.</span>
+<span class="sd">        _docnum (int): The document number.</span>
+
+<span class="sd">    Methods:</span>
+<span class="sd">        _has_column(fieldname): Checks if a column with the given fieldname exists.</span>
+<span class="sd">        _create_column(fieldname, column): Creates a new column with the given fieldname and column object.</span>
+<span class="sd">        _get_column(fieldname): Retrieves the column object for the given fieldname.</span>
+<span class="sd">        add_column_value(fieldname, column, value): Adds a value to the column for the given fieldname.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">PerDocumentWriter</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="c1"># Implementations need to set these attributes</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_storage</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_segment</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_docnum</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">_has_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks if a column with the given fieldname exists.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            fieldname (str): The name of the field.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if the column exists, False otherwise.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: This method should be implemented by subclasses.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">_create_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">,</span> <span class="n">column</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a new column with the given fieldname and column object.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            fieldname (str): The name of the field.</span>
+<span class="sd">            column (object): The column object.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: This method should be implemented by subclasses.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
     <span class="nd">@abstractmethod</span>
     <span class="k">def</span> <span class="nf">_get_column</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retrieves the column object for the given fieldname.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            fieldname (str): The name of the field.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            object: The column object.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: This method should be implemented by subclasses.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
     <span class="k">def</span> <span class="nf">add_column_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds a value to the column for the given fieldname.</span>
+
+<span class="sd">        If the column does not exist, it will be created.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            fieldname (str): The name of the field.</span>
+<span class="sd">            column (object): The column object.</span>
+<span class="sd">            value (object): The value to be added to the column.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_has_column</span><span class="p">(</span><span class="n">fieldname</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_create_column</span><span class="p">(</span><span class="n">fieldname</span><span class="p">,</span> <span class="n">column</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_get_column</span><span class="p">(</span><span class="n">fieldname</span><span class="p">)</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_docnum</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
 
 
 <span class="c1"># FieldCursor implementations</span>
-
-
 <span class="k">class</span> <span class="nc">EmptyCursor</span><span class="p">(</span><span class="n">FieldCursor</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A cursor implementation that represents an empty cursor.</span>
+
+<span class="sd">    This cursor is used when there are no matching terms in the index.</span>
+<span class="sd">    It provides methods to navigate through the non-existent terms and</span>
+<span class="sd">    retrieve information about them.</span>
+
+<span class="sd">    Note: This class is intended for internal use within the Whoosh library</span>
+<span class="sd">    and should not be instantiated directly by users.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="nf">first</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Move the cursor to the first term.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None: Always returns None as there are no terms to move to.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="nf">find</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">term</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find a specific term in the index.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            term (str): The term to find.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None: Always returns None as the term does not exist.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="nf">next</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Move the cursor to the next term.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None: Always returns None as there are no terms to move to.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="nf">text</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the text of the current term.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None: Always returns None as there are no terms.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="nf">term_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get information about the current term.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None: Always returns None as there are no terms.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="nf">is_valid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if the cursor is valid.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: Always returns False as the cursor is not valid.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="kc">False</span>
 </pre></div>
 

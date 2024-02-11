@@ -143,27 +143,49 @@
 <span class="sd">    The ``keep_compound`` argument lets you decide whether to keep the</span>
 <span class="sd">    compound word in the token stream along with the word segments.</span>
 
-<span class="sd">    &gt;&gt;&gt; cwf = CompoundWordFilter(wordset, keep_compound=True)</span>
-<span class="sd">    &gt;&gt;&gt; analyzer = RegexTokenizer(r&quot;\S+&quot;) | cwf</span>
-<span class="sd">    &gt;&gt;&gt; [t.text for t in analyzer(&quot;I do not like greeneggs and ham&quot;)</span>
-<span class="sd">    [&quot;I&quot;, &quot;do&quot;, &quot;not&quot;, &quot;like&quot;, &quot;greeneggs&quot;, &quot;green&quot;, &quot;eggs&quot;, &quot;and&quot;, &quot;ham&quot;]</span>
-<span class="sd">    &gt;&gt;&gt; cwf.keep_compound = False</span>
-<span class="sd">    &gt;&gt;&gt; [t.text for t in analyzer(&quot;I do not like greeneggs and ham&quot;)</span>
-<span class="sd">    [&quot;I&quot;, &quot;do&quot;, &quot;not&quot;, &quot;like&quot;, &quot;green&quot;, &quot;eggs&quot;, &quot;and&quot;, &quot;ham&quot;]</span>
+<span class="sd">    Args:</span>
+<span class="sd">        wordset (object): An object with a ``__contains__`` method, such as a</span>
+<span class="sd">            set, containing strings to look for inside the tokens.</span>
+<span class="sd">        keep_compound (bool, optional): If True (the default), the original compound</span>
+<span class="sd">            token will be retained in the stream before the subwords.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; cwf = CompoundWordFilter(wordset, keep_compound=True)</span>
+<span class="sd">        &gt;&gt;&gt; analyzer = RegexTokenizer(r&quot;\S+&quot;) | cwf</span>
+<span class="sd">        &gt;&gt;&gt; [t.text for t in analyzer(&quot;I do not like greeneggs and ham&quot;)]</span>
+<span class="sd">        [&quot;I&quot;, &quot;do&quot;, &quot;not&quot;, &quot;like&quot;, &quot;greeneggs&quot;, &quot;green&quot;, &quot;eggs&quot;, &quot;and&quot;, &quot;ham&quot;]</span>
+<span class="sd">        &gt;&gt;&gt; cwf.keep_compound = False</span>
+<span class="sd">        &gt;&gt;&gt; [t.text for t in analyzer(&quot;I do not like greeneggs and ham&quot;)]</span>
+<span class="sd">        [&quot;I&quot;, &quot;do&quot;, &quot;not&quot;, &quot;like&quot;, &quot;green&quot;, &quot;eggs&quot;, &quot;and&quot;, &quot;ham&quot;]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wordset</span><span class="p">,</span> <span class="n">keep_compound</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        :param wordset: an object with a ``__contains__`` method, such as a</span>
-<span class="sd">            set, containing strings to look for inside the tokens.</span>
-<span class="sd">        :param keep_compound: if True (the default), the original compound</span>
-<span class="sd">            token will be retained in the stream before the subwords.</span>
+<span class="sd">        Initialize the CompoundWordFilter.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            wordset (object): An object with a ``__contains__`` method, such as a</span>
+<span class="sd">                set, containing strings to look for inside the tokens.</span>
+<span class="sd">            keep_compound (bool, optional): If True (the default), the original compound</span>
+<span class="sd">                token will be retained in the stream before the subwords.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">wordset</span> <span class="o">=</span> <span class="n">wordset</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">keep_compound</span> <span class="o">=</span> <span class="n">keep_compound</span>
 
     <span class="k">def</span> <span class="nf">subwords</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">memo</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Recursively break a compound word into its individual parts.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            s (str): The compound word to be broken down.</span>
+<span class="sd">            memo (dict): A dictionary to store previously computed subwords.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list or None: A list of subwords if the compound word can be broken down,</span>
+<span class="sd">                None otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="k">if</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">wordset</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[</span><span class="n">s</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">memo</span><span class="p">:</span>
@@ -182,6 +204,16 @@
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tokens</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Apply the CompoundWordFilter to a stream of tokens.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            tokens (iterable): The input stream of tokens.</span>
+
+<span class="sd">        Yields:</span>
+<span class="sd">            Token: The modified tokens after applying the filter.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="n">keep_compound</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">keep_compound</span>
         <span class="n">memo</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">subwords</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">subwords</span>
@@ -198,27 +230,45 @@
 
 
 <div class="viewcode-block" id="BiWordFilter"><a class="viewcode-back" href="../../../api/analysis.html#whoosh.analysis.BiWordFilter">[docs]</a><span class="k">class</span> <span class="nc">BiWordFilter</span><span class="p">(</span><span class="n">Filter</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Merges adjacent tokens into &quot;bi-word&quot; tokens, so that for example::</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Merges adjacent tokens into &quot;bi-word&quot; tokens.</span>
 
-<span class="sd">        &quot;the&quot;, &quot;sign&quot;, &quot;of&quot;, &quot;four&quot;</span>
+<span class="sd">    This filter merges adjacent tokens into &quot;bi-word&quot; tokens. For example, the tokens</span>
+<span class="sd">    &quot;the&quot;, &quot;sign&quot;, &quot;of&quot;, &quot;four&quot; would be transformed into &quot;the-sign&quot;, &quot;sign-of&quot;, &quot;of-four&quot;.</span>
 
-<span class="sd">    becomes::</span>
+<span class="sd">    Bi-word tokens can be used to create fields for pseudo-phrase searching. If all the</span>
+<span class="sd">    terms in a query match the document, it probably contains the phrase. Using bi-word</span>
+<span class="sd">    tokens can make the searching faster than actually doing a phrase search on individual</span>
+<span class="sd">    word terms.</span>
 
-<span class="sd">        &quot;the-sign&quot;, &quot;sign-of&quot;, &quot;of-four&quot;</span>
+<span class="sd">    The `BiWordFilter` is much faster than using the otherwise equivalent `ShingleFilter(2)`.</span>
 
-<span class="sd">    This can be used to create fields for pseudo-phrase searching, where if</span>
-<span class="sd">    all the terms match the document probably contains the phrase, but the</span>
-<span class="sd">    searching is faster than actually doing a phrase search on individual word</span>
-<span class="sd">    terms.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        sep (str): The separator to use when merging adjacent tokens. Default is &quot;-&quot;.</span>
 
-<span class="sd">    The ``BiWordFilter`` is much faster than using the otherwise equivalent</span>
-<span class="sd">    ``ShingleFilter(2)``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes the IntrawordFilter with the specified separator character.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            sep (str): The separator character used to split words. Defaults to &quot;-&quot;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sep</span> <span class="o">=</span> <span class="n">sep</span>
 
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tokens</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Merges adjacent tokens into bi-word tokens.</span>
+
+<span class="sd">        This method takes a stream of tokens and merges adjacent tokens into &quot;bi-word&quot; tokens.</span>
+<span class="sd">        It yields the bi-word tokens as it iterates through the input token stream.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            tokens (iterable): The input token stream.</span>
+
+<span class="sd">        Yields:</span>
+<span class="sd">            Token: The bi-word tokens.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">sep</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sep</span>
         <span class="n">prev_text</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">prev_startchar</span> <span class="o">=</span> <span class="kc">None</span>
@@ -433,6 +483,15 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">mergenums</span> <span class="o">=</span> <span class="n">mergenums</span>
 
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check if this object is equal to another object.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            other: The object to compare with.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if the objects are equal, False otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="n">other</span>
             <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="n">other</span><span class="o">.</span><span class="vm">__class__</span>
@@ -440,6 +499,16 @@
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_split</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Splits the given string into indexable substrings based on the specified boundaries.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            string (str): The input string to be split.</span>
+
+<span class="sd">        Yields:</span>
+<span class="sd">            tuple: A tuple containing the start and end indices of each indexable substring.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">bound</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">boundary</span>
 
         <span class="c1"># Yields (startchar, endchar) pairs for each indexable substring in</span>
@@ -491,6 +560,21 @@
                     <span class="k">yield</span> <span class="p">(</span><span class="n">part_start</span><span class="p">,</span> <span class="n">part_end</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_merge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parts</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Merges consecutive parts in the given list based on their type (alpha or digit).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            parts (list): The list of parts to be merged. Each part is a tuple of the form (text, pos, startchar, endchar).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None. The original list of parts is modified in-place.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            parts = [(&#39;hello&#39;, 0, 0, 4), (&#39;world&#39;, 1, 6, 10), (&#39;123&#39;, 2, 12, 14)]</span>
+<span class="sd">            _merge(parts)</span>
+<span class="sd">            print(parts)</span>
+<span class="sd">            # Output: [(&#39;helloworld&#39;, 0, 0, 10), (&#39;123&#39;, 2, 12, 14)]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">mergewords</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mergewords</span>
         <span class="n">mergenums</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mergenums</span>
 
@@ -549,6 +633,18 @@
             <span class="n">insert_item</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">parts</span><span class="p">),</span> <span class="n">pos</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tokens</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Applies the intraword filter to the given tokens.</span>
+
+<span class="sd">        This filter renumbers tokens as it expands them. It splits tokens on delimiters, word and/or number boundaries,</span>
+<span class="sd">        and merges consecutive runs of all-letters and/or all-numbers if the options are set.</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        - tokens (list): The list of tokens to be processed.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        - generator: A generator that yields the processed tokens.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">mergewords</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mergewords</span>
         <span class="n">mergenums</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mergenums</span>
 

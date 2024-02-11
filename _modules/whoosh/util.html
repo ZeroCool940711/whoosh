@@ -144,25 +144,72 @@
     <span class="n">now</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span>
 
 
-<span class="k">def</span> <span class="nf">random_name</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">28</span><span class="p">):</span>
-    <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">IDCHARS</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">))</span>
+<div class="viewcode-block" id="random_name"><a class="viewcode-back" href="../../api/util.html#whoosh.util.random_name">[docs]</a><span class="k">def</span> <span class="nf">random_name</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">28</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generates a random name consisting of alphanumeric characters.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    - size (int): The length of the random name to generate. Default is 28.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    - str: The randomly generated name.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">IDCHARS</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">))</span></div>
 
 
-<span class="k">def</span> <span class="nf">random_bytes</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">28</span><span class="p">):</span>
-    <span class="k">return</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">))</span>
+<div class="viewcode-block" id="random_bytes"><a class="viewcode-back" href="../../api/util.html#whoosh.util.random_bytes">[docs]</a><span class="k">def</span> <span class="nf">random_bytes</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">28</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate a random byte string of the specified size.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    - size (int): The size of the byte string to generate. Default is 28.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    - bytes: A random byte string of the specified size.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">    &gt;&gt;&gt; random_bytes(16)</span>
+<span class="sd">    b&#39;\x8f\x9a\x0b\x1e\x9c\x8d\x8c\x9e\x1f\x9d\x9e\x0e\x1e\x9e\x1e\x9e&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="make_binary_tree"><a class="viewcode-back" href="../../api/util.html#whoosh.util.make_binary_tree">[docs]</a><span class="k">def</span> <span class="nf">make_binary_tree</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Takes a function/class that takes two positional arguments and a list of</span>
 <span class="sd">    arguments and returns a binary tree of results/instances.</span>
 
-<span class="sd">    &gt;&gt;&gt; make_binary_tree(UnionMatcher, [matcher1, matcher2, matcher3])</span>
-<span class="sd">    UnionMatcher(matcher1, UnionMatcher(matcher2, matcher3))</span>
+<span class="sd">    Args:</span>
+<span class="sd">        fn (callable): A function or class that takes two positional arguments.</span>
+<span class="sd">        args (list): A list of arguments to be used to construct the binary tree.</span>
 
-<span class="sd">    Any keyword arguments given to this function are passed to the class</span>
-<span class="sd">    initializer.</span>
+<span class="sd">    Keyword Args:</span>
+<span class="sd">        **kwargs: Additional keyword arguments to be passed to the class initializer.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        object: The binary tree of results/instances.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If called with an empty list.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; make_binary_tree(UnionMatcher, [matcher1, matcher2, matcher3])</span>
+<span class="sd">        UnionMatcher(matcher1, UnionMatcher(matcher2, matcher3))</span>
+
+<span class="sd">    This function takes a function or class `fn` that takes two positional arguments,</span>
+<span class="sd">    and a list of arguments `args`. It constructs a binary tree of results/instances</span>
+<span class="sd">    by recursively splitting the `args` list into two halves and calling `fn` with</span>
+<span class="sd">    the left and right halves as arguments.</span>
+
+<span class="sd">    If the `args` list contains only one element, that element is returned as is.</span>
+
+<span class="sd">    Any additional keyword arguments given to this function are passed to the class</span>
+<span class="sd">    initializer of `fn`.</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        The `fn` should be a function or class that can be called with two positional</span>
+<span class="sd">        arguments and returns a result/instance.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="n">count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">count</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Called make_binary_tree with empty list&quot;</span><span class="p">)</span>
@@ -178,11 +225,30 @@
 
 
 <div class="viewcode-block" id="make_weighted_tree"><a class="viewcode-back" href="../../api/util.html#whoosh.util.make_weighted_tree">[docs]</a><span class="k">def</span> <span class="nf">make_weighted_tree</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">ls</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Takes a function/class that takes two positional arguments and a list of</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Takes a function/class that takes two positional arguments and a list of</span>
 <span class="sd">    (weight, argument) tuples and returns a huffman-like weighted tree of</span>
 <span class="sd">    results/instances.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
 
+<span class="sd">    Args:</span>
+<span class="sd">        fn (function/class): The function or class that takes two positional arguments.</span>
+<span class="sd">        ls (list): A list of (weight, argument) tuples.</span>
+<span class="sd">        **kwargs: Additional keyword arguments that can be passed to the function/class.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        object: The huffman-like weighted tree of results/instances.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If the input list is empty.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; def combine(a, b):</span>
+<span class="sd">        ...     return a + b</span>
+<span class="sd">        ...</span>
+<span class="sd">        &gt;&gt;&gt; ls = [(1, &#39;a&#39;), (2, &#39;b&#39;), (3, &#39;c&#39;)]</span>
+<span class="sd">        &gt;&gt;&gt; make_weighted_tree(combine, ls)</span>
+<span class="sd">        &#39;abc&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">ls</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Called make_weighted_tree with empty list&quot;</span><span class="p">)</span>
 
@@ -200,8 +266,19 @@
 
 
 <div class="viewcode-block" id="fib"><a class="viewcode-back" href="../../api/util.html#whoosh.util.fib">[docs]</a><span class="k">def</span> <span class="nf">fib</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns the nth value in the Fibonacci sequence.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the nth value in the Fibonacci sequence.</span>
 
+<span class="sd">    Parameters:</span>
+<span class="sd">    - n (int): The position of the value in the Fibonacci sequence to be returned.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    - int: The nth value in the Fibonacci sequence.</span>
+
+<span class="sd">    Notes:</span>
+<span class="sd">    - The Fibonacci sequence starts with 0 and 1, and each subsequent value is the sum of the two preceding values.</span>
+<span class="sd">    - The function uses memoization to improve performance by caching previously calculated values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">n</span>
     <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">_fib_cache</span><span class="p">:</span>
@@ -217,6 +294,23 @@
 <div class="viewcode-block" id="synchronized"><a class="viewcode-back" href="../../api/util.html#whoosh.util.synchronized">[docs]</a><span class="k">def</span> <span class="nf">synchronized</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Decorator for storage-access methods, which synchronizes on a threading</span>
 <span class="sd">    lock. The parent object must have &#39;is_closed&#39; and &#39;_sync_lock&#39; attributes.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        func (callable): The function to be decorated.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        callable: The decorated function.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; class MyClass:</span>
+<span class="sd">        ...     def __init__(self):</span>
+<span class="sd">        ...         self._sync_lock = threading.Lock()</span>
+<span class="sd">        ...</span>
+<span class="sd">        ...     @synchronized</span>
+<span class="sd">        ...     def my_method(self):</span>
+<span class="sd">        ...         # Access shared storage here</span>
+<span class="sd">        ...         pass</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
@@ -230,6 +324,23 @@
 <div class="viewcode-block" id="unclosed"><a class="viewcode-back" href="../../api/util.html#whoosh.util.unclosed">[docs]</a><span class="k">def</span> <span class="nf">unclosed</span><span class="p">(</span><span class="n">method</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Decorator to check if the object is closed.</span>
+
+<span class="sd">    This decorator can be used to wrap methods in a class to ensure that the object is not closed before executing the method.</span>
+<span class="sd">    If the object is closed, a ValueError is raised.</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    - method: The method to be wrapped.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    - The wrapped method.</span>
+
+<span class="sd">    Example usage:</span>
+<span class="sd">    ```</span>
+<span class="sd">    class MyClass:</span>
+<span class="sd">        @unclosed</span>
+<span class="sd">        def my_method(self):</span>
+<span class="sd">            # Method implementation</span>
+<span class="sd">    ```</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nd">@wraps</span><span class="p">(</span><span class="n">method</span><span class="p">)</span>

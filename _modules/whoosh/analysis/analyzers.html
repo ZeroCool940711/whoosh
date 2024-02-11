@@ -139,16 +139,31 @@
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">whoosh.lang.porter</span> <span class="kn">import</span> <span class="n">stem</span>
 
+
 <span class="c1"># Analyzers</span>
-
-
 <span class="k">class</span> <span class="nc">Analyzer</span><span class="p">(</span><span class="n">Composable</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Abstract base class for analyzers.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Abstract base class for analyzers.</span>
+
+<span class="sd">    An analyzer is responsible for processing text data and producing a stream of tokens.</span>
+<span class="sd">    Subclasses of Analyzer should implement the __call__ method to define the tokenization process.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        None</span>
+
+<span class="sd">    Methods:</span>
+<span class="sd">        __repr__: Returns a string representation of the analyzer.</span>
+<span class="sd">        __eq__: Checks if two analyzers are equal.</span>
+<span class="sd">        __call__: Processes the input value and returns a stream of tokens.</span>
+<span class="sd">        clean: Cleans up any resources used by the analyzer.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a string representation of the analyzer.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">()&quot;</span>
 
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Checks if two analyzers are equal.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="n">other</span>
             <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="n">other</span><span class="o">.</span><span class="vm">__class__</span>
@@ -156,15 +171,65 @@
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Processes the input value and returns a stream of tokens.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            value (str): The input value to be analyzed.</span>
+<span class="sd">            **kwargs: Additional keyword arguments that may be required by specific analyzers.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            generator: A generator that yields the tokens produced by the analyzer.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: If the __call__ method is not implemented by a subclass.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
     <span class="k">def</span> <span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># This method is intentionally left empty.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Cleans up any resources used by the analyzer.</span>
+
+<span class="sd">        This method is intentionally left empty.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            None</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            None</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span>
 
 
 <span class="k">class</span> <span class="nc">CompositeAnalyzer</span><span class="p">(</span><span class="n">Analyzer</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A composite analyzer that combines multiple analyzers and tokenizers into a single analyzer.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        *composables: Variable number of analyzers and tokenizers to be combined.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        CompositionError: If more than one tokenizer is provided at the start of the analyzer.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        analyzer = CompositeAnalyzer(StandardAnalyzer(), LowercaseFilter())</span>
+<span class="sd">        tokens = analyzer(&quot;Hello World&quot;)</span>
+<span class="sd">        for token in tokens:</span>
+<span class="sd">            print(token)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">composables</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes the CompositeAnalyzer.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            *composables: Variable number of analyzers and tokenizers to be combined.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            CompositionError: If more than one tokenizer is provided at the start of the analyzer.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">items</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="k">for</span> <span class="n">comp</span> <span class="ow">in</span> <span class="n">composables</span><span class="p">:</span>
@@ -173,9 +238,6 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
 
-        <span class="c1"># Tokenizers must start a chain, and then only filters after that</span>
-        <span class="c1"># (because analyzers take a string and return a generator of tokens,</span>
-        <span class="c1"># and filters take and return generators of tokens)</span>
         <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">Tokenizer</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="n">CompositionError</span><span class="p">(</span>
@@ -183,36 +245,91 @@
                 <span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a string representation of the CompositeAnalyzer.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: String representation of the CompositeAnalyzer.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">(</span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
             <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">),</span>
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">no_morph</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Applies the composite analyzer to the given value and returns a generator of tokens.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            value (str): The input value to be analyzed.</span>
+<span class="sd">            no_morph (bool, optional): Flag to skip morphological analysis. Defaults to False.</span>
+<span class="sd">            **kwargs: Additional keyword arguments to be passed to the analyzers and tokenizers.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            generator: A generator of tokens.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">items</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span>
-        <span class="c1"># Start with tokenizer</span>
         <span class="n">gen</span> <span class="o">=</span> <span class="n">items</span><span class="p">[</span><span class="mi">0</span><span class="p">](</span><span class="n">value</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="c1"># Run filters</span>
         <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">no_morph</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="s2">&quot;is_morph&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">item</span><span class="o">.</span><span class="n">is_morph</span><span class="p">):</span>
                 <span class="n">gen</span> <span class="o">=</span> <span class="n">item</span><span class="p">(</span><span class="n">gen</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">gen</span>
 
     <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the item at the specified index.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            item (int): The index of the item to retrieve.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            object: The item at the specified index.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the number of items in the CompositeAnalyzer.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            int: The number of items in the CompositeAnalyzer.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks if the CompositeAnalyzer is equal to another object.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            other (object): The object to compare with.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if the CompositeAnalyzer is equal to the other object, False otherwise.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">other</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="n">other</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">items</span>
 
     <span class="k">def</span> <span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Cleans up any resources used by the CompositeAnalyzer.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="s2">&quot;clean&quot;</span><span class="p">):</span>
                 <span class="n">item</span><span class="o">.</span><span class="n">clean</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">has_morph</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks if the CompositeAnalyzer has any morphological analysis.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if the CompositeAnalyzer has morphological analysis, False otherwise.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">any</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">is_morph</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">)</span>
 
 
@@ -220,10 +337,18 @@
 
 
 <div class="viewcode-block" id="IDAnalyzer"><a class="viewcode-back" href="../../../api/analysis.html#whoosh.analysis.IDAnalyzer">[docs]</a><span class="k">def</span> <span class="nf">IDAnalyzer</span><span class="p">(</span><span class="n">lowercase</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Deprecated, just use an IDTokenizer directly, with a LowercaseFilter if</span>
-<span class="sd">    desired.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns an analyzer that tokenizes input text into individual tokens using the IDTokenizer.</span>
+<span class="sd">    If lowercase is set to True, it also applies the LowercaseFilter to convert tokens to lowercase.</span>
 
+<span class="sd">    Parameters:</span>
+<span class="sd">    - lowercase (bool): Whether to convert tokens to lowercase. Default is False.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    - tokenizer (Analyzer): The configured analyzer.</span>
+
+<span class="sd">    Deprecated: This function is deprecated. It is recommended to use IDTokenizer directly, with a LowercaseFilter if desired.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">IDTokenizer</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">lowercase</span><span class="p">:</span>
         <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">tokenizer</span> <span class="o">|</span> <span class="n">LowercaseFilter</span><span class="p">()</span>
@@ -231,17 +356,21 @@
 
 
 <div class="viewcode-block" id="KeywordAnalyzer"><a class="viewcode-back" href="../../../api/analysis.html#whoosh.analysis.KeywordAnalyzer">[docs]</a><span class="k">def</span> <span class="nf">KeywordAnalyzer</span><span class="p">(</span><span class="n">lowercase</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">commas</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parses whitespace- or comma-separated tokens.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parses whitespace- or comma-separated tokens.</span>
 
+<span class="sd">    This analyzer is used to parse whitespace- or comma-separated tokens from a given text.</span>
+<span class="sd">    It can be configured to lowercase the tokens and treat items separated by commas instead of whitespace.</span>
+
+<span class="sd">    Example usage:</span>
 <span class="sd">    &gt;&gt;&gt; ana = KeywordAnalyzer()</span>
 <span class="sd">    &gt;&gt;&gt; [token.text for token in ana(&quot;Hello there, this is a TEST&quot;)]</span>
 <span class="sd">    [&quot;Hello&quot;, &quot;there,&quot;, &quot;this&quot;, &quot;is&quot;, &quot;a&quot;, &quot;TEST&quot;]</span>
 
-<span class="sd">    :param lowercase: whether to lowercase the tokens.</span>
-<span class="sd">    :param commas: if True, items are separated by commas rather than</span>
-<span class="sd">        whitespace.</span>
+<span class="sd">    :param lowercase: A boolean indicating whether to lowercase the tokens. Default is False.</span>
+<span class="sd">    :param commas: A boolean indicating whether items are separated by commas instead of whitespace. Default is False.</span>
+<span class="sd">    :return: A tokenizer object that can be used to tokenize the input text.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="k">if</span> <span class="n">commas</span><span class="p">:</span>
         <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">CommaSeparatedTokenizer</span><span class="p">()</span>
     <span class="k">else</span><span class="p">:</span>
@@ -252,23 +381,35 @@
 
 
 <div class="viewcode-block" id="RegexAnalyzer"><a class="viewcode-back" href="../../../api/analysis.html#whoosh.analysis.RegexAnalyzer">[docs]</a><span class="k">def</span> <span class="nf">RegexAnalyzer</span><span class="p">(</span><span class="n">expression</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;\w+(\.?\w+)*&quot;</span><span class="p">,</span> <span class="n">gaps</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Deprecated, just use a RegexTokenizer directly.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Deprecated, just use a RegexTokenizer directly.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        expression (str, optional): The regular expression pattern to match. Defaults to r&quot;\w+(\.?\w+)*&quot;.</span>
+<span class="sd">        gaps (bool, optional): Whether to split on gaps (non-matching substrings) or matches. Defaults to False.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        RegexTokenizer: A tokenizer that tokenizes text using a regular expression pattern.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">return</span> <span class="n">RegexTokenizer</span><span class="p">(</span><span class="n">expression</span><span class="o">=</span><span class="n">expression</span><span class="p">,</span> <span class="n">gaps</span><span class="o">=</span><span class="n">gaps</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="SimpleAnalyzer"><a class="viewcode-back" href="../../../api/analysis.html#whoosh.analysis.SimpleAnalyzer">[docs]</a><span class="k">def</span> <span class="nf">SimpleAnalyzer</span><span class="p">(</span><span class="n">expression</span><span class="o">=</span><span class="n">default_pattern</span><span class="p">,</span> <span class="n">gaps</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Composes a RegexTokenizer with a LowercaseFilter.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Composes a RegexTokenizer with a LowercaseFilter.</span>
 
+<span class="sd">    This function creates an analyzer that tokenizes text using a regular expression pattern and converts the tokens to lowercase.</span>
+
+<span class="sd">    Example usage:</span>
 <span class="sd">    &gt;&gt;&gt; ana = SimpleAnalyzer()</span>
 <span class="sd">    &gt;&gt;&gt; [token.text for token in ana(&quot;Hello there, this is a TEST&quot;)]</span>
 <span class="sd">    [&quot;hello&quot;, &quot;there&quot;, &quot;this&quot;, &quot;is&quot;, &quot;a&quot;, &quot;test&quot;]</span>
 
-<span class="sd">    :param expression: The regular expression pattern to use to extract tokens.</span>
-<span class="sd">    :param gaps: If True, the tokenizer *splits* on the expression, rather</span>
-<span class="sd">        than matching on the expression.</span>
+<span class="sd">    :param expression: The regular expression pattern to use for token extraction. Defaults to `default_pattern`.</span>
+<span class="sd">    :param gaps: If True, the tokenizer *splits* on the expression, rather than matching on the expression. Defaults to False.</span>
+<span class="sd">    :return: An analyzer object that tokenizes text using the specified regular expression pattern and converts the tokens to lowercase.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="k">return</span> <span class="n">RegexTokenizer</span><span class="p">(</span><span class="n">expression</span><span class="o">=</span><span class="n">expression</span><span class="p">,</span> <span class="n">gaps</span><span class="o">=</span><span class="n">gaps</span><span class="p">)</span> <span class="o">|</span> <span class="n">LowercaseFilter</span><span class="p">()</span></div>
 
 
@@ -278,6 +419,11 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Composes a RegexTokenizer with a LowercaseFilter and optional</span>
 <span class="sd">    StopFilter.</span>
 
+<span class="sd">    This analyzer is used to tokenize and filter text into a stream of tokens.</span>
+<span class="sd">    It applies a regular expression pattern to extract tokens, converts them to lowercase,</span>
+<span class="sd">    and optionally removes stop words.</span>
+
+<span class="sd">    Example usage:</span>
 <span class="sd">    &gt;&gt;&gt; ana = StandardAnalyzer()</span>
 <span class="sd">    &gt;&gt;&gt; [token.text for token in ana(&quot;Testing is testing and testing&quot;)]</span>
 <span class="sd">    [&quot;testing&quot;, &quot;testing&quot;, &quot;testing&quot;]</span>
@@ -286,11 +432,11 @@
 <span class="sd">    :param stoplist: A list of stop words. Set this to None to disable</span>
 <span class="sd">        the stop word filter.</span>
 <span class="sd">    :param minsize: Words smaller than this are removed from the stream.</span>
-<span class="sd">    :param maxsize: Words longer that this are removed from the stream.</span>
+<span class="sd">    :param maxsize: Words longer than this are removed from the stream.</span>
 <span class="sd">    :param gaps: If True, the tokenizer *splits* on the expression, rather</span>
 <span class="sd">        than matching on the expression.</span>
+<span class="sd">    :return: A chain of tokenizers and filters that can be used to analyze text.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="n">ret</span> <span class="o">=</span> <span class="n">RegexTokenizer</span><span class="p">(</span><span class="n">expression</span><span class="o">=</span><span class="n">expression</span><span class="p">,</span> <span class="n">gaps</span><span class="o">=</span><span class="n">gaps</span><span class="p">)</span>
     <span class="n">chain</span> <span class="o">=</span> <span class="n">ret</span> <span class="o">|</span> <span class="n">LowercaseFilter</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">stoplist</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -308,26 +454,49 @@
     <span class="n">ignore</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">cachesize</span><span class="o">=</span><span class="mi">50000</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Composes a RegexTokenizer with a lower case filter, an optional stop</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Composes a RegexTokenizer with a lower case filter, an optional stop</span>
 <span class="sd">    filter, and a stemming filter.</span>
 
-<span class="sd">    &gt;&gt;&gt; ana = StemmingAnalyzer()</span>
-<span class="sd">    &gt;&gt;&gt; [token.text for token in ana(&quot;Testing is testing and testing&quot;)]</span>
+<span class="sd">    Args:</span>
+<span class="sd">        expression (str, optional): The regular expression pattern to use to extract tokens.</span>
+<span class="sd">        stoplist (list, optional): A list of stop words. Set this to None to disable the stop word filter.</span>
+<span class="sd">        minsize (int, optional): Words smaller than this are removed from the stream.</span>
+<span class="sd">        maxsize (int, optional): Words longer that this are removed from the stream.</span>
+<span class="sd">        gaps (bool, optional): If True, the tokenizer *splits* on the expression, rather than matching on the expression.</span>
+<span class="sd">        stemfn (function, optional): The stemming function to use. Defaults to the `stem` function.</span>
+<span class="sd">        ignore (set, optional): A set of words to not stem.</span>
+<span class="sd">        cachesize (int, optional): The maximum number of stemmed words to cache. The larger this number, the faster stemming will be but the more memory it will use. Use None for no cache, or -1 for an unbounded cache.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Analyzer: The composed analyzer.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; ana = StemmingAnalyzer()</span>
+<span class="sd">        &gt;&gt;&gt; [token.text for token in ana(&quot;Testing is testing and testing&quot;)]</span>
+<span class="sd">        [&quot;test&quot;, &quot;test&quot;, &quot;test&quot;]</span>
+
+<span class="sd">    This function composes an analyzer that tokenizes text using a regular expression pattern,</span>
+<span class="sd">    converts tokens to lowercase, applies an optional stop word filter, and performs stemming</span>
+<span class="sd">    on the tokens.</span>
+
+<span class="sd">    The `expression` parameter specifies the regular expression pattern to use for token extraction.</span>
+<span class="sd">    The `stoplist` parameter is a list of stop words to be filtered out. If set to None, the stop word</span>
+<span class="sd">    filter is disabled. The `minsize` and `maxsize` parameters control the minimum and maximum word</span>
+<span class="sd">    lengths to keep in the token stream. The `gaps` parameter determines whether the tokenizer splits</span>
+<span class="sd">    on the expression or matches on it.</span>
+
+<span class="sd">    The `stemfn` parameter specifies the stemming function to use. By default, it uses the `stem` function.</span>
+<span class="sd">    The `ignore` parameter is a set of words that should not be stemmed. The `cachesize` parameter sets</span>
+<span class="sd">    the maximum number of stemmed words to cache, improving performance at the cost of memory usage.</span>
+
+<span class="sd">    The function returns the composed analyzer, which can be used to process text and extract tokens.</span>
+
+<span class="sd">    Example usage:</span>
+<span class="sd">    &gt;&gt;&gt; analyzer = StemmingAnalyzer(expression=r&#39;\w+&#39;, stoplist=[&#39;is&#39;, &#39;and&#39;], minsize=3)</span>
+<span class="sd">    &gt;&gt;&gt; [token.text for token in analyzer(&quot;Testing is testing and testing&quot;)]</span>
 <span class="sd">    [&quot;test&quot;, &quot;test&quot;, &quot;test&quot;]</span>
-
-<span class="sd">    :param expression: The regular expression pattern to use to extract tokens.</span>
-<span class="sd">    :param stoplist: A list of stop words. Set this to None to disable</span>
-<span class="sd">        the stop word filter.</span>
-<span class="sd">    :param minsize: Words smaller than this are removed from the stream.</span>
-<span class="sd">    :param maxsize: Words longer that this are removed from the stream.</span>
-<span class="sd">    :param gaps: If True, the tokenizer *splits* on the expression, rather</span>
-<span class="sd">        than matching on the expression.</span>
-<span class="sd">    :param ignore: a set of words to not stem.</span>
-<span class="sd">    :param cachesize: the maximum number of stemmed words to cache. The larger</span>
-<span class="sd">        this number, the faster stemming will be but the more memory it will</span>
-<span class="sd">        use. Use None for no cache, or -1 for an unbounded cache.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="n">ret</span> <span class="o">=</span> <span class="n">RegexTokenizer</span><span class="p">(</span><span class="n">expression</span><span class="o">=</span><span class="n">expression</span><span class="p">,</span> <span class="n">gaps</span><span class="o">=</span><span class="n">gaps</span><span class="p">)</span>
     <span class="n">chain</span> <span class="o">=</span> <span class="n">ret</span> <span class="o">|</span> <span class="n">LowercaseFilter</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">stoplist</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -345,22 +514,36 @@
     <span class="n">mergewords</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="n">mergenums</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Composes a RegexTokenizer with an IntraWordFilter, LowercaseFilter, and</span>
-<span class="sd">    StopFilter.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Composes a FancyAnalyzer with a RegexTokenizer, IntraWordFilter, LowercaseFilter, and StopFilter.</span>
 
+<span class="sd">    This analyzer tokenizes text using a regular expression pattern, applies intra-word filtering,</span>
+<span class="sd">    converts tokens to lowercase, and removes stop words.</span>
+
+<span class="sd">    Example usage:</span>
 <span class="sd">    &gt;&gt;&gt; ana = FancyAnalyzer()</span>
 <span class="sd">    &gt;&gt;&gt; [token.text for token in ana(&quot;Should I call getInt or get_real?&quot;)]</span>
 <span class="sd">    [&quot;should&quot;, &quot;call&quot;, &quot;getInt&quot;, &quot;get&quot;, &quot;int&quot;, &quot;get_real&quot;, &quot;get&quot;, &quot;real&quot;]</span>
 
-<span class="sd">    :param expression: The regular expression pattern to use to extract tokens.</span>
-<span class="sd">    :param stoplist: A list of stop words. Set this to None to disable</span>
-<span class="sd">        the stop word filter.</span>
-<span class="sd">    :param minsize: Words smaller than this are removed from the stream.</span>
-<span class="sd">    :param maxsize: Words longer that this are removed from the stream.</span>
-<span class="sd">    :param gaps: If True, the tokenizer *splits* on the expression, rather</span>
-<span class="sd">        than matching on the expression.</span>
+<span class="sd">    :param expression: The regular expression pattern to use for token extraction.</span>
+<span class="sd">    :type expression: str, optional</span>
+<span class="sd">    :param stoplist: A list of stop words. Set this to None to disable the stop word filter.</span>
+<span class="sd">    :type stoplist: list or None, optional</span>
+<span class="sd">    :param minsize: Words smaller than this are removed from the token stream.</span>
+<span class="sd">    :type minsize: int, optional</span>
+<span class="sd">    :param gaps: If True, the tokenizer splits on the expression, rather than matching on the expression.</span>
+<span class="sd">    :type gaps: bool, optional</span>
+<span class="sd">    :param splitwords: If True, intra-word filtering splits words.</span>
+<span class="sd">    :type splitwords: bool, optional</span>
+<span class="sd">    :param splitnums: If True, intra-word filtering splits numbers.</span>
+<span class="sd">    :type splitnums: bool, optional</span>
+<span class="sd">    :param mergewords: If True, intra-word filtering merges words.</span>
+<span class="sd">    :type mergewords: bool, optional</span>
+<span class="sd">    :param mergenums: If True, intra-word filtering merges numbers.</span>
+<span class="sd">    :type mergenums: bool, optional</span>
+<span class="sd">    :return: A composed analyzer.</span>
+<span class="sd">    :rtype: Analyzer</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="k">return</span> <span class="p">(</span>
         <span class="n">RegexTokenizer</span><span class="p">(</span><span class="n">expression</span><span class="o">=</span><span class="n">expression</span><span class="p">,</span> <span class="n">gaps</span><span class="o">=</span><span class="n">gaps</span><span class="p">)</span>
         <span class="o">|</span> <span class="n">IntraWordFilter</span><span class="p">(</span>
@@ -375,26 +558,23 @@
 
 
 <div class="viewcode-block" id="LanguageAnalyzer"><a class="viewcode-back" href="../../../api/analysis.html#whoosh.analysis.LanguageAnalyzer">[docs]</a><span class="k">def</span> <span class="nf">LanguageAnalyzer</span><span class="p">(</span><span class="n">lang</span><span class="p">,</span> <span class="n">expression</span><span class="o">=</span><span class="n">default_pattern</span><span class="p">,</span> <span class="n">gaps</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">cachesize</span><span class="o">=</span><span class="mi">50000</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Configures a simple analyzer for the given language, with a</span>
-<span class="sd">    LowercaseFilter, StopFilter, and StemFilter.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Configures a simple analyzer for the given language, with a LowercaseFilter, StopFilter, and StemFilter.</span>
 
+<span class="sd">    :param lang: The language code for the analyzer. The list of available languages is in `whoosh.lang.languages`.</span>
+<span class="sd">    :param expression: The regular expression pattern to use to extract tokens.</span>
+<span class="sd">    :param gaps: If True, the tokenizer *splits* on the expression, rather than matching on the expression.</span>
+<span class="sd">    :param cachesize: The maximum number of stemmed words to cache. The larger this number, the faster stemming will be but the more memory it will use.</span>
+<span class="sd">    :return: The configured analyzer chain.</span>
+
+<span class="sd">    Example usage:</span>
 <span class="sd">    &gt;&gt;&gt; ana = LanguageAnalyzer(&quot;es&quot;)</span>
 <span class="sd">    &gt;&gt;&gt; [token.text for token in ana(&quot;Por el mar corren las liebres&quot;)]</span>
 <span class="sd">    [&#39;mar&#39;, &#39;corr&#39;, &#39;liebr&#39;]</span>
 
 <span class="sd">    The list of available languages is in `whoosh.lang.languages`.</span>
-<span class="sd">    You can use :func:`whoosh.lang.has_stemmer` and</span>
-<span class="sd">    :func:`whoosh.lang.has_stopwords` to check if a given language has a</span>
-<span class="sd">    stemming function and/or stop word list available.</span>
-
-<span class="sd">    :param expression: The regular expression pattern to use to extract tokens.</span>
-<span class="sd">    :param gaps: If True, the tokenizer *splits* on the expression, rather</span>
-<span class="sd">        than matching on the expression.</span>
-<span class="sd">    :param cachesize: the maximum number of stemmed words to cache. The larger</span>
-<span class="sd">        this number, the faster stemming will be but the more memory it will</span>
-<span class="sd">        use.</span>
+<span class="sd">    You can use `whoosh.lang.has_stemmer` and `whoosh.lang.has_stopwords` to check if a given language has a stemming function and/or stop word list available.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="kn">from</span> <span class="nn">whoosh.lang</span> <span class="kn">import</span> <span class="n">NoStemmer</span><span class="p">,</span> <span class="n">NoStopWords</span>
 
     <span class="c1"># Make the start of the chain</span>
