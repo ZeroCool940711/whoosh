@@ -140,25 +140,6 @@
 
 
 <span class="k">def</span> <span class="nf">memoryview_</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Create a memoryview object from the given source object.</span>
-
-<span class="sd">    Parameters:</span>
-<span class="sd">    - source: The source object to create the memoryview from.</span>
-<span class="sd">    - offset (optional): The starting offset within the source object. If not provided, the memoryview will start from the beginning.</span>
-<span class="sd">    - length (optional): The length of the memoryview. If not provided, the memoryview will extend to the end of the source object.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">    - mv: The memoryview object created from the source object.</span>
-
-<span class="sd">    Usage:</span>
-<span class="sd">    - Create a memoryview from a bytes object:</span>
-<span class="sd">        mv = memoryview_(b&#39;Hello, World!&#39;)</span>
-
-<span class="sd">    - Create a memoryview from a bytearray object with a specified offset and length:</span>
-<span class="sd">        ba = bytearray(b&#39;Hello, World!&#39;)</span>
-<span class="sd">        mv = memoryview_(ba, offset=7, length=5)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">mv</span> <span class="o">=</span> <span class="nb">memoryview</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">offset</span> <span class="ow">or</span> <span class="n">length</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">mv</span><span class="p">[</span><span class="n">offset</span> <span class="p">:</span> <span class="n">offset</span> <span class="o">+</span> <span class="n">length</span><span class="p">]</span>
@@ -170,48 +151,16 @@
 
 
 <span class="k">class</span> <span class="nc">StorageError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Exception raised for errors related to storage operations.</span>
-
-<span class="sd">    This exception is raised when there is an error performing operations</span>
-<span class="sd">    related to storage, such as reading or writing files.</span>
-
-<span class="sd">    Attributes:</span>
-<span class="sd">        message -- explanation of the error</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">message</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+    <span class="k">pass</span>
 
 
 <div class="viewcode-block" id="ReadOnlyError"><a class="viewcode-back" href="../../../api/filedb/filestore.html#whoosh.filedb.filestore.ReadOnlyError">[docs]</a><span class="k">class</span> <span class="nc">ReadOnlyError</span><span class="p">(</span><span class="n">StorageError</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Exception raised when attempting to modify a read-only storage.</span>
-
-<span class="sd">    This exception is raised when attempting to modify a storage that has been opened in read-only mode.</span>
-<span class="sd">    It is a subclass of `StorageError` and can be caught separately from other storage-related exceptions.</span>
-
-<span class="sd">    Usage:</span>
-<span class="sd">    ------</span>
-<span class="sd">    When using a storage object, if an attempt is made to modify the storage while it is in read-only mode,</span>
-<span class="sd">    a `ReadOnlyError` will be raised. To handle this exception, you can use a try-except block like this:</span>
-
-<span class="sd">    try:</span>
-<span class="sd">        # Attempt to modify the storage</span>
-<span class="sd">        storage.modify()</span>
-<span class="sd">    except ReadOnlyError:</span>
-<span class="sd">        # Handle the read-only error</span>
-<span class="sd">        print(&quot;The storage is read-only and cannot be modified.&quot;)</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">message</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">message</span><span class="p">)</span></div>
+    <span class="k">pass</span></div>
 
 
 <span class="c1"># Base class</span>
+
+
 <div class="viewcode-block" id="Storage"><a class="viewcode-back" href="../../../api/filedb/filestore.html#whoosh.filedb.filestore.Storage">[docs]</a><span class="k">class</span> <span class="nc">Storage</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Abstract base class for storage objects.</span>
 
@@ -232,139 +181,56 @@
 <span class="sd">        st.create()</span>
 
 <span class="sd">    The :meth:`Storage.create` method makes it slightly easier to swap storage</span>
-<span class="sd">    implementations. The `create()` method handles set-up of the storage</span>
-<span class="sd">    object. For example, `FileStorage.create()` creates the directory. A</span>
+<span class="sd">    implementations. The ``create()`` method handles set-up of the storage</span>
+<span class="sd">    object. For example, ``FileStorage.create()`` creates the directory. A</span>
 <span class="sd">    database implementation might create tables. This is designed to let you</span>
 <span class="sd">    avoid putting implementation-specific setup code in your application.</span>
-
-<span class="sd">    Attributes:</span>
-<span class="sd">        readonly (bool): Indicates if the storage object is read-only.</span>
-<span class="sd">        supports_mmap (bool): Indicates if the storage object supports memory-mapped files.</span>
-
-<span class="sd">    Methods:</span>
-<span class="sd">        create(): Creates any required implementation-specific resources.</span>
-<span class="sd">        destroy(*args, **kwargs): Removes any implementation-specific resources related to this storage object.</span>
-<span class="sd">        create_index(schema, indexname=_DEF_INDEX_NAME, indexclass=None): Creates a new index in this storage.</span>
-<span class="sd">        open_index(indexname=_DEF_INDEX_NAME, schema=None, indexclass=None): Opens an existing index in this storage.</span>
-<span class="sd">        index_exists(indexname=None): Returns True if a non-empty index exists in this storage.</span>
-<span class="sd">        create_file(name): Creates a file with the given name in this storage.</span>
-<span class="sd">        open_file(name, *args, **kwargs): Opens a file with the given name in this storage.</span>
-<span class="sd">        list(): Returns a list of file names in this storage.</span>
-<span class="sd">        file_exists(name): Returns True if the given file exists in this storage.</span>
-<span class="sd">        file_modified(name): Returns the last-modified time of the given file in this storage.</span>
-<span class="sd">        file_length(name): Returns the size (in bytes) of the given file in this storage.</span>
-<span class="sd">        delete_file(name): Removes the given file from this storage.</span>
-<span class="sd">        rename_file(frm, to, safe=False): Renames a file in this storage.</span>
-<span class="sd">        lock(name): Returns a named lock object.</span>
-<span class="sd">        close(): Closes any resources opened by this storage object.</span>
-<span class="sd">        optimize(): Optimizes the storage object.</span>
-<span class="sd">        temp_storage(name=None): Creates a new storage object for temporary files.</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">readonly</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">supports_mmap</span> <span class="o">=</span> <span class="kc">False</span>
 
     <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns an iterator over the files in the filestore.</span>
-
-<span class="sd">        This method returns an iterator that allows iterating over the files</span>
-<span class="sd">        stored in the filestore. It internally calls the `list()` method to</span>
-<span class="sd">        retrieve the list of files.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            iterator: An iterator over the files in the filestore.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            filestore = FileStore()</span>
-<span class="sd">            for file in filestore:</span>
-<span class="sd">                print(file)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">list</span><span class="p">())</span>
 
     <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Creates a new instance of the FileStore object and returns it.</span>
-
-<span class="sd">        This method is used in conjunction with the &#39;with&#39; statement to provide a context manager for the FileStore object.</span>
-<span class="sd">        It ensures that the FileStore is properly created before entering the context and returns the created instance.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            FileStore: The created instance of the FileStore object.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            with FileStore() as fs:</span>
-<span class="sd">                # Perform operations using the FileStore object</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span>
 
     <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_val</span><span class="p">,</span> <span class="n">exc_tb</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Closes the filestore.</span>
-
-<span class="sd">        This method is automatically called when exiting a context manager block.</span>
-<span class="sd">        It ensures that the filestore is properly closed, regardless of any exceptions that may have occurred.</span>
-
-<span class="sd">        :param exc_type: The type of the exception (if any) that caused the context to be exited.</span>
-<span class="sd">        :param exc_val: The exception instance (if any) that caused the context to be exited.</span>
-<span class="sd">        :param exc_tb: The traceback object (if any) that caused the context to be exited.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
 <div class="viewcode-block" id="Storage.create"><a class="viewcode-back" href="../../../api/filedb/filestore.html#whoosh.filedb.filestore.Storage.create">[docs]</a>    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Creates any required implementation-specific resources.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates any required implementation-specific resources. For example,</span>
+<span class="sd">        a filesystem-based implementation might create a directory, while a</span>
+<span class="sd">        database implementation might create tables. For example::</span>
 
-<span class="sd">        This method is used to create the necessary resources for a storage implementation. For example, a filesystem-based implementation might create a directory, while a database implementation might create tables.</span>
-
-<span class="sd">        Usage:</span>
-<span class="sd">        ------</span>
-<span class="sd">        1. Import the necessary modules:</span>
 <span class="sd">            from whoosh.filedb.filestore import FileStorage</span>
-
-<span class="sd">        2. Create a storage object:</span>
+<span class="sd">            # Create a storage object</span>
 <span class="sd">            st = FileStorage(&quot;indexdir&quot;)</span>
-
-<span class="sd">        3. Call the create() method to create the required resources:</span>
+<span class="sd">            # Create any necessary resources</span>
 <span class="sd">            st.create()</span>
 
-<span class="sd">        Returns:</span>
-<span class="sd">        --------</span>
-<span class="sd">        A Storage instance representing the created resources.</span>
+<span class="sd">        This method returns ``self`` so you can also say::</span>
 
-<span class="sd">        Example:</span>
-<span class="sd">        --------</span>
-<span class="sd">        st = FileStorage(&quot;indexdir&quot;).create()</span>
+<span class="sd">            st = FileStorage(&quot;indexdir&quot;).create()</span>
 
-<span class="sd">        Notes:</span>
-<span class="sd">        ------</span>
-<span class="sd">        - Storage implementations should be written in such a way that calling create() multiple times on the same storage does not cause any issues.</span>
-<span class="sd">        - The create() method returns the Storage instance itself, allowing method chaining.</span>
+<span class="sd">        Storage implementations should be written so that calling create() a</span>
+<span class="sd">        second time on the same storage</span>
 
-<span class="sd">        :return: A Storage instance representing the created resources.</span>
+<span class="sd">        :return: a :class:`Storage` instance.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="k">return</span> <span class="bp">self</span></div>
 
 <div class="viewcode-block" id="Storage.destroy"><a class="viewcode-back" href="../../../api/filedb/filestore.html#whoosh.filedb.filestore.Storage.destroy">[docs]</a>    <span class="k">def</span> <span class="nf">destroy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Removes any implementation-specific resources related to this storage</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Removes any implementation-specific resources related to this storage</span>
 <span class="sd">        object. For example, a filesystem-based implementation might delete a</span>
 <span class="sd">        directory, and a database implementation might drop tables.</span>
 
-<span class="sd">        :param args: Implementation-specific arguments.</span>
-<span class="sd">        :param kwargs: Implementation-specific keyword arguments.</span>
-<span class="sd">        :return: None</span>
-
-<span class="sd">        This method should be called when you want to permanently remove all</span>
-<span class="sd">        resources associated with this storage object. It is implementation-specific,</span>
-<span class="sd">        so the behavior may vary depending on the storage implementation being used.</span>
-
-<span class="sd">        Example usage:</span>
-<span class="sd">        &gt;&gt;&gt; store = FileStore()</span>
-<span class="sd">        &gt;&gt;&gt; store.destroy()</span>
+<span class="sd">        The arguments are implementation-specific.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="k">pass</span></div>
 
 <div class="viewcode-block" id="Storage.create_index"><a class="viewcode-back" href="../../../api/filedb/filestore.html#whoosh.filedb.filestore.Storage.create_index">[docs]</a>    <span class="k">def</span> <span class="nf">create_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="p">,</span> <span class="n">indexname</span><span class="o">=</span><span class="n">_DEF_INDEX_NAME</span><span class="p">,</span> <span class="n">indexclass</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -425,12 +291,11 @@
         <span class="k">return</span> <span class="n">indexclass</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="n">schema</span><span class="p">,</span> <span class="n">indexname</span><span class="o">=</span><span class="n">indexname</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Storage.index_exists"><a class="viewcode-back" href="../../../api/filedb/filestore.html#whoosh.filedb.filestore.Storage.index_exists">[docs]</a>    <span class="k">def</span> <span class="nf">index_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indexname</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns True if a non-empty index exists in this storage.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns True if a non-empty index exists in this storage.</span>
 
-<span class="sd">        :param indexname: (str, optional) The name of the index within the storage object.</span>
-<span class="sd">                          You can use this option to store multiple indexes in the same storage.</span>
-<span class="sd">        :return: (bool) True if a non-empty index exists, False otherwise.</span>
+<span class="sd">        :param indexname: the name of the index within the storage object. You</span>
+<span class="sd">            can use this option to store multiple indexes in the same storage.</span>
+<span class="sd">        :rtype: bool</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="n">indexname</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -445,77 +310,35 @@
         <span class="k">return</span> <span class="kc">False</span></div>
 
 <div class="viewcode-block" id="Storage.create_file"><a class="viewcode-back" href="../../../api/filedb/filestore.html#whoosh.filedb.filestore.Storage.create_file">[docs]</a>    <span class="k">def</span> <span class="nf">create_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Creates a file with the given name in this storage.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates a file with the given name in this storage.</span>
 
-<span class="sd">        :param name: The name for the new file.</span>
-<span class="sd">        :type name: str</span>
-<span class="sd">        :return: A :class:`whoosh.filedb.structfile.StructFile` instance.</span>
-<span class="sd">        :rtype: whoosh.filedb.structfile.StructFile</span>
-<span class="sd">        :raises NotImplementedError: If the method is not implemented by the subclass.</span>
-
-<span class="sd">        This method creates a new file with the specified name in the storage. It returns</span>
-<span class="sd">        an instance of the `StructFile` class, which provides methods for reading and writing</span>
-<span class="sd">        data to the file.</span>
-
-<span class="sd">        Example usage:</span>
-<span class="sd">        &gt;&gt;&gt; storage = FileStorage(&quot;/path/to/storage&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; file = storage.create_file(&quot;example.txt&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; file.write(&quot;Hello, World!&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; file.close()</span>
+<span class="sd">        :param name: the name for the new file.</span>
+<span class="sd">        :return: a :class:`whoosh.filedb.structfile.StructFile` instance.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 <div class="viewcode-block" id="Storage.open_file"><a class="viewcode-back" href="../../../api/filedb/filestore.html#whoosh.filedb.filestore.Storage.open_file">[docs]</a>    <span class="k">def</span> <span class="nf">open_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Opens a file with the given name in this storage.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Opens a file with the given name in this storage.</span>
 
-<span class="sd">        :param name: The name of the file to be opened.</span>
-<span class="sd">        :type name: str</span>
-<span class="sd">        :param args: Additional positional arguments to be passed to the file opening mechanism.</span>
-<span class="sd">        :param kwargs: Additional keyword arguments to be passed to the file opening mechanism.</span>
-<span class="sd">        :return: A :class:`whoosh.filedb.structfile.StructFile` instance representing the opened file.</span>
-<span class="sd">        :rtype: whoosh.filedb.structfile.StructFile</span>
-<span class="sd">        :raises NotImplementedError: If the method is not implemented by a subclass.</span>
-
-<span class="sd">        This method is used to open a file within the storage. It returns a :class:`whoosh.filedb.structfile.StructFile`</span>
-<span class="sd">        instance that provides file-like operations for reading and writing data.</span>
-
-<span class="sd">        Example usage:</span>
-
-<span class="sd">        &gt;&gt;&gt; storage = FileStorage(&#39;/path/to/storage&#39;)</span>
-<span class="sd">        &gt;&gt;&gt; file = storage.open_file(&#39;example.txt&#39;, mode=&#39;r&#39;)</span>
-<span class="sd">        &gt;&gt;&gt; content = file.read()</span>
-<span class="sd">        &gt;&gt;&gt; file.close()</span>
-
-<span class="sd">        Note that the specific behavior of the `open_file` method may vary depending on the implementation of the storage.</span>
-<span class="sd">        Subclasses of `FileStorage` should override this method to provide the appropriate file opening mechanism.</span>
-
+<span class="sd">        :param name: the name for the new file.</span>
+<span class="sd">        :return: a :class:`whoosh.filedb.structfile.StructFile` instance.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 <div class="viewcode-block" id="Storage.list"><a class="viewcode-back" href="../../../api/filedb/filestore.html#whoosh.filedb.filestore.Storage.list">[docs]</a>    <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a list of file names in this storage.</span>
 
-<span class="sd">        This method returns a list of file names present in the storage. The storage represents a file system or a similar</span>
-<span class="sd">        file storage mechanism.</span>
-
-<span class="sd">        :return: A list of strings representing the file names in the storage.</span>
-<span class="sd">        :rtype: list[str]</span>
-
-<span class="sd">        :raises NotImplementedError: If the method is not implemented by a subclass.</span>
+<span class="sd">        :return: a list of strings</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 <div class="viewcode-block" id="Storage.file_exists"><a class="viewcode-back" href="../../../api/filedb/filestore.html#whoosh.filedb.filestore.Storage.file_exists">[docs]</a>    <span class="k">def</span> <span class="nf">file_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Check if the given file exists in this storage.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns True if the given file exists in this storage.</span>
 
-<span class="sd">        :param name: The name of the file to check.</span>
-<span class="sd">        :type name: str</span>
-<span class="sd">        :return: True if the file exists, False otherwise.</span>
+<span class="sd">        :param name: the name to check.</span>
 <span class="sd">        :rtype: bool</span>
-<span class="sd">        :raises NotImplementedError: This method is not implemented in the base class.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
@@ -524,21 +347,8 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the last-modified time of the given file in this storage (as</span>
 <span class="sd">        a &quot;ctime&quot; UNIX timestamp).</span>
 
-<span class="sd">        :param name: The name of the file to check.</span>
-<span class="sd">        :type name: str</span>
-<span class="sd">        :return: The &quot;ctime&quot; number representing the last-modified time of the file.</span>
-<span class="sd">        :rtype: float</span>
-<span class="sd">        :raises NotImplementedError: This method is not implemented in the base class and should be overridden in subclasses.</span>
-
-<span class="sd">        This method returns the last-modified time of the specified file in the storage.</span>
-<span class="sd">        The last-modified time is returned as a &quot;ctime&quot; UNIX timestamp, which represents the number of seconds</span>
-<span class="sd">        since the epoch (January 1, 1970).</span>
-
-<span class="sd">        Example usage:</span>
-<span class="sd">        &gt;&gt;&gt; storage = FileStorage()</span>
-<span class="sd">        &gt;&gt;&gt; last_modified = storage.file_modified(&quot;example.txt&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; print(last_modified)</span>
-<span class="sd">        1629876543.0</span>
+<span class="sd">        :param name: the name to check.</span>
+<span class="sd">        :return: a &quot;ctime&quot; number.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
@@ -546,157 +356,70 @@
 <div class="viewcode-block" id="Storage.file_length"><a class="viewcode-back" href="../../../api/filedb/filestore.html#whoosh.filedb.filestore.Storage.file_length">[docs]</a>    <span class="k">def</span> <span class="nf">file_length</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the size (in bytes) of the given file in this storage.</span>
 
-<span class="sd">        :param name: The name of the file to check.</span>
-<span class="sd">        :type name: str</span>
-<span class="sd">        :return: The size of the file in bytes.</span>
+<span class="sd">        :param name: the name to check.</span>
 <span class="sd">        :rtype: int</span>
-<span class="sd">        :raises NotImplementedError: If the method is not implemented by a subclass.</span>
-
-<span class="sd">        This method returns the size of the file with the given name in the storage.</span>
-<span class="sd">        It is used to determine the size of a file stored in the file storage.</span>
-
-<span class="sd">        Example usage:</span>
-<span class="sd">        &gt;&gt;&gt; storage = FileStorage()</span>
-<span class="sd">        &gt;&gt;&gt; file_size = storage.file_length(&quot;example.txt&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; print(file_size)</span>
-<span class="sd">        1024</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 <div class="viewcode-block" id="Storage.delete_file"><a class="viewcode-back" href="../../../api/filedb/filestore.html#whoosh.filedb.filestore.Storage.delete_file">[docs]</a>    <span class="k">def</span> <span class="nf">delete_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Removes the given file from this storage.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Removes the given file from this storage.</span>
 
-<span class="sd">        :param name: The name of the file to delete.</span>
-<span class="sd">        :type name: str</span>
-<span class="sd">        :raises NotImplementedError: This method is not implemented in the base class.</span>
+<span class="sd">        :param name: the name to delete.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 <div class="viewcode-block" id="Storage.rename_file"><a class="viewcode-back" href="../../../api/filedb/filestore.html#whoosh.filedb.filestore.Storage.rename_file">[docs]</a>    <span class="k">def</span> <span class="nf">rename_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frm</span><span class="p">,</span> <span class="n">to</span><span class="p">,</span> <span class="n">safe</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Renames a file in this storage.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Renames a file in this storage.</span>
 
 <span class="sd">        :param frm: The current name of the file.</span>
-<span class="sd">        :type frm: str</span>
 <span class="sd">        :param to: The new name for the file.</span>
-<span class="sd">        :type to: str</span>
-<span class="sd">        :param safe: If True, raise an exception if a file with the new name already exists.</span>
-<span class="sd">        :type safe: bool</span>
-<span class="sd">        :raises NotImplementedError: This method is not implemented in the base class.</span>
-
-<span class="sd">        This method renames a file in the storage. It takes the current name of the file</span>
-<span class="sd">        (`frm`) and the new name for the file (`to`). By default, if a file with the new</span>
-<span class="sd">        name already exists, it will overwrite the existing file. However, if the `safe`</span>
-<span class="sd">        parameter is set to True, an exception will be raised if a file with the new name</span>
-<span class="sd">        already exists.</span>
-
-<span class="sd">        Example usage:</span>
-<span class="sd">        &gt;&gt;&gt; storage = FileStorage()</span>
-<span class="sd">        &gt;&gt;&gt; storage.rename_file(&quot;old_file.txt&quot;, &quot;new_file.txt&quot;)</span>
+<span class="sd">        :param safe: if True, raise an exception if a file with the new name</span>
+<span class="sd">            already exists.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 <div class="viewcode-block" id="Storage.lock"><a class="viewcode-back" href="../../../api/filedb/filestore.html#whoosh.filedb.filestore.Storage.lock">[docs]</a>    <span class="k">def</span> <span class="nf">lock</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return a named lock object (implementing ``.acquire()`` and ``.release()`` methods).</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a named lock object (implementing ``.acquire()`` and</span>
+<span class="sd">        ``.release()`` methods). Different storage implementations may use</span>
+<span class="sd">        different lock types with different guarantees. For example, the</span>
+<span class="sd">        RamStorage object uses Python thread locks, while the FileStorage</span>
+<span class="sd">        object uses filesystem-based locks that are valid across different</span>
+<span class="sd">        processes.</span>
 
-<span class="sd">        Different storage implementations may use different lock types with different guarantees.</span>
-<span class="sd">        For example, the RamStorage object uses Python thread locks, while the FileStorage object</span>
-<span class="sd">        uses filesystem-based locks that are valid across different processes.</span>
-
-<span class="sd">        :param name: A name for the lock. This can be any string that uniquely identifies the lock.</span>
-<span class="sd">        :type name: str</span>
-<span class="sd">        :return: A lock-like object that provides the ``acquire()`` and ``release()`` methods.</span>
-<span class="sd">        :rtype: object</span>
-
-<span class="sd">        :raises NotImplementedError: This method is meant to be overridden by subclasses.</span>
-
-<span class="sd">        Lock objects are used to synchronize access to shared resources, ensuring that only one</span>
-<span class="sd">        thread or process can access the resource at a time. The ``acquire()`` method is used to</span>
-<span class="sd">        acquire the lock, and the ``release()`` method is used to release the lock.</span>
-
-<span class="sd">        Example usage:</span>
-
-<span class="sd">        &gt;&gt;&gt; store = FileStorage()</span>
-<span class="sd">        &gt;&gt;&gt; lock = store.lock(&quot;my_lock&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; lock.acquire()</span>
-<span class="sd">        &gt;&gt;&gt; try:</span>
-<span class="sd">        ...     # Perform operations on the shared resource</span>
-<span class="sd">        ...     pass</span>
-<span class="sd">        ... finally:</span>
-<span class="sd">        ...     lock.release()</span>
-
-<span class="sd">        Note that the lock object returned by this method may have additional methods or properties</span>
-<span class="sd">        specific to the storage implementation being used. It is recommended to consult the</span>
-<span class="sd">        documentation of the specific storage implementation for more details.</span>
+<span class="sd">        :param name: a name for the lock.</span>
+<span class="sd">        :return: a lock-like object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
 
 <div class="viewcode-block" id="Storage.close"><a class="viewcode-back" href="../../../api/filedb/filestore.html#whoosh.filedb.filestore.Storage.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Closes any resources opened by this storage object.</span>
-
-<span class="sd">        This method is used to release any resources held by the storage object, such as locks or file handles.</span>
-<span class="sd">        It should be called when you are done using the storage object to prevent resource leaks.</span>
-
-<span class="sd">        Note:</span>
-<span class="sd">            For some storage implementations, this method may be a no-op and not perform any actions.</span>
-<span class="sd">            However, it is still good practice to call this method to ensure proper cleanup.</span>
-
-<span class="sd">        Usage:</span>
-<span class="sd">            storage = FileStorage()</span>
-<span class="sd">            # Perform operations using the storage object</span>
-<span class="sd">            storage.close()</span>
-
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Closes any resources opened by this storage object. For some storage</span>
+<span class="sd">        implementations this will be a no-op, but for others it is necessary</span>
+<span class="sd">        to release locks and/or prevent leaks, so it&#39;s a good idea to call it</span>
+<span class="sd">        when you&#39;re done with a storage object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="k">pass</span></div>
 
 <div class="viewcode-block" id="Storage.optimize"><a class="viewcode-back" href="../../../api/filedb/filestore.html#whoosh.filedb.filestore.Storage.optimize">[docs]</a>    <span class="k">def</span> <span class="nf">optimize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Optimizes the storage object.</span>
-
-<span class="sd">        This method is used to optimize the storage object. The specific</span>
-<span class="sd">        implementation of optimization may vary depending on the storage</span>
-<span class="sd">        backend being used. For example, a database implementation might</span>
-<span class="sd">        run a garbage collection procedure on the underlying database.</span>
-
-<span class="sd">        This method does not take any arguments and does not return any</span>
-<span class="sd">        values. It performs the optimization operation in-place on the</span>
-<span class="sd">        storage object.</span>
-
-<span class="sd">        Usage:</span>
-<span class="sd">            store = FileStore()</span>
-<span class="sd">            store.optimize()</span>
-
-<span class="sd">        Note:</span>
-<span class="sd">            The behavior of this method may be different for different</span>
-<span class="sd">            storage backends. It is recommended to consult the documentation</span>
-<span class="sd">            of the specific storage backend for more information on how</span>
-<span class="sd">            optimization is performed.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            NotImplementedError: If the storage backend does not support</span>
-<span class="sd">                optimization.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Optimizes the storage object. The meaning and cost of &quot;optimizing&quot;</span>
+<span class="sd">        will vary by implementation. For example, a database implementation</span>
+<span class="sd">        might run a garbage collection procedure on the underlying database.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="k">pass</span></div>
 
 <div class="viewcode-block" id="Storage.temp_storage"><a class="viewcode-back" href="../../../api/filedb/filestore.html#whoosh.filedb.filestore.Storage.temp_storage">[docs]</a>    <span class="k">def</span> <span class="nf">temp_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Creates a new storage object for temporary files.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates a new storage object for temporary files. You can call</span>
+<span class="sd">        :meth:`Storage.destroy` on the new storage when you&#39;re finished with</span>
+<span class="sd">        it.</span>
 
-<span class="sd">        This method creates a new storage object that can be used to store temporary files. The storage object can be accessed using the returned value and can be manipulated using its methods.</span>
-
-<span class="sd">        :param name: Optional. A name for the new storage. This parameter may be required or optional depending on the storage implementation.</span>
-<span class="sd">        :type name: str or None</span>
-<span class="sd">        :return: A new storage object for temporary files.</span>
-<span class="sd">        :rtype: Storage</span>
-<span class="sd">        :raises NotImplementedError: This method is not implemented in the current class and should be overridden by subclasses.</span>
-
-<span class="sd">        Example usage:</span>
-<span class="sd">        &gt;&gt;&gt; storage = temp_storage()</span>
-<span class="sd">        &gt;&gt;&gt; # Use the storage object to perform operations on temporary files</span>
-<span class="sd">        &gt;&gt;&gt; storage.destroy()  # Clean up the temporary storage when finished</span>
+<span class="sd">        :param name: a name for the new storage. This may be optional or</span>
+<span class="sd">            required depending on the storage implementation.</span>
+<span class="sd">        :rtype: :class:`Storage`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div></div>
@@ -705,336 +428,63 @@
 <span class="k">class</span> <span class="nc">OverlayStorage</span><span class="p">(</span><span class="n">Storage</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Overlays two storage objects. Reads are processed from the first if it</span>
 <span class="sd">    has the named file, otherwise the second. Writes always go to the second.</span>
-
-<span class="sd">    This class provides a way to overlay two storage objects, where the first storage</span>
-<span class="sd">    is used for reading files and the second storage is used for writing files. It is</span>
-<span class="sd">    designed to be used as a storage backend for the Whoosh search engine library.</span>
-
-<span class="sd">    Usage:</span>
-<span class="sd">    1. Create an instance of OverlayStorage by passing two storage objects as arguments.</span>
-<span class="sd">    2. Use the create_index() method to create an index in the second storage.</span>
-<span class="sd">    3. Use the open_index() method to open an index in the first storage.</span>
-<span class="sd">    4. Use the create_file() method to create a file in the second storage.</span>
-<span class="sd">    5. Use the open_file() method to open a file for reading. If the file exists in the</span>
-<span class="sd">       first storage, it will be read from there, otherwise it will be read from the second</span>
-<span class="sd">       storage.</span>
-<span class="sd">    6. Use the list() method to get a list of all files in both storages.</span>
-<span class="sd">    7. Use the file_exists() method to check if a file exists in either storage.</span>
-<span class="sd">    8. Use the file_modified() method to get the modification time of a file. If the file</span>
-<span class="sd">       exists in the first storage, its modification time will be returned, otherwise the</span>
-<span class="sd">       modification time of the file in the second storage will be returned.</span>
-<span class="sd">    9. Use the file_length() method to get the length of a file. If the file exists in the</span>
-<span class="sd">       first storage, its length will be returned, otherwise the length of the file in the</span>
-<span class="sd">       second storage will be returned.</span>
-<span class="sd">    10. Use the delete_file() method to delete a file from the second storage.</span>
-<span class="sd">    11. Use the lock() method to acquire a lock on a file in the second storage.</span>
-<span class="sd">    12. Use the close() method to close both storages.</span>
-<span class="sd">    13. Use the optimize() method to optimize both storages.</span>
-<span class="sd">    14. Use the temp_storage() method to get a temporary storage object from the second storage.</span>
-
-<span class="sd">    Note: The rename_file() method is not implemented and will raise a NotImplementedError if called.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initialize a new instance of the Storage class.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            a: The value for parameter a.</span>
-<span class="sd">            b: The value for parameter b.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">a</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">b</span>
 
     <span class="k">def</span> <span class="nf">create_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Create an index in the filestore.</span>
-
-<span class="sd">        This method creates an index in the filestore using the provided arguments and keyword arguments.</span>
-<span class="sd">        It delegates the actual index creation to the `create_index` method of the underlying `b` object.</span>
-
-<span class="sd">        Parameters:</span>
-<span class="sd">        *args: Variable length argument list.</span>
-<span class="sd">            Positional arguments to be passed to the `create_index` method of the underlying `b` object.</span>
-<span class="sd">        **kwargs: Arbitrary keyword arguments.</span>
-<span class="sd">            Keyword arguments to be passed to the `create_index` method of the underlying `b` object.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">        None</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">        Any exceptions raised by the `create_index` method of the underlying `b` object.</span>
-
-<span class="sd">        Usage:</span>
-<span class="sd">        filestore = FileStore()</span>
-<span class="sd">        filestore.create_index(&quot;my_index&quot;, schema=my_schema)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">create_index</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">open_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Opens an index using the specified arguments and returns the opened index.</span>
-
-<span class="sd">        Parameters:</span>
-<span class="sd">        *args: Variable length argument list.</span>
-<span class="sd">        **kwargs: Arbitrary keyword arguments.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">        The opened index.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">        Any exceptions raised by the underlying implementation.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">open_index</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">create_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Create a new file in the filestore.</span>
-
-<span class="sd">        This method delegates the creation of the file to the underlying</span>
-<span class="sd">        filestore backend.</span>
-
-<span class="sd">        Parameters:</span>
-<span class="sd">        *args: Variable length argument list.</span>
-<span class="sd">        **kwargs: Arbitrary keyword arguments.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">        The created file object.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">        Any exceptions raised by the underlying filestore backend.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">create_file</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">open_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Opens a file with the given name.</span>
-
-<span class="sd">        If the file exists in the first file store (self.a), it is opened using the</span>
-<span class="sd">        `open_file` method of the first file store. Otherwise, if the file exists in</span>
-<span class="sd">        the second file store (self.b), it is opened using the `open_file` method of</span>
-<span class="sd">        the second file store.</span>
-
-<span class="sd">        Parameters:</span>
-<span class="sd">            name (str): The name of the file to open.</span>
-<span class="sd">            *args: Additional positional arguments to pass to the `open_file` method.</span>
-<span class="sd">            **kwargs: Additional keyword arguments to pass to the `open_file` method.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            file-like object: The opened file.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            FileNotFoundError: If the file does not exist in either file store.</span>
-
-<span class="sd">        Usage:</span>
-<span class="sd">            To open a file, call the `open_file` method with the name of the file as the</span>
-<span class="sd">            first argument. Additional arguments and keyword arguments can be passed to</span>
-<span class="sd">            customize the file opening behavior.</span>
-
-<span class="sd">            Example:</span>
-<span class="sd">                file = open_file(&quot;example.txt&quot;, mode=&quot;r&quot;)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">file_exists</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">open_file</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">open_file</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns a list of all the files in the filestore.</span>
-
-<span class="sd">        This method combines the file lists from two filestores, `a` and `b`,</span>
-<span class="sd">        and removes any duplicates. The resulting list contains all the unique</span>
-<span class="sd">        files from both filestores.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            list: A list of file names in the filestore.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; filestore = FileStore()</span>
-<span class="sd">            &gt;&gt;&gt; filestore.list()</span>
-<span class="sd">            [&#39;file1.txt&#39;, &#39;file2.txt&#39;, &#39;file3.txt&#39;]</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">list</span><span class="p">())</span> <span class="o">|</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">list</span><span class="p">()))</span>
 
     <span class="k">def</span> <span class="nf">file_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Check if a file exists in the filestore.</span>
-
-<span class="sd">        Parameters:</span>
-<span class="sd">        - name (str): The name of the file to check.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">        - bool: True if the file exists, False otherwise.</span>
-
-<span class="sd">        This method checks if a file exists in the filestore by delegating the check to</span>
-<span class="sd">        both the `a` and `b` filestores. It returns True if the file exists in either of</span>
-<span class="sd">        the filestores, and False otherwise.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">file_exists</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">file_exists</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">file_modified</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns the modified timestamp of a file.</span>
-
-<span class="sd">        This method checks if the file exists in the primary file store (self.a).</span>
-<span class="sd">        If the file exists, it retrieves the modified timestamp from the primary file store.</span>
-<span class="sd">        If the file does not exist in the primary file store, it retrieves the modified timestamp from the secondary file store (self.b).</span>
-
-<span class="sd">        Parameters:</span>
-<span class="sd">        - name (str): The name of the file.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">        - int: The modified timestamp of the file.</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">file_exists</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">file_modified</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">file_modified</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">file_length</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns the length of a file with the given name.</span>
-
-<span class="sd">        If the file exists in the primary filestore (self.a), the length of the file is returned.</span>
-<span class="sd">        If the file does not exist in the primary filestore, the length of the file is returned from the secondary filestore (self.b).</span>
-
-<span class="sd">        Parameters:</span>
-<span class="sd">        - name (str): The name of the file.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">        - int: The length of the file.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">        &gt;&gt;&gt; store = FileStore()</span>
-<span class="sd">        &gt;&gt;&gt; store.file_length(&quot;example.txt&quot;)</span>
-<span class="sd">        1024</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">file_exists</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">file_length</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">file_length</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">delete_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Deletes a file from the filestore.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            name (str): The name of the file to delete.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            bool: True if the file was successfully deleted, False otherwise.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            FileNotFound: If the specified file does not exist in the filestore.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; filestore = FileStore()</span>
-<span class="sd">            &gt;&gt;&gt; filestore.delete_file(&quot;example.txt&quot;)</span>
-<span class="sd">            True</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">delete_file</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">rename_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Renames a file in the file store.</span>
-
-<span class="sd">        This method is used to rename a file in the file store. It takes the necessary arguments</span>
-<span class="sd">        to identify the file to be renamed and the new name to assign to it.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            *args: Variable length argument list.</span>
-<span class="sd">            **kwargs: Arbitrary keyword arguments.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            NotImplementedError: This method is not implemented in the base class and should be</span>
-<span class="sd">                overridden in the derived classes.</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
     <span class="k">def</span> <span class="nf">lock</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Acquires a lock on the specified file.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            name (str): The name of the file to lock.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            bool: True if the lock was successfully acquired, False otherwise.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            LockError: If an error occurs while acquiring the lock.</span>
-
-<span class="sd">        Notes:</span>
-<span class="sd">            This method delegates the locking operation to the underlying file store.</span>
-<span class="sd">            It is used to prevent concurrent access to the same file by multiple processes.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; filestore = FileStore()</span>
-<span class="sd">            &gt;&gt;&gt; filestore.lock(&quot;example.txt&quot;)</span>
-<span class="sd">            True</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">lock</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Closes the filestore by closing the underlying file handles.</span>
-
-<span class="sd">        This method should be called when you are finished using the filestore.</span>
-<span class="sd">        It closes the file handles for both the primary and secondary files.</span>
-
-<span class="sd">        Note:</span>
-<span class="sd">            After calling this method, any further operations on the filestore</span>
-<span class="sd">            will raise an exception.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; store = FileStore()</span>
-<span class="sd">            &gt;&gt;&gt; # Perform operations on the filestore</span>
-<span class="sd">            &gt;&gt;&gt; store.close()</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">optimize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Optimize the filestore by optimizing both the &#39;a&#39; and &#39;b&#39; components.</span>
-
-<span class="sd">        This method performs optimization on the filestore by calling the `optimize` method</span>
-<span class="sd">        on both the &#39;a&#39; and &#39;b&#39; components. Optimization improves the performance of the</span>
-<span class="sd">        filestore by reorganizing the data and reducing fragmentation.</span>
-
-<span class="sd">        Note:</span>
-<span class="sd">            Optimization may take some time to complete, depending on the size of the filestore.</span>
-
-<span class="sd">        Usage:</span>
-<span class="sd">            filestore = FileStore()</span>
-<span class="sd">            filestore.optimize()</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">temp_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns a temporary storage object.</span>
-
-<span class="sd">        This method returns a temporary storage object that can be used to store temporary data.</span>
-<span class="sd">        The `name` parameter is optional and can be used to specify a name for the temporary storage.</span>
-
-<span class="sd">        Parameters:</span>
-<span class="sd">            name (str, optional): The name of the temporary storage. Defaults to None.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            TempStorage: A temporary storage object.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; store = filestore.temp_storage(name=&quot;my_temp_storage&quot;)</span>
-<span class="sd">            &gt;&gt;&gt; store.add(&quot;data.txt&quot;, &quot;Hello, World!&quot;)</span>
-<span class="sd">            &gt;&gt;&gt; store.commit()</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">temp_storage</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
 
 
@@ -1045,45 +495,19 @@
 <span class="sd">    did not exist. As of version 3, the object does not check if the</span>
 <span class="sd">    directory exists at initialization. This change is to support using the</span>
 <span class="sd">    :meth:`FileStorage.create` method.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        path (str): A path to a directory.</span>
-<span class="sd">        supports_mmap (bool, optional): If True (the default), use the ``mmap`` module to</span>
-<span class="sd">            open memory mapped files. You can open the storage object with</span>
-<span class="sd">            ``supports_mmap=False`` to force Whoosh to open files normally</span>
-<span class="sd">            instead of with ``mmap``.</span>
-<span class="sd">        readonly (bool, optional): If ``True``, the object will raise an exception if you</span>
-<span class="sd">            attempt to create or rename a file.</span>
-<span class="sd">        debug (bool, optional): If ``True``, enables debug mode.</span>
-
-<span class="sd">    Attributes:</span>
-<span class="sd">        folder (str): The path to the directory where the index files are stored.</span>
-<span class="sd">        supports_mmap (bool): If True, the storage object uses memory mapped files.</span>
-<span class="sd">        readonly (bool): If True, the storage object is read-only.</span>
-<span class="sd">        _debug (bool): If True, debug mode is enabled.</span>
-<span class="sd">        locks (dict): A dictionary of file locks.</span>
-
-<span class="sd">    Raises:</span>
-<span class="sd">        IOError: If the given path is not a directory.</span>
-<span class="sd">        OSError: If an error occurs while creating or removing the directory.</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">supports_mmap</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">supports_mmap</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">readonly</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initializes a FileStorage object.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            path (str): A path to a directory.</span>
-<span class="sd">            supports_mmap (bool, optional): If True (the default), use the ``mmap`` module to</span>
-<span class="sd">                open memory mapped files. You can open the storage object with</span>
-<span class="sd">                ``supports_mmap=False`` to force Whoosh to open files normally</span>
-<span class="sd">                instead of with ``mmap``.</span>
-<span class="sd">            readonly (bool, optional): If ``True``, the object will raise an exception if you</span>
-<span class="sd">                attempt to create or rename a file.</span>
-<span class="sd">            debug (bool, optional): If ``True``, enables debug mode.</span>
+<span class="sd">        :param path: a path to a directory.</span>
+<span class="sd">        :param supports_mmap: if True (the default), use the ``mmap`` module to</span>
+<span class="sd">            open memory mapped files. You can open the storage object with</span>
+<span class="sd">            ``supports_mmap=False`` to force Whoosh to open files normally</span>
+<span class="sd">            instead of with ``mmap``.</span>
+<span class="sd">        :param readonly: If ``True``, the object will raise an exception if you</span>
+<span class="sd">            attempt to create or rename a file.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">folder</span> <span class="o">=</span> <span class="n">path</span>
@@ -1140,17 +564,11 @@
         <span class="k">return</span> <span class="bp">self</span>
 
     <span class="k">def</span> <span class="nf">destroy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Removes any files in this storage object and then removes the storage object&#39;s directory.</span>
-<span class="sd">        What happens if any of the files or the directory are in use depends on the underlying platform.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            OSError: If an error occurs while removing the directory.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            storage = FileStorage(&#39;/path/to/storage&#39;)</span>
-<span class="sd">            storage.destroy()</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Removes any files in this storage object and then removes the</span>
+<span class="sd">        storage object&#39;s directory. What happens if any of the files or the</span>
+<span class="sd">        directory are in use depends on the underlying platform.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="c1"># Remove all files</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">clean</span><span class="p">()</span>
         <span class="k">try</span><span class="p">:</span>
@@ -1164,20 +582,15 @@
                 <span class="k">raise</span> <span class="n">e</span>
 
     <span class="k">def</span> <span class="nf">create_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">excl</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;wb&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Creates a file with the given name in this storage.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates a file with the given name in this storage.</span>
 
-<span class="sd">        :param name: The name for the new file.</span>
-<span class="sd">        :type name: str</span>
-<span class="sd">        :param excl: If True, try to open the file in &quot;exclusive&quot; mode. Defaults to False.</span>
-<span class="sd">        :type excl: bool</span>
-<span class="sd">        :param mode: The mode flags with which to open the file. Defaults to &quot;wb&quot;.</span>
-<span class="sd">        :type mode: str</span>
-<span class="sd">        :param kwargs: Additional keyword arguments to be passed to the :class:`whoosh.filedb.structfile.StructFile` constructor.</span>
-<span class="sd">        :return: A :class:`whoosh.filedb.structfile.StructFile` instance representing the created file.</span>
-<span class="sd">        :rtype: whoosh.filedb.structfile.StructFile</span>
-<span class="sd">        :raises ReadOnlyError: If the storage is in read-only mode.</span>
+<span class="sd">        :param name: the name for the new file.</span>
+<span class="sd">        :param excl: if True, try to open the file in &quot;exclusive&quot; mode.</span>
+<span class="sd">        :param mode: the mode flags with which to open the file. The default is</span>
+<span class="sd">            ``&quot;wb&quot;``.</span>
+<span class="sd">        :return: a :class:`whoosh.filedb.structfile.StructFile` instance.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">readonly</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ReadOnlyError</span>
 
@@ -1195,77 +608,21 @@
         <span class="k">return</span> <span class="n">f</span>
 
     <span class="k">def</span> <span class="nf">open_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Opens an existing file in this storage.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Opens an existing file in this storage.</span>
 
-<span class="sd">        :param name: The name of the file to open.</span>
-<span class="sd">        :type name: str</span>
-<span class="sd">        :param kwargs: Additional keyword arguments passed to the StructFile initializer.</span>
-<span class="sd">        :type kwargs: dict</span>
-<span class="sd">        :return: An instance of `whoosh.filedb.structfile.StructFile`.</span>
-<span class="sd">        :rtype: whoosh.filedb.structfile.StructFile</span>
-<span class="sd">        :raises FileNotFoundError: If the specified file does not exist.</span>
-<span class="sd">        :raises IOError: If there is an error opening the file.</span>
-
-<span class="sd">        This method opens an existing file in the storage and returns an instance of `whoosh.filedb.structfile.StructFile`.</span>
-<span class="sd">        The `StructFile` class provides a file-like interface for reading and writing data to the file.</span>
-
-<span class="sd">        Example usage:</span>
-<span class="sd">        &gt;&gt;&gt; storage = FileStorage(&quot;/path/to/storage&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; file = storage.open_file(&quot;example.txt&quot;, mode=&quot;rb&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; data = file.read()</span>
-<span class="sd">        &gt;&gt;&gt; file.close()</span>
-
-<span class="sd">        Note that the `name` parameter should be a valid file name within the storage.</span>
-<span class="sd">        Additional keyword arguments are passed through to the `StructFile` initializer,</span>
-<span class="sd">        allowing customization of the file opening behavior (e.g., specifying the file mode).</span>
-
-<span class="sd">        It is important to close the file after use to release system resources.</span>
-<span class="sd">        The `StructFile` instance returned by this method provides a `close()` method for this purpose.</span>
+<span class="sd">        :param name: the name of the file to open.</span>
+<span class="sd">        :param kwargs: additional keyword arguments are passed through to the</span>
+<span class="sd">            :class:`~whoosh.filedb.structfile.StructFile` initializer.</span>
+<span class="sd">        :return: a :class:`whoosh.filedb.structfile.StructFile` instance.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="n">f</span> <span class="o">=</span> <span class="n">StructFile</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fpath</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="s2">&quot;rb&quot;</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">f</span>
 
     <span class="k">def</span> <span class="nf">_fpath</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns the absolute file path for the given filename within the filestore.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            fname (str): The name of the file.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            str: The absolute file path.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            None</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; store = FileStore(&#39;/path/to/folder&#39;)</span>
-<span class="sd">            &gt;&gt;&gt; store._fpath(&#39;data.txt&#39;)</span>
-<span class="sd">            &#39;/path/to/folder/data.txt&#39;</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">folder</span><span class="p">,</span> <span class="n">fname</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ignore</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Remove all files in the filestore.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            ignore (bool, optional): If True, any OSError raised during file removal will be ignored.</span>
-<span class="sd">                If False (default), an OSError will be raised if any file removal fails.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            ReadOnlyError: If the filestore is in read-only mode.</span>
-<span class="sd">            OSError: If an error occurs while removing a file and ignore is set to False.</span>
-
-<span class="sd">        Note:</span>
-<span class="sd">            This method is used to clean the filestore by removing all files within it.</span>
-<span class="sd">            It is important to note that this operation cannot be undone.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; filestore = FileStore(&#39;/path/to/folder&#39;)</span>
-<span class="sd">            &gt;&gt;&gt; filestore.clean(ignore=True)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">readonly</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ReadOnlyError</span>
 
@@ -1279,24 +636,6 @@
                     <span class="k">raise</span>
 
     <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns a list of files in the specified folder.</span>
-
-<span class="sd">        This method lists all the files in the folder specified during the initialization</span>
-<span class="sd">        of the FileStore object.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            list: A list of file names in the folder.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            OSError: If an error occurs while accessing the folder.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; fs = FileStore(&#39;/path/to/folder&#39;)</span>
-<span class="sd">            &gt;&gt;&gt; files = fs.list()</span>
-<span class="sd">            &gt;&gt;&gt; print(files)</span>
-<span class="sd">            [&#39;file1.txt&#39;, &#39;file2.txt&#39;, &#39;file3.txt&#39;]</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">files</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">folder</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
@@ -1305,89 +644,21 @@
         <span class="k">return</span> <span class="n">files</span>
 
     <span class="k">def</span> <span class="nf">file_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Check if a file exists in the filestore.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            name (str): The name of the file to check.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            bool: True if the file exists, False otherwise.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fpath</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">file_modified</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns the modification time of the file with the given name.</span>
-
-<span class="sd">        Parameters:</span>
-<span class="sd">        - name (str): The name of the file.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">        - float: The modification time of the file in seconds since the epoch.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">        - FileNotFoundError: If the file does not exist.</span>
-
-<span class="sd">        This method retrieves the modification time of the file specified by the given name.</span>
-<span class="sd">        It uses the os.path.getmtime() function to get the modification time in seconds since the epoch.</span>
-<span class="sd">        If the file does not exist, a FileNotFoundError is raised.</span>
-
-<span class="sd">        Example usage:</span>
-<span class="sd">        &gt;&gt;&gt; store = FileStore()</span>
-<span class="sd">        &gt;&gt;&gt; modified_time = store.file_modified(&quot;example.txt&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; print(modified_time)</span>
-<span class="sd">        1629876543.0</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getmtime</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fpath</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">file_length</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns the length of a file in bytes.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            name (str): The name of the file.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            int: The length of the file in bytes.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            FileNotFoundError: If the file does not exist.</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fpath</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">delete_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Delete a file from the filestore.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            name (str): The name of the file to delete.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            ReadOnlyError: If the filestore is in read-only mode.</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">readonly</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ReadOnlyError</span>
 
         <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fpath</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">rename_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oldname</span><span class="p">,</span> <span class="n">newname</span><span class="p">,</span> <span class="n">safe</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Renames a file in the filestore.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            oldname (str): The name of the file to be renamed.</span>
-<span class="sd">            newname (str): The new name for the file.</span>
-<span class="sd">            safe (bool, optional): If True, raises a NameError if the new name already exists.</span>
-<span class="sd">                                   If False, the existing file with the new name will be overwritten.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            ReadOnlyError: If the filestore is in read-only mode.</span>
-<span class="sd">            NameError: If the new name already exists and safe is set to True.</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">readonly</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">ReadOnlyError</span>
 
@@ -1399,42 +670,9 @@
         <span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fpath</span><span class="p">(</span><span class="n">oldname</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fpath</span><span class="p">(</span><span class="n">newname</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">lock</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Acquires a lock for the specified file.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            name (str): The name of the file to lock.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            FileLock: A lock object that can be used to manage the file lock.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            OSError: If an error occurs while acquiring the lock.</span>
-
-<span class="sd">        Notes:</span>
-<span class="sd">            This method is used to acquire a lock for a specific file in the filestore.</span>
-<span class="sd">            The lock prevents other processes from modifying the file while it is locked.</span>
-<span class="sd">            It is important to release the lock using the `release` method when it is no longer needed.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">FileLock</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_fpath</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">temp_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Creates a temporary storage file for the filestore.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            name (str, optional): The name of the temporary storage file. If not provided, a random name will be generated.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            FileStorage: The temporary storage file.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            OSError: If there is an error creating the temporary storage file.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; filestore = FileStore()</span>
-<span class="sd">            &gt;&gt;&gt; temp_storage = filestore.temp_storage()</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">name</span> <span class="o">=</span> <span class="n">name</span> <span class="ow">or</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">random_name</span><span class="p">()</span><span class="si">}</span><span class="s2">.tmp&quot;</span>
         <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">folder</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
         <span class="n">tempstore</span> <span class="o">=</span> <span class="n">FileStorage</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
@@ -1442,185 +680,45 @@
 
 
 <div class="viewcode-block" id="RamStorage"><a class="viewcode-back" href="../../../api/filedb/filestore.html#whoosh.filedb.filestore.RamStorage">[docs]</a><span class="k">class</span> <span class="nc">RamStorage</span><span class="p">(</span><span class="n">Storage</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Storage object that keeps the index in memory.</span>
-
-<span class="sd">    This class provides an implementation of the `Storage` interface that stores the index in memory.</span>
-<span class="sd">    It is suitable for small indexes or for testing purposes.</span>
-
-<span class="sd">    Attributes:</span>
-<span class="sd">        files (dict): A dictionary that stores the file content in memory.</span>
-<span class="sd">        locks (dict): A dictionary that stores locks for file access.</span>
-<span class="sd">        folder (str): The folder path associated with the storage.</span>
-
-<span class="sd">    Note:</span>
-<span class="sd">        - This implementation does not support memory-mapped files (`supports_mmap` is set to False).</span>
-<span class="sd">        - The `files` dictionary stores the file content as key-value pairs, where the key is the file name and the value is the file content.</span>
-<span class="sd">        - The `locks` dictionary stores locks for file access, where the key is the file name and the value is the lock object.</span>
-<span class="sd">        - The `folder` attribute is not used in this implementation.</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Storage object that keeps the index in memory.&quot;&quot;&quot;</span>
 
     <span class="n">supports_mmap</span> <span class="o">=</span> <span class="kc">False</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initialize a FileStore object.</span>
-
-<span class="sd">        This class represents a file store that manages a collection of files and their locks.</span>
-<span class="sd">        It provides methods for adding, retrieving, and managing files within the store.</span>
-
-<span class="sd">        Attributes:</span>
-<span class="sd">        - files (dict): A dictionary that maps file names to their corresponding file objects.</span>
-<span class="sd">        - locks (dict): A dictionary that maps file names to their corresponding lock objects.</span>
-<span class="sd">        - folder (str): The folder path where the files are stored.</span>
-
-<span class="sd">        Usage:</span>
-<span class="sd">        - Create a new FileStore object by calling the constructor.</span>
-<span class="sd">        - Use the `add_file` method to add a file to the store.</span>
-<span class="sd">        - Use the `get_file` method to retrieve a file from the store.</span>
-<span class="sd">        - Use the `lock_file` and `unlock_file` methods to manage file locks.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">files</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">locks</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">folder</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">destroy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Deletes all files and locks associated with the file store.</span>
-
-<span class="sd">        This method permanently deletes all files and locks associated with the file store.</span>
-<span class="sd">        After calling this method, the file store will be empty and all resources will be released.</span>
-
-<span class="sd">        Note:</span>
-<span class="sd">            - Use this method with caution as it irreversibly deletes all files and locks.</span>
-<span class="sd">            - Make sure to close any open indexes before calling this method.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            - OSError: If there is an error while deleting the files or locks.</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">files</span>
         <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">locks</span>
 
     <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Return a list of all the files stored in the filestore.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            list: A list of file names.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">files</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
 
     <span class="k">def</span> <span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Removes all files from the filestore.</span>
-
-<span class="sd">        This method clears the internal dictionary of files, effectively removing all files from the filestore.</span>
-<span class="sd">        After calling this method, the filestore will be empty.</span>
-
-<span class="sd">        Usage:</span>
-<span class="sd">            ram_storage = RamStorage()</span>
-<span class="sd">            ram_storage.clean()</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">files</span> <span class="o">=</span> <span class="p">{}</span>
 
     <span class="k">def</span> <span class="nf">total_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns the total size of all files in the filestore.</span>
-
-<span class="sd">        This method calculates the total size of all files in the filestore by summing the file lengths</span>
-<span class="sd">        of all files returned by the `list()` method.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            int: The total size of all files in the filestore.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; filestore = RamStorage()</span>
-<span class="sd">            &gt;&gt;&gt; filestore.total_size()</span>
-<span class="sd">            1024</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file_length</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">list</span><span class="p">())</span>
 
     <span class="k">def</span> <span class="nf">file_exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Check if a file with the given name exists in the filestore.</span>
-
-<span class="sd">        Parameters:</span>
-<span class="sd">        - name (str): The name of the file to check.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">        - bool: True if the file exists, False otherwise.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">files</span>
 
     <span class="k">def</span> <span class="nf">file_length</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns the length of a file in the filestore.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            name (str): The name of the file.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            int: The length of the file in bytes.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            NameError: If the file with the given name does not exist in the filestore.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">files</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">files</span><span class="p">[</span><span class="n">name</span><span class="p">])</span>
 
     <span class="k">def</span> <span class="nf">file_modified</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns the modification time of the file with the given name.</span>
-
-<span class="sd">        Parameters:</span>
-<span class="sd">        - name (str): The name of the file.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">        - int: The modification time of the file in seconds since the epoch.</span>
-
-<span class="sd">        Note:</span>
-<span class="sd">        This method always returns -1, indicating that the modification time is unknown.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
 
     <span class="k">def</span> <span class="nf">delete_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Delete a file from the filestore.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            name (str): The name of the file to delete.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            NameError: If the specified file does not exist in the filestore.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            None</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">files</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">files</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">rename_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">newname</span><span class="p">,</span> <span class="n">safe</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Renames a file in the filestore.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            name (str): The name of the file to be renamed.</span>
-<span class="sd">            newname (str): The new name for the file.</span>
-<span class="sd">            safe (bool, optional): If True, checks if the new name already exists in the filestore before renaming.</span>
-<span class="sd">                Raises an error if the new name already exists. Defaults to False.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            NameError: If the file with the given name does not exist in the filestore.</span>
-<span class="sd">            NameError: If the new name already exists in the filestore and safe is True.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            None</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">files</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">safe</span> <span class="ow">and</span> <span class="n">newname</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">files</span><span class="p">:</span>
@@ -1631,31 +729,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">files</span><span class="p">[</span><span class="n">newname</span><span class="p">]</span> <span class="o">=</span> <span class="n">content</span>
 
     <span class="k">def</span> <span class="nf">create_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Create a file in the filestore.</span>
-
-<span class="sd">        This method creates a file in the filestore and returns a StructFile object</span>
-<span class="sd">        that can be used to read from and write to the file.</span>
-
-<span class="sd">        Parameters:</span>
-<span class="sd">        - name (str): The name of the file to create.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">        - StructFile: A StructFile object representing the created file.</span>
-
-<span class="sd">        Example usage:</span>
-<span class="sd">        &gt;&gt;&gt; filestore = FileStore()</span>
-<span class="sd">        &gt;&gt;&gt; file = filestore.create_file(&quot;example.txt&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; file.write(&quot;Hello, World!&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; file.close()</span>
-
-<span class="sd">        Note:</span>
-<span class="sd">        - The created file is stored in the `files` dictionary of the FileStore object.</span>
-<span class="sd">        - The file content is stored as a byte string in the `file` attribute of the StructFile object.</span>
-<span class="sd">        - The `onclose_fn` function is called when the StructFile object is closed, and it updates the `files` dictionary with the file content.</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="k">def</span> <span class="nf">onclose_fn</span><span class="p">(</span><span class="n">sfile</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">files</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">sfile</span><span class="o">.</span><span class="n">file</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span>
 
@@ -1663,65 +736,17 @@
         <span class="k">return</span> <span class="n">f</span>
 
     <span class="k">def</span> <span class="nf">open_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Opens a file from the filestore.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            name (str): The name of the file to open.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            BufferFile: The opened file as a BufferFile object.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            NameError: If the specified file does not exist in the filestore.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">files</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="n">buf</span> <span class="o">=</span> <span class="n">memoryview_</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">files</span><span class="p">[</span><span class="n">name</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">BufferFile</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">lock</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Acquires a lock for the given name.</span>
-
-<span class="sd">        If a lock for the given name does not exist, a new lock is created and stored in the `locks` dictionary.</span>
-<span class="sd">        Subsequent calls to `lock` with the same name will return the same lock object.</span>
-
-<span class="sd">        Parameters:</span>
-<span class="sd">        - name (str): The name of the lock.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">        - Lock: The lock object associated with the given name.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">        &gt;&gt;&gt; store = RamStorage()</span>
-<span class="sd">        &gt;&gt;&gt; lock1 = store.lock(&quot;my_lock&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; lock2 = store.lock(&quot;my_lock&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; lock1 is lock2</span>
-<span class="sd">        True</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">locks</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">locks</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">Lock</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">locks</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">temp_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Creates a temporary storage for the file.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            name (str, optional): The name of the temporary file. If not provided, a random name will be generated.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            FileStorage: The temporary storage object.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            OSError: If there is an error creating the temporary file.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; store = temp_storage(&quot;my_temp_file&quot;)</span>
-<span class="sd">            &gt;&gt;&gt; store.write(&quot;Hello, World!&quot;)</span>
-<span class="sd">            &gt;&gt;&gt; store.close()</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">tdir</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">gettempdir</span><span class="p">()</span>
         <span class="n">name</span> <span class="o">=</span> <span class="n">name</span> <span class="ow">or</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">random_name</span><span class="p">()</span><span class="si">}</span><span class="s2">.tmp&quot;</span>
         <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tdir</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
@@ -1732,48 +757,6 @@
 <div class="viewcode-block" id="copy_storage"><a class="viewcode-back" href="../../../api/filedb/filestore.html#whoosh.filedb.filestore.copy_storage">[docs]</a><span class="k">def</span> <span class="nf">copy_storage</span><span class="p">(</span><span class="n">sourcestore</span><span class="p">,</span> <span class="n">deststore</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Copies the files from the source storage object to the destination</span>
 <span class="sd">    storage object using ``shutil.copyfileobj``.</span>
-
-<span class="sd">    Parameters:</span>
-<span class="sd">    - sourcestore (object): The source storage object from which files will be copied.</span>
-<span class="sd">    - deststore (object): The destination storage object to which files will be copied.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">    - None</span>
-
-<span class="sd">    Raises:</span>
-<span class="sd">    - None</span>
-
-<span class="sd">    Example usage:</span>
-<span class="sd">    ```</span>
-<span class="sd">    sourcestore = FileStore(...)</span>
-<span class="sd">    deststore = FileStore(...)</span>
-<span class="sd">    copy_storage(sourcestore, deststore)</span>
-<span class="sd">    ```</span>
-
-<span class="sd">    This function iterates over the files in the source storage object and copies each file</span>
-<span class="sd">    to the destination storage object using the `shutil.copyfileobj` function. It is useful</span>
-<span class="sd">    for copying files between different storage objects, such as local file systems or cloud</span>
-<span class="sd">    storage systems.</span>
-
-<span class="sd">    Note: Both the source and destination storage objects must implement the following methods:</span>
-<span class="sd">    - `list()`: Returns a list of file names in the storage object.</span>
-<span class="sd">    - `open_file(name)`: Opens the file with the given name in the storage object and returns</span>
-<span class="sd">      a file-like object.</span>
-<span class="sd">    - `create_file(name)`: Creates a new file with the given name in the storage object and</span>
-<span class="sd">      returns a file-like object for writing.</span>
-
-<span class="sd">    Example storage object implementation:</span>
-<span class="sd">    ```</span>
-<span class="sd">    class FileStore:</span>
-<span class="sd">        def list(self):</span>
-<span class="sd">            # implementation</span>
-
-<span class="sd">        def open_file(self, name):</span>
-<span class="sd">            # implementation</span>
-
-<span class="sd">        def create_file(self, name):</span>
-<span class="sd">            # implementation</span>
-<span class="sd">    ```</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">shutil</span> <span class="kn">import</span> <span class="n">copyfileobj</span>
 
@@ -1786,14 +769,6 @@
 <div class="viewcode-block" id="copy_to_ram"><a class="viewcode-back" href="../../../api/filedb/filestore.html#whoosh.filedb.filestore.copy_to_ram">[docs]</a><span class="k">def</span> <span class="nf">copy_to_ram</span><span class="p">(</span><span class="n">storage</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Copies the given FileStorage object into a new RamStorage object.</span>
 
-<span class="sd">    This function creates a new RamStorage object and copies all the files and directories</span>
-<span class="sd">    from the provided FileStorage object into it. The RamStorage object is an in-memory</span>
-<span class="sd">    storage implementation that allows fast access to the files.</span>
-
-<span class="sd">    :param storage: The FileStorage object to be copied.</span>
-<span class="sd">    :type storage: :class:`FileStorage`</span>
-
-<span class="sd">    :return: The newly created RamStorage object containing the copied files.</span>
 <span class="sd">    :rtype: :class:`RamStorage`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 

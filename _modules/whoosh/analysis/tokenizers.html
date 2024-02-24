@@ -135,37 +135,9 @@
 
 
 <span class="k">class</span> <span class="nc">Tokenizer</span><span class="p">(</span><span class="n">Composable</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for tokenizers.</span>
-
-<span class="sd">    Tokenizers are responsible for breaking text into individual tokens. This base class</span>
-<span class="sd">    provides the basic structure and behavior that all tokenizers should follow.</span>
-
-<span class="sd">    Subclasses should override the `tokenize` method to implement the tokenization logic.</span>
-
-<span class="sd">    Example usage:</span>
-<span class="sd">        tokenizer = Tokenizer()</span>
-<span class="sd">        tokens = tokenizer.tokenize(&quot;Hello, world!&quot;)</span>
-<span class="sd">        for token in tokens:</span>
-<span class="sd">            print(token)</span>
-
-<span class="sd">    Attributes:</span>
-<span class="sd">        None</span>
-
-<span class="sd">    Methods:</span>
-<span class="sd">        __eq__(self, other): Compare if two tokenizers are equal.</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for Tokenizers.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compare if two tokenizers are equal.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            other (object): The other tokenizer object to compare.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            bool: True if the tokenizers are equal, False otherwise.</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">other</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="n">other</span><span class="o">.</span><span class="vm">__class__</span>
 
 
@@ -173,23 +145,9 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Yields the entire input string as a single token. For use in indexed but</span>
 <span class="sd">    untokenized fields, such as a document&#39;s path.</span>
 
-<span class="sd">    Example:</span>
-<span class="sd">        idt = IDTokenizer()</span>
-<span class="sd">        [token.text for token in idt(&quot;/a/b 123 alpha&quot;)]</span>
-<span class="sd">        Output: [&quot;/a/b 123 alpha&quot;]</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        positions (bool, optional): Whether to store token positions. Defaults to False.</span>
-<span class="sd">        chars (bool, optional): Whether to store token character offsets. Defaults to False.</span>
-<span class="sd">        keeporiginal (bool, optional): Whether to store the original token text. Defaults to False.</span>
-<span class="sd">        removestops (bool, optional): Whether to remove stop words. Defaults to True.</span>
-<span class="sd">        start_pos (int, optional): The starting position of the token. Defaults to 0.</span>
-<span class="sd">        start_char (int, optional): The starting character offset of the token. Defaults to 0.</span>
-<span class="sd">        mode (str, optional): The tokenization mode. Defaults to &quot;&quot;.</span>
-<span class="sd">        **kwargs: Additional keyword arguments.</span>
-
-<span class="sd">    Yields:</span>
-<span class="sd">        Token: The token object containing the token information.</span>
+<span class="sd">    &gt;&gt;&gt; idt = IDTokenizer()</span>
+<span class="sd">    &gt;&gt;&gt; [token.text for token in idt(&quot;/a/b 123 alpha&quot;)]</span>
+<span class="sd">    [&quot;/a/b 123 alpha&quot;]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span>
@@ -204,27 +162,6 @@
         <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Tokenizes the given value and yields a Token object.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            value (str): The input string to be tokenized.</span>
-<span class="sd">            positions (bool, optional): Whether to include position information in the Token object. Defaults to False.</span>
-<span class="sd">            chars (bool, optional): Whether to include character information in the Token object. Defaults to False.</span>
-<span class="sd">            keeporiginal (bool, optional): Whether to store the original value in the Token object. Defaults to False.</span>
-<span class="sd">            removestops (bool, optional): Whether to remove stop words from the Token object. Defaults to True.</span>
-<span class="sd">            start_pos (int, optional): The starting position of the Token object. Defaults to 0.</span>
-<span class="sd">            start_char (int, optional): The starting character position of the Token object. Defaults to 0.</span>
-<span class="sd">            mode (str, optional): The tokenization mode. Defaults to &quot;&quot;.</span>
-<span class="sd">            **kwargs: Additional keyword arguments to be passed to the Token object.</span>
-
-<span class="sd">        Yields:</span>
-<span class="sd">            Token: A Token object representing a tokenized value.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            AssertionError: If the input value is not a string.</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">value</span><span class="si">!r}</span><span class="s2"> is not unicode&quot;</span>
         <span class="n">t</span> <span class="o">=</span> <span class="n">Token</span><span class="p">(</span><span class="n">positions</span><span class="p">,</span> <span class="n">chars</span><span class="p">,</span> <span class="n">removestops</span><span class="o">=</span><span class="n">removestops</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="n">t</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">value</span>
@@ -243,47 +180,25 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Uses a regular expression to extract tokens from text.</span>
 
-<span class="sd">    Example:</span>
 <span class="sd">    &gt;&gt;&gt; rex = RegexTokenizer()</span>
 <span class="sd">    &gt;&gt;&gt; [token.text for token in rex(&quot;hi there 3.141 big-time under_score&quot;)]</span>
 <span class="sd">    [&quot;hi&quot;, &quot;there&quot;, &quot;3.141&quot;, &quot;big&quot;, &quot;time&quot;, &quot;under_score&quot;]</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        expression (Union[str, Pattern]): A regular expression object or string. Each match</span>
-<span class="sd">            of the expression equals a token. Group 0 (the entire matched text)</span>
-<span class="sd">            is used as the text of the token. If you require more complicated</span>
-<span class="sd">            handling of the expression match, simply write your own tokenizer.</span>
-<span class="sd">        gaps (bool): If True, the tokenizer *splits* on the expression, rather</span>
-<span class="sd">            than matching on the expression.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expression</span><span class="o">=</span><span class="n">default_pattern</span><span class="p">,</span> <span class="n">gaps</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initialize the RegexTokenizer.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            expression (Union[str, Pattern]): A regular expression object or string. Each match</span>
-<span class="sd">                of the expression equals a token. Group 0 (the entire matched text)</span>
-<span class="sd">                is used as the text of the token. If you require more complicated</span>
-<span class="sd">                handling of the expression match, simply write your own tokenizer.</span>
-<span class="sd">            gaps (bool): If True, the tokenizer *splits* on the expression, rather</span>
-<span class="sd">                than matching on the expression.</span>
+<span class="sd">        :param expression: A regular expression object or string. Each match</span>
+<span class="sd">            of the expression equals a token. Group 0 (the entire matched text)</span>
+<span class="sd">            is used as the text of the token. If you require more complicated</span>
+<span class="sd">            handling of the expression match, simply write your own tokenizer.</span>
+<span class="sd">        :param gaps: If True, the tokenizer *splits* on the expression, rather</span>
+<span class="sd">            than matching on the expression.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">expression</span> <span class="o">=</span> <span class="n">rcompile</span><span class="p">(</span><span class="n">expression</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">gaps</span> <span class="o">=</span> <span class="n">gaps</span>
 
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Compare the RegexTokenizer with another object for equality.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            other (object): The object to compare with.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            bool: True if the objects are equal, False otherwise.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="n">other</span><span class="o">.</span><span class="vm">__class__</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">expression</span><span class="o">.</span><span class="n">pattern</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">expression</span><span class="o">.</span><span class="n">pattern</span><span class="p">:</span>
                 <span class="k">return</span> <span class="kc">True</span>
@@ -303,21 +218,16 @@
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Tokenize the input value using the RegexTokenizer.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            value (str): The unicode string to tokenize.</span>
-<span class="sd">            positions (bool): Whether to record token positions in the token.</span>
-<span class="sd">            chars (bool): Whether to record character offsets in the token.</span>
-<span class="sd">            keeporiginal (bool): Whether to keep the original text of the token.</span>
-<span class="sd">            removestops (bool): Whether to remove stop words from the token.</span>
-<span class="sd">            start_pos (int): The position number of the first token.</span>
-<span class="sd">            start_char (int): The offset of the first character of the first token.</span>
-<span class="sd">            tokenize (bool): If True, the text should be tokenized.</span>
-<span class="sd">            mode (str): The tokenization mode.</span>
-
-<span class="sd">        Yields:</span>
-<span class="sd">            Token: The generated tokens.</span>
+<span class="sd">        :param value: The unicode string to tokenize.</span>
+<span class="sd">        :param positions: Whether to record token positions in the token.</span>
+<span class="sd">        :param chars: Whether to record character offsets in the token.</span>
+<span class="sd">        :param start_pos: The position number of the first token. For example,</span>
+<span class="sd">            if you set start_pos=2, the tokens will be numbered 2,3,4,...</span>
+<span class="sd">            instead of 0,1,2,...</span>
+<span class="sd">        :param start_char: The offset of the first character of the first</span>
+<span class="sd">            token. For example, if you set start_char=2, the text &quot;aaa bbb&quot;</span>
+<span class="sd">            will have chars (2,5),(6,9) instead (0,3),(4,7).</span>
+<span class="sd">        :param tokenize: if True, the text should be tokenized.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="si">}</span><span class="s2"> is not unicode&quot;</span>
@@ -415,24 +325,12 @@
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">charmap</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initialize the Tokenizer with a character map.</span>
-
-<span class="sd">        :param charmap: A mapping from integer character numbers to Unicode</span>
+<span class="sd">        :param charmap: a mapping from integer character numbers to unicode</span>
 <span class="sd">            characters, as used by the unicode.translate() method.</span>
-<span class="sd">        :type charmap: dict</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">charmap</span> <span class="o">=</span> <span class="n">charmap</span>
 
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Compare this tokenizer with another tokenizer for equality.</span>
-
-<span class="sd">        Parameters:</span>
-<span class="sd">        - other: The other tokenizer to compare with.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">        - True if the tokenizers are equal, False otherwise.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="n">other</span>
             <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="n">other</span><span class="o">.</span><span class="vm">__class__</span>
@@ -453,22 +351,16 @@
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Tokenizes a given unicode string.</span>
-
 <span class="sd">        :param value: The unicode string to tokenize.</span>
 <span class="sd">        :param positions: Whether to record token positions in the token.</span>
 <span class="sd">        :param chars: Whether to record character offsets in the token.</span>
-<span class="sd">        :param keeporiginal: Whether to keep the original text in the token.</span>
-<span class="sd">        :param removestops: Whether to remove stop words from the token.</span>
-<span class="sd">        :param start_pos: The position number of the first token.</span>
-<span class="sd">        :param start_char: The offset of the first character of the first token.</span>
-<span class="sd">        :param tokenize: If True, the text should be tokenized.</span>
-<span class="sd">        :param mode: The tokenization mode.</span>
-<span class="sd">        :param kwargs: Additional keyword arguments.</span>
-
-<span class="sd">        :return: A generator that yields Token objects.</span>
-
-<span class="sd">        :raises AssertionError: If the value is not a unicode string.</span>
+<span class="sd">        :param start_pos: The position number of the first token. For example,</span>
+<span class="sd">            if you set start_pos=2, the tokens will be numbered 2,3,4,...</span>
+<span class="sd">            instead of 0,1,2,...</span>
+<span class="sd">        :param start_char: The offset of the first character of the first</span>
+<span class="sd">            token. For example, if you set start_char=2, the text &quot;aaa bbb&quot;</span>
+<span class="sd">            will have chars (2,5),(6,9) instead (0,3),(4,7).</span>
+<span class="sd">        :param tokenize: if True, the text should be tokenized.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">value</span><span class="si">!r}</span><span class="s2"> is not unicode&quot;</span>
@@ -524,48 +416,27 @@
 
 
 <div class="viewcode-block" id="SpaceSeparatedTokenizer"><a class="viewcode-back" href="../../../api/analysis.html#whoosh.analysis.SpaceSeparatedTokenizer">[docs]</a><span class="k">def</span> <span class="nf">SpaceSeparatedTokenizer</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Returns a RegexTokenizer that splits tokens by whitespace.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns a RegexTokenizer that splits tokens by whitespace.</span>
 
-<span class="sd">    This tokenizer splits input text into tokens based on whitespace characters (spaces, tabs, newlines).</span>
-<span class="sd">    It uses a regular expression pattern to match and extract tokens.</span>
-
-<span class="sd">    Example:</span>
-<span class="sd">        sst = SpaceSeparatedTokenizer()</span>
-<span class="sd">        tokens = [token.text for token in sst(&quot;hi there big-time, what&#39;s up&quot;)]</span>
-<span class="sd">        print(tokens)</span>
-<span class="sd">        # Output: [&quot;hi&quot;, &quot;there&quot;, &quot;big-time,&quot;, &quot;what&#39;s&quot;, &quot;up&quot;]</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        A RegexTokenizer object that tokenizes input text based on whitespace.</span>
-
-<span class="sd">    Note:</span>
-<span class="sd">        The regular expression pattern used by this tokenizer is r&quot;[^ \t\r\n]+&quot;,</span>
-<span class="sd">        which matches one or more characters that are not whitespace.</span>
-
+<span class="sd">    &gt;&gt;&gt; sst = SpaceSeparatedTokenizer()</span>
+<span class="sd">    &gt;&gt;&gt; [token.text for token in sst(&quot;hi there big-time, what&#39;s up&quot;)]</span>
+<span class="sd">    [&quot;hi&quot;, &quot;there&quot;, &quot;big-time,&quot;, &quot;what&#39;s&quot;, &quot;up&quot;]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">return</span> <span class="n">RegexTokenizer</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[^ \t\r\n]+&quot;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="CommaSeparatedTokenizer"><a class="viewcode-back" href="../../../api/analysis.html#whoosh.analysis.CommaSeparatedTokenizer">[docs]</a><span class="k">def</span> <span class="nf">CommaSeparatedTokenizer</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Tokenizes text by splitting tokens using commas.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Splits tokens by commas.</span>
 
-<span class="sd">    This tokenizer splits the input text into tokens by using commas as the delimiter.</span>
-<span class="sd">    It also applies the `StripFilter` to remove leading and trailing whitespace from each token.</span>
+<span class="sd">    Note that the tokenizer calls unicode.strip() on each match of the regular</span>
+<span class="sd">    expression.</span>
 
-<span class="sd">    Example:</span>
-<span class="sd">        &gt;&gt;&gt; cst = CommaSeparatedTokenizer()</span>
-<span class="sd">        &gt;&gt;&gt; [token.text for token in cst(&quot;hi there, what&#39;s , up&quot;)]</span>
-<span class="sd">        [&quot;hi there&quot;, &quot;what&#39;s&quot;, &quot;up&quot;]</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        A tokenizer object that can be used to tokenize text.</span>
-
-<span class="sd">    Note:</span>
-<span class="sd">        The tokenizer relies on the `RegexTokenizer` and `StripFilter` classes from the `whoosh.analysis` module.</span>
-
+<span class="sd">    &gt;&gt;&gt; cst = CommaSeparatedTokenizer()</span>
+<span class="sd">    &gt;&gt;&gt; [token.text for token in cst(&quot;hi there, what&#39;s , up&quot;)]</span>
+<span class="sd">    [&quot;hi there&quot;, &quot;what&#39;s&quot;, &quot;up&quot;]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="kn">from</span> <span class="nn">whoosh.analysis.filters</span> <span class="kn">import</span> <span class="n">StripFilter</span>
 
     <span class="k">return</span> <span class="n">RegexTokenizer</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[^,]+&quot;</span><span class="p">)</span> <span class="o">|</span> <span class="n">StripFilter</span><span class="p">()</span></div>
@@ -574,45 +445,12 @@
 <div class="viewcode-block" id="PathTokenizer"><a class="viewcode-back" href="../../../api/analysis.html#whoosh.analysis.PathTokenizer">[docs]</a><span class="k">class</span> <span class="nc">PathTokenizer</span><span class="p">(</span><span class="n">Tokenizer</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A simple tokenizer that given a string ``&quot;/a/b/c&quot;`` yields tokens</span>
 <span class="sd">    ``[&quot;/a&quot;, &quot;/a/b&quot;, &quot;/a/b/c&quot;]``.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        expression (str, optional): The regular expression pattern used to tokenize the input string.</span>
-<span class="sd">            Defaults to &quot;[^/]+&quot;.</span>
-
-<span class="sd">    Attributes:</span>
-<span class="sd">        expr (Pattern): The compiled regular expression pattern.</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expression</span><span class="o">=</span><span class="s2">&quot;[^/]+&quot;</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initialize the Tokenizer with the given regular expression pattern.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            expression (str, optional): The regular expression pattern used for tokenization.</span>
-<span class="sd">                Defaults to &quot;[^/]+&quot;.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            None</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">expr</span> <span class="o">=</span> <span class="n">rcompile</span><span class="p">(</span><span class="n">expression</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">positions</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">start_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Tokenizes the input string.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            value (str): The input string to be tokenized.</span>
-<span class="sd">            positions (bool, optional): Whether to include token positions. Defaults to False.</span>
-<span class="sd">            start_pos (int, optional): The starting position for token positions. Defaults to 0.</span>
-<span class="sd">            **kwargs: Additional keyword arguments.</span>
-
-<span class="sd">        Yields:</span>
-<span class="sd">            Token: The generated tokens.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            AssertionError: If the input value is not a string.</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">value</span><span class="si">!r}</span><span class="s2"> is not unicode&quot;</span>
         <span class="n">token</span> <span class="o">=</span> <span class="n">Token</span><span class="p">(</span><span class="n">positions</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="n">pos</span> <span class="o">=</span> <span class="n">start_pos</span>

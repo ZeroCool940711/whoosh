@@ -173,8 +173,8 @@ locations of matched terms in the text.</p></li>
 best fragments by whatever criterion.</p></li>
 <li><p><strong>Order functions</strong> control in what order the top-scoring fragments are
 presented to the user. For example, you can show the fragments in the order
-they appear in the document (first) or show higher-scoring fragments first
-(score)</p></li>
+they appear in the document (FIRST) or show higher-scoring fragments first
+(SCORE)</p></li>
 <li><p><strong>Formatters</strong> turn the fragment objects into human-readable output, such as
 an HTML string.</p></li>
 </ul>
@@ -184,12 +184,12 @@ an HTML string.</p></li>
 <h2>Manual highlighting<a class="headerlink" href="#manual-highlighting" title="Permalink to this heading">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="whoosh.highlight.Highlighter">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">whoosh.highlight.</span></span><span class="sig-name descname"><span class="pre">Highlighter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fragmenter=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scorer=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">formatter=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">always_retokenize=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order=&lt;function</span> <span class="pre">first&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/highlight.html#Highlighter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.highlight.Highlighter" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">whoosh.highlight.</span></span><span class="sig-name descname"><span class="pre">Highlighter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fragmenter=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scorer=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">formatter=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">always_retokenize=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order=&lt;function</span> <span class="pre">FIRST&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/highlight.html#Highlighter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.highlight.Highlighter" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="whoosh.highlight.highlight">
-<span class="sig-prename descclassname"><span class="pre">whoosh.highlight.</span></span><span class="sig-name descname"><span class="pre">highlight</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">terms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">analyzer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fragmenter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">formatter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top=3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scorer=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minscore=1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order=&lt;function</span> <span class="pre">first&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode='query'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/highlight.html#highlight"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.highlight.highlight" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">whoosh.highlight.</span></span><span class="sig-name descname"><span class="pre">highlight</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">terms</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">analyzer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fragmenter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">formatter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top=3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scorer=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minscore=1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">order=&lt;function</span> <span class="pre">FIRST&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode='query'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/highlight.html#highlight"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.highlight.highlight" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </section>
@@ -276,7 +276,7 @@ whole fragment even in that case, call <cite>highlights()</cite> with <cite>mins
 sentence end as the next character after each token’s ‘endchar’.</p>
 <p>When highlighting with this fragmenter, you should use an analyzer that
 does NOT remove stop words, for example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sa</span> <span class="o">=</span> <span class="n">standard_analyzer</span><span class="p">(</span><span class="n">stoplist</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sa</span> <span class="o">=</span> <span class="n">StandardAnalyzer</span><span class="p">(</span><span class="n">stoplist</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="field-list simple">

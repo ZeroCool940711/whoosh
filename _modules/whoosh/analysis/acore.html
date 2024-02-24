@@ -129,16 +129,6 @@
 
 
 <span class="k">class</span> <span class="nc">CompositionError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Exception raised when there is an error in the composition of analysis components.</span>
-
-<span class="sd">    This exception is raised when there is an error in the composition of analysis components,</span>
-<span class="sd">    such as when incompatible components are combined together.</span>
-
-<span class="sd">    Attributes:</span>
-<span class="sd">        message -- explanation of the error</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="k">pass</span>
 
 
@@ -146,15 +136,7 @@
 
 
 <div class="viewcode-block" id="unstopped"><a class="viewcode-back" href="../../../api/analysis.html#whoosh.analysis.unstopped">[docs]</a><span class="k">def</span> <span class="nf">unstopped</span><span class="p">(</span><span class="n">tokenstream</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Removes tokens from a token stream where token.stopped = True.</span>
-
-<span class="sd">    Parameters:</span>
-<span class="sd">    - tokenstream (generator): A generator of tokens.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">    - generator: A generator of tokens where token.stopped = False.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Removes tokens from a token stream where token.stopped = True.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tokenstream</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">t</span><span class="o">.</span><span class="n">stopped</span><span class="p">)</span></div>
 
 
@@ -166,26 +148,8 @@
 <span class="sd">    with the attributes filled in with reasonable values (for example, if</span>
 <span class="sd">    ``positions`` or ``chars`` is True, the function assumes each token was</span>
 <span class="sd">    separated by one space).</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        textstream (Iterable[str]): A sequence of unicode strings.</span>
-<span class="sd">        positions (bool, optional): Whether to include position information in the Token objects. Defaults to False.</span>
-<span class="sd">        chars (bool, optional): Whether to include character information in the Token objects. Defaults to False.</span>
-<span class="sd">        start_pos (int, optional): The starting position for the Token objects. Defaults to 0.</span>
-<span class="sd">        start_char (int, optional): The starting character position for the Token objects. Defaults to 0.</span>
-<span class="sd">        **kwargs: Additional keyword arguments to be passed to the Token objects.</span>
-
-<span class="sd">    Yields:</span>
-<span class="sd">        Token: A Token object with the attributes filled in based on the input parameters.</span>
-
-<span class="sd">    Examples:</span>
-<span class="sd">        &gt;&gt;&gt; textstream = [&quot;Hello&quot;, &quot;world&quot;]</span>
-<span class="sd">        &gt;&gt;&gt; for token in entoken(textstream, positions=True, chars=True):</span>
-<span class="sd">        ...     print(token.text, token.pos, token.startchar, token.endchar)</span>
-<span class="sd">        ...</span>
-<span class="sd">        Hello 0 0 5</span>
-<span class="sd">        world 1 5 10</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">pos</span> <span class="o">=</span> <span class="n">start_pos</span>
     <span class="n">char</span> <span class="o">=</span> <span class="n">start_char</span>
     <span class="n">t</span> <span class="o">=</span> <span class="n">Token</span><span class="p">(</span><span class="n">positions</span><span class="o">=</span><span class="n">positions</span><span class="p">,</span> <span class="n">chars</span><span class="o">=</span><span class="n">chars</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -206,6 +170,8 @@
 
 
 <span class="c1"># Token object</span>
+
+
 <div class="viewcode-block" id="Token"><a class="viewcode-back" href="../../../api/analysis.html#whoosh.analysis.Token">[docs]</a><span class="k">class</span> <span class="nc">Token</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a &quot;token&quot; (usually a word) extracted from the source text being</span>
@@ -239,18 +205,14 @@
         <span class="bp">self</span><span class="p">,</span> <span class="n">positions</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">chars</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">removestops</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
     <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initializes a Token object.</span>
-
 <span class="sd">        :param positions: Whether tokens should have the token position in the</span>
 <span class="sd">            &#39;pos&#39; attribute.</span>
 <span class="sd">        :param chars: Whether tokens should have character offsets in the</span>
 <span class="sd">            &#39;startchar&#39; and &#39;endchar&#39; attributes.</span>
-<span class="sd">        :param removestops: Whether to remove stop words from the stream (if</span>
+<span class="sd">        :param removestops: whether to remove stop words from the stream (if</span>
 <span class="sd">            the tokens pass through a stop filter).</span>
-<span class="sd">        :param mode: Contains a string describing the purpose for which the</span>
+<span class="sd">        :param mode: contains a string describing the purpose for which the</span>
 <span class="sd">            analyzer is being called, i.e. &#39;index&#39; or &#39;query&#39;.</span>
-<span class="sd">        :param kwargs: Additional keyword arguments to be stored as attributes</span>
-<span class="sd">            of the Token object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">positions</span> <span class="o">=</span> <span class="n">positions</span>
@@ -262,22 +224,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns a string representation of the Token object.</span>
-
-<span class="sd">        :return: A string representation of the Token object.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="n">parms</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">value</span><span class="si">!r}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="n">parms</span><span class="si">}</span><span class="s2">)&quot;</span>
 
     <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Creates a copy of the Token object.</span>
-
-<span class="sd">        :return: A copy of the Token object.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="c1"># This is faster than using the copy module</span>
         <span class="k">return</span> <span class="n">Token</span><span class="p">(</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span></div>
 
@@ -286,37 +236,9 @@
 
 
 <span class="k">class</span> <span class="nc">Composable</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A base class for composable objects in the analysis pipeline.</span>
-
-<span class="sd">    Composable objects can be combined using the &#39;|&#39; operator to create composite analyzers.</span>
-
-<span class="sd">    Attributes:</span>
-<span class="sd">        is_morph (bool): Indicates whether the composable object has morphological analysis.</span>
-
-<span class="sd">    Methods:</span>
-<span class="sd">        __or__(self, other): Combines the current composable object with another composable object to create a composite analyzer.</span>
-<span class="sd">        __repr__(self): Returns a string representation of the composable object.</span>
-<span class="sd">        has_morph(self): Checks if the composable object has morphological analysis.</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="n">is_morph</span> <span class="o">=</span> <span class="kc">False</span>
 
     <span class="k">def</span> <span class="fm">__or__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Combines the current composable object with another composable object to create a composite analyzer.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            other (Composable): The composable object to be combined with.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            CompositeAnalyzer: The composite analyzer created by combining the two composable objects.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            TypeError: If the &#39;other&#39; object is not an instance of Composable.</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">whoosh.analysis.analyzers</span> <span class="kn">import</span> <span class="n">CompositeAnalyzer</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Composable</span><span class="p">):</span>
@@ -324,13 +246,6 @@
         <span class="k">return</span> <span class="n">CompositeAnalyzer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns a string representation of the composable object.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            str: The string representation of the composable object.</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">attrs</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">:</span>
             <span class="n">attrs</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
@@ -339,13 +254,6 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">attrs</span><span class="si">}</span><span class="s2">)&quot;</span>
 
     <span class="k">def</span> <span class="nf">has_morph</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Checks if the composable object has morphological analysis.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            bool: True if the composable object has morphological analysis, False otherwise.</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_morph</span>
 </pre></div>
 

@@ -152,212 +152,39 @@ D. J. Bernstein’s CDB format (<a class="reference external" href="http://cr.yp
 <dl class="py class">
 <dt class="sig sig-object py" id="whoosh.filedb.filetables.HashWriter">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">whoosh.filedb.filetables.</span></span><span class="sig-name descname"><span class="pre">HashWriter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dbfile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">magic</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">b'HSH3'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hashtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filetables.html#HashWriter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filetables.HashWriter" title="Permalink to this definition">¶</a></dt>
-<dd><p>Implements a fast on-disk key-value store.</p>
-<p>This hash writer uses a two-level hashing scheme, where a key is hashed, and the low eight bits of the hash value
-are used to index into one of 256 hash tables. It is similar to the CDB algorithm but with some differences.</p>
-<p>The HashWriter object writes all data serially and does not seek backwards to overwrite information at the end.
-It supports 64-bit file pointers, allowing for essentially unlimited file length. However, each key and value must
-be less than 2 GB in length.</p>
-<p>Usage:
-1. Create an instance of HashWriter by providing a StructFile object to write to, along with optional parameters</p>
-<blockquote>
-<div><p>like the format tag bytes and the hashing algorithm to use.</p>
-</div></blockquote>
-<ol class="arabic simple" start="2">
-<li><p>Use the <cite>add</cite> method to add key/value pairs to the file. Note that keys do not need to be unique, and multiple
-values can be stored under the same key.</p></li>
-<li><p>Optionally, use the <cite>add_all</cite> method to add a sequence of <cite>(key, value)</cite> pairs.</p></li>
-<li><p>Call the <cite>close</cite> method to finalize the writing process and return the end position of the file.</p></li>
-</ol>
+<dd><p>Implements a fast on-disk key-value store. This hash uses a two-level
+hashing scheme, where a key is hashed, the low eight bits of the hash value
+are used to index into one of 256 hash tables. This is basically the CDB
+algorithm, but unlike CDB this object writes all data serially (it doesn’t
+seek backwards to overwrite information at the end).</p>
+<p>Also unlike CDB, this format uses 64-bit file pointers, so the file length
+is essentially unlimited. However, each key and value must be less than
+2 GB in length.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dbfile</strong> (<a class="reference internal" href="structfile.html#whoosh.filedb.structfile.StructFile" title="whoosh.filedb.structfile.StructFile"><em>StructFile</em></a>) – A StructFile object to write to.</p></li>
-<li><p><strong>magic</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.12)"><em>bytes</em></a><em>, </em><em>optional</em>) – The format tag bytes to write at the start of the file. Defaults to b”HSH3”.</p></li>
-<li><p><strong>hashtype</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a><em>, </em><em>optional</em>) – An integer indicating which hashing algorithm to use.
-Possible values are 0 (MD5), 1 (CRC32), or 2 (CDB hash). Defaults to 0.</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="whoosh.filedb.filetables.HashWriter.dbfile">
-<span class="sig-name descname"><span class="pre">dbfile</span></span><a class="headerlink" href="#whoosh.filedb.filetables.HashWriter.dbfile" title="Permalink to this definition">¶</a></dt>
-<dd><p>The StructFile object being written to.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="structfile.html#whoosh.filedb.structfile.StructFile" title="whoosh.filedb.structfile.StructFile">StructFile</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="whoosh.filedb.filetables.HashWriter.hashtype">
-<span class="sig-name descname"><span class="pre">hashtype</span></span><a class="headerlink" href="#whoosh.filedb.filetables.HashWriter.hashtype" title="Permalink to this definition">¶</a></dt>
-<dd><p>The hashing algorithm being used.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)">int</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="whoosh.filedb.filetables.HashWriter.hashfn">
-<span class="sig-name descname"><span class="pre">hashfn</span></span><a class="headerlink" href="#whoosh.filedb.filetables.HashWriter.hashfn" title="Permalink to this definition">¶</a></dt>
-<dd><p>The hash function corresponding to the selected algorithm.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>function</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="whoosh.filedb.filetables.HashWriter.extras">
-<span class="sig-name descname"><span class="pre">extras</span></span><a class="headerlink" href="#whoosh.filedb.filetables.HashWriter.extras" title="Permalink to this definition">¶</a></dt>
-<dd><p>A dictionary for subclasses to store extra metadata.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)">dict</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="whoosh.filedb.filetables.HashWriter.startoffset">
-<span class="sig-name descname"><span class="pre">startoffset</span></span><a class="headerlink" href="#whoosh.filedb.filetables.HashWriter.startoffset" title="Permalink to this definition">¶</a></dt>
-<dd><p>The starting offset of the file.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)">int</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="whoosh.filedb.filetables.HashWriter.tell">
-<span class="sig-name descname"><span class="pre">tell</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../../_modules/whoosh/filedb/filetables.html#HashWriter.tell"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filetables.HashWriter.tell" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the current position in the file.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">add(key</span></span></dt>
-<dd><p>bytes, value: bytes) -&gt; None:
-Adds a key/value pair to the file.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">add_all(items</span></span></dt>
-<dd><p>Iterable[Tuple[bytes, bytes]]) -&gt; None:
-Adds a sequence of <cite>(key, value)</cite> pairs to the file.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="whoosh.filedb.filetables.HashWriter.close">
-<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../../_modules/whoosh/filedb/filetables.html#HashWriter.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filetables.HashWriter.close" title="Permalink to this definition">¶</a></dt>
-<dd><p>Finalizes the writing process and returns the end position of the file.</p>
-</dd></dl>
-
-<p>Initializes a FileTables object.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dbfile</strong> (<a class="reference internal" href="structfile.html#whoosh.filedb.structfile.StructFile" title="whoosh.filedb.structfile.StructFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">StructFile</span></code></a>) – A <a class="reference internal" href="structfile.html#whoosh.filedb.structfile.StructFile" title="whoosh.filedb.structfile.StructFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">StructFile</span></code></a> object to write to.</p></li>
-<li><p><strong>magic</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.12)"><em>bytes</em></a><em>, </em><em>optional</em>) – The format tag bytes to write at the start of the file. Default is b”HSH3”.</p></li>
-<li><p><strong>hashtype</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a><em>, </em><em>optional</em>) – An integer indicating which hashing algorithm to use. Possible values are 0 (MD5), 1 (CRC32), or 2 (CDB hash). Default is 0.</p></li>
+<li><p><strong>dbfile</strong> – a <a class="reference internal" href="structfile.html#whoosh.filedb.structfile.StructFile" title="whoosh.filedb.structfile.StructFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">StructFile</span></code></a> object
+to write to.</p></li>
+<li><p><strong>magic</strong> – the format tag bytes to write at the start of the file.</p></li>
+<li><p><strong>hashtype</strong> – an integer indicating which hashing algorithm to use.
+Possible values are 0 (MD5), 1 (CRC32), or 2 (CDB hash).</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="whoosh.filedb.filetables.HashWriter.add">
 <span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filetables.html#HashWriter.add"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filetables.HashWriter.add" title="Permalink to this definition">¶</a></dt>
-<dd><p>Adds a key/value pair to the file.</p>
-<p>This method is used to add a key/value pair to the file. The keys do not need to be unique,
-meaning you can store multiple values under the same key. The values are stored in a file
-using the specified key.</p>
-<p>Parameters:
-- key (bytes): The key associated with the value. It must be of type bytes.
-- value (bytes): The value to be stored. It must be of type bytes.</p>
-<p>Returns:
-None</p>
-<p>Raises:
-AssertionError: If the key or value is not of type bytes.</p>
-<p>Usage:
-file_table = FileTable()
-file_table.add(b’key1’, b’value1’)
-file_table.add(b’key1’, b’value2’)
-file_table.add(b’key2’, b’value3’)</p>
+<dd><p>Adds a key/value pair to the file. Note that keys DO NOT need to be
+unique. You can store multiple values under the same key and retrieve
+them using <a class="reference internal" href="#whoosh.filedb.filetables.HashReader.all" title="whoosh.filedb.filetables.HashReader.all"><code class="xref py py-meth docutils literal notranslate"><span class="pre">HashReader.all()</span></code></a>.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="whoosh.filedb.filetables.HashWriter.add_all">
 <span class="sig-name descname"><span class="pre">add_all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">items</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filetables.html#HashWriter.add_all"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filetables.HashWriter.add_all" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convenience method to add a sequence of <code class="docutils literal notranslate"><span class="pre">(key,</span> <span class="pre">value)</span></code> pairs to the file table.</p>
-<p>This method allows you to add multiple key-value pairs to the file table at once.
-It iterates over the given sequence of <code class="docutils literal notranslate"><span class="pre">(key,</span> <span class="pre">value)</span></code> pairs and calls the
-<a class="reference internal" href="#whoosh.filedb.filetables.HashWriter.add" title="whoosh.filedb.filetables.HashWriter.add"><code class="xref py py-meth docutils literal notranslate"><span class="pre">add()</span></code></a> method for each pair.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>items</strong> (<em>sequence</em>) – A sequence of <code class="docutils literal notranslate"><span class="pre">(key,</span> <span class="pre">value)</span></code> pairs to be added to the file table.</p>
-</dd>
-</dl>
-<p class="rubric">Example</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">items</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;key1&#39;</span><span class="p">,</span> <span class="s1">&#39;value1&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;key2&#39;</span><span class="p">,</span> <span class="s1">&#39;value2&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;key3&#39;</span><span class="p">,</span> <span class="s1">&#39;value3&#39;</span><span class="p">)]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">file_table</span><span class="o">.</span><span class="n">add_all</span><span class="p">(</span><span class="n">items</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<ul class="simple">
-<li><p>The <cite>items</cite> parameter should be an iterable containing <code class="docutils literal notranslate"><span class="pre">(key,</span> <span class="pre">value)</span></code> pairs.</p></li>
-<li><p>The <cite>key</cite> should be a unique identifier for each value in the file table.</p></li>
-<li><p>The <cite>value</cite> can be any object that needs to be associated with the <cite>key</cite>.</p></li>
-</ul>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id0">
-<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filetables.html#HashWriter.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Permalink to this definition">¶</a></dt>
-<dd><p>Closes the file database and performs necessary write operations.</p>
-<p>This method is responsible for closing the file database and performing
-necessary write operations before closing. It writes hash tables, the
-directory of pointers to hash tables, extra information, and the length
-of the pickle to the file.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The position of the end of the file.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)">int</a></p>
-</dd>
-</dl>
-<dl class="simple">
-<dt>Usage:</dt><dd><p>Call this method when you are finished using the file database and
-want to close it. It ensures that all necessary write operations are
-performed before closing the file.</p>
-</dd>
-</dl>
-<p class="rubric">Example</p>
-<p>file_db = FileDatabase()
-# … perform operations on the file database …
-file_db.close()</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id1">
-<span class="sig-name descname"><span class="pre">tell</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filetables.html#HashWriter.tell"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id1" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the current position of the file pointer within the database file.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The current position of the file pointer.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)">int</a></p>
-</dd>
-</dl>
+<dd><p>Convenience method to add a sequence of <code class="docutils literal notranslate"><span class="pre">(key,</span> <span class="pre">value)</span></code> pairs. This
+is the same as calling <a class="reference internal" href="#whoosh.filedb.filetables.HashWriter.add" title="whoosh.filedb.filetables.HashWriter.add"><code class="xref py py-meth docutils literal notranslate"><span class="pre">HashWriter.add()</span></code></a> on each pair in the
+sequence.</p>
 </dd></dl>
 
 </dd></dl>
@@ -367,297 +194,24 @@ file_db.close()</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">whoosh.filedb.filetables.</span></span><span class="sig-name descname"><span class="pre">HashReader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dbfile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">magic</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">b'HSH3'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">startoffset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filetables.html#HashReader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filetables.HashReader" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reader for the fast on-disk key-value files created by
 <a class="reference internal" href="#whoosh.filedb.filetables.HashWriter" title="whoosh.filedb.filetables.HashWriter"><code class="xref py py-class docutils literal notranslate"><span class="pre">HashWriter</span></code></a>.</p>
-<p>This class provides methods to read and retrieve key-value pairs from a
-hash file. It is designed to work with files created by the <cite>HashWriter</cite>
-class.</p>
-<section id="usage">
-<h3>Usage:<a class="headerlink" href="#usage" title="Permalink to this heading">¶</a></h3>
-<p>To use the <cite>HashReader</cite> class, you need to provide a file object and
-optionally the length of the file data. The file object should be an
-instance of <cite>whoosh.filedb.structfile.StructFile</cite>.</p>
-</section>
-<section id="example">
-<h3>Example:<a class="headerlink" href="#example" title="Permalink to this heading">¶</a></h3>
-<p># Open a hash file
-dbfile = StructFile(“data.hash”)
-reader = HashReader(dbfile)</p>
-<p># Retrieve a value for a given key
-value = reader[“key”]</p>
-<p># Iterate over all key-value pairs
-for key, value in reader:</p>
-<blockquote>
-<div><p>print(key, value)</p>
-</div></blockquote>
-<p># Close the reader
-reader.close()</p>
-</section>
-<section id="parameters">
-<h3>Parameters:<a class="headerlink" href="#parameters" title="Permalink to this heading">¶</a></h3>
-<dl class="simple">
-<dt>dbfile<span class="classifier">whoosh.filedb.structfile.StructFile</span></dt><dd><p>A file object to read from. This should be an instance of
-<cite>whoosh.filedb.structfile.StructFile</cite>.</p>
-</dd>
-<dt>length<span class="classifier">int, optional</span></dt><dd><p>The length of the file data. This is necessary since the hashing
-information is written at the end of the file.</p>
-</dd>
-<dt>magic<span class="classifier">bytes, optional</span></dt><dd><p>The format tag bytes to look for at the start of the file. If the
-file’s format tag does not match these bytes, the object raises a
-<cite>FileFormatError</cite> exception.</p>
-</dd>
-<dt>startoffset<span class="classifier">int, optional</span></dt><dd><p>The starting point of the file data.</p>
-</dd>
-</dl>
-</section>
-<section id="attributes">
-<h3>Attributes:<a class="headerlink" href="#attributes" title="Permalink to this heading">¶</a></h3>
-<dl class="simple">
-<dt>dbfile<span class="classifier">whoosh.filedb.structfile.StructFile</span></dt><dd><p>The file object being read from.</p>
-</dd>
-<dt>startoffset<span class="classifier">int</span></dt><dd><p>The starting point of the file data.</p>
-</dd>
-<dt>is_closed<span class="classifier">bool</span></dt><dd><p>Indicates whether the reader has been closed.</p>
-</dd>
-</dl>
-</section>
-<section id="methods">
-<h3>Methods:<a class="headerlink" href="#methods" title="Permalink to this heading">¶</a></h3>
-<dl class="simple">
-<dt>open(cls, storage, name)</dt><dd><p>Convenience method to open a hash file given a
-<cite>whoosh.filedb.filestore.Storage</cite> object and a name. This takes care
-of opening the file and passing its length to the initializer.</p>
-</dd>
-<dt>file()</dt><dd><p>Returns the file object being read from.</p>
-</dd>
-<dt>close()</dt><dd><p>Closes the reader.</p>
-</dd>
-<dt>key_at(pos)</dt><dd><p>Returns the key bytes at the given position.</p>
-</dd>
-<dt>key_and_range_at(pos)</dt><dd><p>Returns a (keybytes, datapos, datalen) tuple for the key at the given
-position.</p>
-</dd>
-<dt>__getitem__(key)</dt><dd><p>Retrieves the value associated with the given key.</p>
-</dd>
-<dt>__iter__()</dt><dd><p>Iterates over all key-value pairs.</p>
-</dd>
-<dt>__contains__(key)</dt><dd><p>Checks if the given key exists in the hash file.</p>
-</dd>
-<dt>keys()</dt><dd><p>Returns an iterator over all keys.</p>
-</dd>
-<dt>values()</dt><dd><p>Returns an iterator over all values.</p>
-</dd>
-<dt>items()</dt><dd><p>Returns an iterator over all key-value pairs.</p>
-</dd>
-<dt>get(key, default=None)</dt><dd><p>Retrieves the value associated with the given key, or returns the
-default value if the key is not found.</p>
-</dd>
-<dt>all(key)</dt><dd><p>Returns a generator that yields all values associated with the given
-key.</p>
-</dd>
-<dt>ranges_for_key(key)</dt><dd><p>Returns a generator that yields (datapos, datalength) tuples
-associated with the given key.</p>
-</dd>
-<dt>range_for_key(key)</dt><dd><p>Returns the first (datapos, datalength) tuple associated with the
-given key.</p>
-</dd>
-</dl>
-<p>Initializes a FileTables object.</p>
 <dl class="field-list simple">
-<dt class="field-odd">param dbfile<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A <a class="reference internal" href="structfile.html#whoosh.filedb.structfile.StructFile" title="whoosh.filedb.structfile.StructFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">StructFile</span></code></a> object to read from.</p>
-</dd>
-<dt class="field-even">type dbfile<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="structfile.html#whoosh.filedb.structfile.StructFile" title="whoosh.filedb.structfile.StructFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">StructFile</span></code></a></p>
-</dd>
-<dt class="field-odd">param length<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The length of the file data. This is necessary since the hashing information is written at the end of the file.</p>
-</dd>
-<dt class="field-even">type length<span class="colon">:</span></dt>
-<dd class="field-even"><p>int, optional</p>
-</dd>
-<dt class="field-odd">param magic<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The format tag bytes to look for at the start of the file. If the file’s format tag does not match these bytes, the object raises a <code class="xref py py-class docutils literal notranslate"><span class="pre">FileFormatError</span></code> exception.</p>
-</dd>
-<dt class="field-even">type magic<span class="colon">:</span></dt>
-<dd class="field-even"><p>bytes, optional</p>
-</dd>
-<dt class="field-odd">param startoffset<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The starting point of the file data.</p>
-</dd>
-<dt class="field-even">type startoffset<span class="colon">:</span></dt>
-<dd class="field-even"><p>int, optional</p>
-</dd>
-<dt class="field-odd">raises FileFormatError<span class="colon">:</span></dt>
-<dd class="field-odd"><p>If the format tag of the file does not match the specified magic bytes.</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dbfile</strong> – a <a class="reference internal" href="structfile.html#whoosh.filedb.structfile.StructFile" title="whoosh.filedb.structfile.StructFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">StructFile</span></code></a> object
+to read from.</p></li>
+<li><p><strong>length</strong> – the length of the file data. This is necessary since the
+hashing information is written at the end of the file.</p></li>
+<li><p><strong>magic</strong> – the format tag bytes to look for at the start of the
+file. If the file’s format tag does not match these bytes, the
+object raises a <code class="xref py py-class docutils literal notranslate"><span class="pre">FileFormatError</span></code> exception.</p></li>
+<li><p><strong>startoffset</strong> – the starting point of the file data.</p></li>
+</ul>
 </dd>
 </dl>
-<p>The FileTables object represents a file-based hash table. It reads and interprets the data from the provided <cite>dbfile</cite> object.</p>
-<p>The <cite>dbfile</cite> parameter should be an instance of <a class="reference internal" href="structfile.html#whoosh.filedb.structfile.StructFile" title="whoosh.filedb.structfile.StructFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">StructFile</span></code></a>, which is a file-like object that supports reading and seeking.</p>
-<p>The <cite>length</cite> parameter is the length of the file data. If not provided, the object will determine the length by seeking to the end of the file and calculating the difference between the current position and the <cite>startoffset</cite>.</p>
-<p>The <cite>magic</cite> parameter is the format tag bytes to look for at the start of the file. If the file’s format tag does not match these bytes, a <code class="xref py py-class docutils literal notranslate"><span class="pre">FileFormatError</span></code> exception is raised.</p>
-<p>The <cite>startoffset</cite> parameter is the starting point of the file data. If not provided, it defaults to 0.</p>
-<p>After initialization, the FileTables object provides access to the hash tables and other metadata stored in the file.</p>
-<p>Example usage:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">whoosh.filedb.structfile</span> <span class="kn">import</span> <span class="n">StructFile</span>
-<span class="kn">from</span> <span class="nn">whoosh.filedb.filetables</span> <span class="kn">import</span> <span class="n">FileTables</span>
-
-<span class="c1"># Open the file in binary mode</span>
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;data.db&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="c1"># Create a StructFile object</span>
-    <span class="n">dbfile</span> <span class="o">=</span> <span class="n">StructFile</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-    <span class="c1"># Create a FileTables object</span>
-    <span class="n">tables</span> <span class="o">=</span> <span class="n">FileTables</span><span class="p">(</span><span class="n">dbfile</span><span class="p">)</span>
-
-    <span class="c1"># Access the hash tables</span>
-    <span class="k">for</span> <span class="n">table</span> <span class="ow">in</span> <span class="n">tables</span><span class="o">.</span><span class="n">tables</span><span class="p">:</span>
-        <span class="n">position</span><span class="p">,</span> <span class="n">numslots</span> <span class="o">=</span> <span class="n">table</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Table at position </span><span class="si">{</span><span class="n">position</span><span class="si">}</span><span class="s2"> with </span><span class="si">{</span><span class="n">numslots</span><span class="si">}</span><span class="s2"> slots&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
 <dl class="py method">
 <dt class="sig sig-object py" id="whoosh.filedb.filetables.HashReader.all">
 <span class="sig-name descname"><span class="pre">all</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filetables.html#HashReader.all"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filetables.HashReader.all" title="Permalink to this definition">¶</a></dt>
 <dd><p>Yields a sequence of values associated with the given key.</p>
-<p>Parameters:
-- key (str): The key to retrieve values for.</p>
-<p>Returns:
-- generator: A generator that yields the values associated with the key.</p>
-<p>Raises:
-- KeyError: If the key is not found in the database.</p>
-<p>Example:
-&gt;&gt;&gt; db = FileTables()
-&gt;&gt;&gt; db.all(“key1”)
-&lt;generator object all at 0x7f9e9a6e3f20&gt;
-&gt;&gt;&gt; list(db.all(“key1”))
-[‘value1’, ‘value2’, ‘value3’]</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="whoosh.filedb.filetables.HashReader.close">
-<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filetables.html#HashReader.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filetables.HashReader.close" title="Permalink to this definition">¶</a></dt>
-<dd><p>Closes the file table.</p>
-<p>This method closes the file table by closing the underlying database file.
-Once closed, the file table cannot be used for any further operations.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.12)"><strong>ValueError</strong></a> – If the file table is already closed.</p>
-</dd>
-</dl>
-<dl class="simple">
-<dt>Usage:</dt><dd><p>table = FileTable(…)
-table.close()</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="whoosh.filedb.filetables.HashReader.file">
-<span class="sig-name descname"><span class="pre">file</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filetables.html#HashReader.file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filetables.HashReader.file" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the database file associated with this instance.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The path to the database file.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="whoosh.filedb.filetables.HashReader.get">
-<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filetables.html#HashReader.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filetables.HashReader.get" title="Permalink to this definition">¶</a></dt>
-<dd><p>Retrieve the value associated with the given key.</p>
-<p>This method returns the first value found for the given key in the file table.
-If no value is found, it returns the default value provided.</p>
-<p>Parameters:
-- key (str): The key to search for in the file table.
-- default (Any, optional): The default value to return if no value is found. Defaults to None.</p>
-<p>Returns:
-- The value associated with the given key, or the default value if no value is found.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="whoosh.filedb.filetables.HashReader.items">
-<span class="sig-name descname"><span class="pre">items</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filetables.html#HashReader.items"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filetables.HashReader.items" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns an iterator over the key-value pairs stored in the file table.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Yields<span class="colon">:</span></dt>
-<dd class="field-odd"><p><em>tuple</em> – A tuple containing the key and value retrieved from the file table.</p>
-</dd>
-</dl>
-<p class="rubric">Notes</p>
-<p>This method iterates over the ranges of the file table and retrieves the key-value pairs
-using the positions and lengths stored in each range. The key and value are obtained by
-calling the <cite>get</cite> method of the <cite>dbfile</cite> object.</p>
-<p class="rubric">Example</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">file_table</span> <span class="o">=</span> <span class="n">FileTable</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">file_table</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="whoosh.filedb.filetables.HashReader.key_and_range_at">
-<span class="sig-name descname"><span class="pre">key_and_range_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filetables.html#HashReader.key_and_range_at"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filetables.HashReader.key_and_range_at" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a tuple containing the key, data position, and data length for the key at the given position.</p>
-<p>Parameters:
-- pos (int): The position of the key in the database file.</p>
-<p>Returns:
-- tuple: A tuple containing the following elements:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>keybytes (bytes): The key as bytes.</p></li>
-<li><p>datapos (int): The position of the data in the database file.</p></li>
-<li><p>datalen (int): The length of the data.</p></li>
-</ul>
-</div></blockquote>
-<p>Raises:
-- None</p>
-<p>Notes:
-- This method assumes that the database file is already open and accessible.
-- The position should be within the valid range of data in the file.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="whoosh.filedb.filetables.HashReader.key_at">
-<span class="sig-name descname"><span class="pre">key_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filetables.html#HashReader.key_at"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filetables.HashReader.key_at" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the key bytes at the given position.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>pos</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – The position of the key in the database file.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The key bytes at the given position.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.12)">bytes</a></p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="../index.html#whoosh.index.IndexError" title="whoosh.index.IndexError"><strong>IndexError</strong></a> – If the position is out of range.</p>
-</dd>
-</dl>
-<p class="rubric">Notes</p>
-<p>This method retrieves the key bytes from the database file at the specified position.
-The position should be a valid index within the file.
-The returned key bytes can be used for further processing or lookups in the database.</p>
-<p class="rubric">Example</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">db</span> <span class="o">=</span> <span class="n">FileTables</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">key</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">key_at</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="whoosh.filedb.filetables.HashReader.keys">
-<span class="sig-name descname"><span class="pre">keys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filetables.html#HashReader.keys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filetables.HashReader.keys" title="Permalink to this definition">¶</a></dt>
-<dd><p>Retrieve the keys from the file table.</p>
-<p>This method iterates over the file table and yields each key stored in it.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Yields<span class="colon">:</span></dt>
-<dd class="field-odd"><p><em>str</em> – The keys stored in the file table.</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -666,47 +220,6 @@ The returned key bytes can be used for further processing or lookups in the data
 <dd><p>Convenience method to open a hash file given a
 <a class="reference internal" href="filestore.html#whoosh.filedb.filestore.Storage" title="whoosh.filedb.filestore.Storage"><code class="xref py py-class docutils literal notranslate"><span class="pre">whoosh.filedb.filestore.Storage</span></code></a> object and a name. This takes
 care of opening the file and passing its length to the initializer.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>storage</strong> (<a class="reference internal" href="filestore.html#whoosh.filedb.filestore.Storage" title="whoosh.filedb.filestore.Storage"><em>whoosh.filedb.filestore.Storage</em></a>) – The storage object representing the file store.</p></li>
-<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The name of the hash file to open.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>An instance of the hash file.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>whoosh.filedb.filetables.HashFile</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#FileNotFoundError" title="(in Python v3.12)"><strong>FileNotFoundError</strong></a> – If the specified file does not exist.</p></li>
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#IOError" title="(in Python v3.12)"><strong>IOError</strong></a> – If there is an error opening the file.</p></li>
-</ul>
-</dd>
-</dl>
-<p>Usage:
-&gt;&gt;&gt; storage = Storage()
-&gt;&gt;&gt; hash_file = HashFile.open(storage, “example.txt”)</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="whoosh.filedb.filetables.HashReader.range_for_key">
-<span class="sig-name descname"><span class="pre">range_for_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filetables.html#HashReader.range_for_key"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filetables.HashReader.range_for_key" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the range associated with the given key.</p>
-<p>This method retrieves the range associated with the given key from the file table.
-If the key is found, the range is returned. If the key is not found, a KeyError is raised.</p>
-<p>Parameters:
-- key (str): The key to search for in the file table.</p>
-<p>Returns:
-- range (tuple): The range associated with the given key.</p>
-<p>Raises:
-- KeyError: If the key is not found in the file table.</p>
-<p>Example:
-&gt;&gt;&gt; table = FileTable()
-&gt;&gt;&gt; table.range_for_key(‘key1’)
-(0, 100)</p>
 </dd></dl>
 
 <dl class="py method">
@@ -714,62 +227,8 @@ If the key is found, the range is returned. If the key is not found, a KeyError 
 <span class="sig-name descname"><span class="pre">ranges_for_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filetables.html#HashReader.ranges_for_key"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filetables.HashReader.ranges_for_key" title="Permalink to this definition">¶</a></dt>
 <dd><p>Yields a sequence of <code class="docutils literal notranslate"><span class="pre">(datapos,</span> <span class="pre">datalength)</span></code> tuples associated
 with the given key.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.12)"><em>bytes</em></a>) – The key to search for. Should be of type bytes.</p>
-</dd>
-<dt class="field-even">Yields<span class="colon">:</span></dt>
-<dd class="field-even"><p><em>tuple</em> – A tuple containing the data position and data length associated with the key.</p>
-</dd>
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.12)"><strong>TypeError</strong></a> – If the key is not of type bytes.</p>
-</dd>
-</dl>
-<p class="rubric">Notes</p>
-<p>This method is used to retrieve the data position and data length associated with a given key.
-It performs a lookup in the hash table to find the key’s slot, and then checks if the key matches
-the one stored in the slot. If a match is found, it yields the data position and data length.</p>
-<p>The method assumes that the hash table and data file have been properly initialized.</p>
-<p class="rubric">Example</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">db</span> <span class="o">=</span> <span class="n">FileTables</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">key</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;my_key&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">datapos</span><span class="p">,</span> <span class="n">datalength</span> <span class="ow">in</span> <span class="n">db</span><span class="o">.</span><span class="n">ranges_for_key</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
-<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Data position: </span><span class="si">{</span><span class="n">datapos</span><span class="si">}</span><span class="s2">, Data length: </span><span class="si">{</span><span class="n">datalength</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
 </dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="whoosh.filedb.filetables.HashReader.values">
-<span class="sig-name descname"><span class="pre">values</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filetables.html#HashReader.values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filetables.HashReader.values" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns an iterator over the values stored in the file table.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Yields<span class="colon">:</span></dt>
-<dd class="field-odd"><p><em>bytes</em> – The value stored in the file table.</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.12)"><strong>KeyError</strong></a> – If the file table is empty.</p>
-</dd>
-</dl>
-<p class="rubric">Notes</p>
-<p>This method iterates over the ranges of data stored in the file table and retrieves
-the corresponding values using the <cite>dbfile.get()</cite> method. The values are yielded one
-by one, allowing for efficient memory usage when working with large file tables.</p>
-<p class="rubric">Example</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">table</span> <span class="o">=</span> <span class="n">FileTable</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">table</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;value1&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">table</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;value2&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">table</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;value3&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">table</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
-<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-<span class="go">b&#39;value1&#39;</span>
-<span class="go">b&#39;value2&#39;</span>
-<span class="go">b&#39;value3&#39;</span>
-</pre></div>
-</div>
-</dd></dl>
-
-</section>
 </dd></dl>
 
 </section>
@@ -779,146 +238,38 @@ by one, allowing for efficient memory usage when working with large file tables.
 <dt class="sig sig-object py" id="whoosh.filedb.filetables.OrderedHashWriter">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">whoosh.filedb.filetables.</span></span><span class="sig-name descname"><span class="pre">OrderedHashWriter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dbfile</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filetables.html#OrderedHashWriter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filetables.OrderedHashWriter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Implements an on-disk hash, but requires that keys be added in order.
-An OrderedHashReader can then look up “nearest keys” based on the ordering.</p>
-<p>Parameters:
-- dbfile (file-like object): The file-like object to write the hash data to.</p>
-<p>Usage:
-1. Create an instance of OrderedHashWriter by providing a file-like object.
-2. Use the add() method to add keys and values to the hash in increasing order.
-3. Call the _write_extras() method to write the metadata and index array to the file.</p>
-<p>Example:
-<a href="#id2"><span class="problematic" id="id3">``</span></a>`
-with open(“hash.db”, “wb”) as dbfile:</p>
-<blockquote>
-<div><p>writer = OrderedHashWriter(dbfile)
-writer.add(“key1”, “value1”)
-writer.add(“key2”, “value2”)
-writer._write_extras()</p>
-</div></blockquote>
-<p><a href="#id4"><span class="problematic" id="id5">``</span></a><a href="#id6"><span class="problematic" id="id7">`</span></a></p>
-<p>Note:
-- Keys must be added in increasing order. If a key is added that is not greater than the previous key, a ValueError will be raised.
-- The index array, which contains the positions of all keys, will be stored as metadata in the file.</p>
-<p>Initialize a FileTables object.</p>
+An <a class="reference internal" href="#whoosh.filedb.filetables.OrderedHashReader" title="whoosh.filedb.filetables.OrderedHashReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">OrderedHashReader</span></code></a> can then look up “nearest keys” based on
+the ordering.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>dbfile</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The path to the database file.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dbfile</strong> – a <a class="reference internal" href="structfile.html#whoosh.filedb.structfile.StructFile" title="whoosh.filedb.structfile.StructFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">StructFile</span></code></a> object
+to write to.</p></li>
+<li><p><strong>magic</strong> – the format tag bytes to write at the start of the file.</p></li>
+<li><p><strong>hashtype</strong> – an integer indicating which hashing algorithm to use.
+Possible values are 0 (MD5), 1 (CRC32), or 2 (CDB hash).</p></li>
+</ul>
 </dd>
 </dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="whoosh.filedb.filetables.OrderedHashWriter.index">
-<span class="sig-name descname"><span class="pre">index</span></span><a class="headerlink" href="#whoosh.filedb.filetables.OrderedHashWriter.index" title="Permalink to this definition">¶</a></dt>
-<dd><p>An array of the positions of all keys.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>GrowableArray</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="whoosh.filedb.filetables.OrderedHashWriter.lastkey">
-<span class="sig-name descname"><span class="pre">lastkey</span></span><a class="headerlink" href="#whoosh.filedb.filetables.OrderedHashWriter.lastkey" title="Permalink to this definition">¶</a></dt>
-<dd><p>The last key added.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.12)">bytes</a></p>
-</dd>
-</dl>
-</dd></dl>
-
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="whoosh.filedb.filetables.OrderedHashReader">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">whoosh.filedb.filetables.</span></span><span class="sig-name descname"><span class="pre">OrderedHashReader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dbfile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">magic</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">b'HSH3'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">startoffset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filetables.html#OrderedHashReader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filetables.OrderedHashReader" title="Permalink to this definition">¶</a></dt>
-<dd><p>A class for reading an ordered hash file and performing operations on it.</p>
-<p>This class extends the <cite>HashReader</cite> class and provides additional methods
-for working with an ordered series of keys in the hash file.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="whoosh.filedb.filetables.OrderedHashReader.closest_key">
-<span class="sig-name descname"><span class="pre">closest_key</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filetables.html#OrderedHashReader.closest_key"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filetables.OrderedHashReader.closest_key" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the closest key equal to or greater than the given key. If
-there is no key in the file equal to or greater than the given key,
-returns None.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="whoosh.filedb.filetables.OrderedHashReader.ranges_from">
-<span class="sig-name descname"><span class="pre">ranges_from</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filetables.html#OrderedHashReader.ranges_from"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filetables.OrderedHashReader.ranges_from" title="Permalink to this definition">¶</a></dt>
-<dd><p>Yields a series of <code class="docutils literal notranslate"><span class="pre">(keypos,</span> <span class="pre">keylen,</span> <span class="pre">datapos,</span> <span class="pre">datalen)</span></code> tuples
-for the ordered series of keys equal or greater than the given key.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="whoosh.filedb.filetables.OrderedHashReader.keys_from">
-<span class="sig-name descname"><span class="pre">keys_from</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filetables.html#OrderedHashReader.keys_from"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filetables.OrderedHashReader.keys_from" title="Permalink to this definition">¶</a></dt>
-<dd><p>Yields an ordered series of keys equal to or greater than the given
-key.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="whoosh.filedb.filetables.OrderedHashReader.items_from">
-<span class="sig-name descname"><span class="pre">items_from</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filetables.html#OrderedHashReader.items_from"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filetables.OrderedHashReader.items_from" title="Permalink to this definition">¶</a></dt>
-<dd><p>Yields an ordered series of <code class="docutils literal notranslate"><span class="pre">(key,</span> <span class="pre">value)</span></code> tuples for keys equal
-to or greater than the given key.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="whoosh.filedb.filetables.OrderedHashReader.indexbase">
-<span class="sig-name descname"><span class="pre">indexbase</span></span><a class="headerlink" href="#whoosh.filedb.filetables.OrderedHashReader.indexbase" title="Permalink to this definition">¶</a></dt>
-<dd><p>The base position of the index array in the hash file.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="whoosh.filedb.filetables.OrderedHashReader.indexlen">
-<span class="sig-name descname"><span class="pre">indexlen</span></span><a class="headerlink" href="#whoosh.filedb.filetables.OrderedHashReader.indexlen" title="Permalink to this definition">¶</a></dt>
-<dd><p>The length of the index array.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="whoosh.filedb.filetables.OrderedHashReader.indexsize">
-<span class="sig-name descname"><span class="pre">indexsize</span></span><a class="headerlink" href="#whoosh.filedb.filetables.OrderedHashReader.indexsize" title="Permalink to this definition">¶</a></dt>
-<dd><p>The size of each index element in bytes.</p>
-</dd></dl>
-
-<p>Initializes a FileTables object.</p>
-<dl class="field-list simple">
+<dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dbfile</strong> (<a class="reference internal" href="structfile.html#whoosh.filedb.structfile.StructFile" title="whoosh.filedb.structfile.StructFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">StructFile</span></code></a>) – A <a class="reference internal" href="structfile.html#whoosh.filedb.structfile.StructFile" title="whoosh.filedb.structfile.StructFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">StructFile</span></code></a> object to read from.</p></li>
-<li><p><strong>length</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a><em>, </em><em>optional</em>) – The length of the file data. This is necessary since the hashing information is written at the end of the file.</p></li>
-<li><p><strong>magic</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.12)"><em>bytes</em></a><em>, </em><em>optional</em>) – The format tag bytes to look for at the start of the file. If the file’s format tag does not match these bytes, the object raises a <code class="xref py py-class docutils literal notranslate"><span class="pre">FileFormatError</span></code> exception.</p></li>
-<li><p><strong>startoffset</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a><em>, </em><em>optional</em>) – The starting point of the file data.</p></li>
+<li><p><strong>dbfile</strong> – a <a class="reference internal" href="structfile.html#whoosh.filedb.structfile.StructFile" title="whoosh.filedb.structfile.StructFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">StructFile</span></code></a> object
+to read from.</p></li>
+<li><p><strong>length</strong> – the length of the file data. This is necessary since the
+hashing information is written at the end of the file.</p></li>
+<li><p><strong>magic</strong> – the format tag bytes to look for at the start of the
+file. If the file’s format tag does not match these bytes, the
+object raises a <code class="xref py py-class docutils literal notranslate"><span class="pre">FileFormatError</span></code> exception.</p></li>
+<li><p><strong>startoffset</strong> – the starting point of the file data.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>FileFormatError</strong> – If the format tag of the file does not match the specified magic bytes.</p>
-</dd>
 </dl>
-<p>The FileTables object represents a file-based hash table. It reads and interprets the data from the provided <cite>dbfile</cite> object.</p>
-<p>The <cite>dbfile</cite> parameter should be an instance of <a class="reference internal" href="structfile.html#whoosh.filedb.structfile.StructFile" title="whoosh.filedb.structfile.StructFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">StructFile</span></code></a>, which is a file-like object that supports reading and seeking.</p>
-<p>The <cite>length</cite> parameter is the length of the file data. If not provided, the object will determine the length by seeking to the end of the file and calculating the difference between the current position and the <cite>startoffset</cite>.</p>
-<p>The <cite>magic</cite> parameter is the format tag bytes to look for at the start of the file. If the file’s format tag does not match these bytes, a <code class="xref py py-class docutils literal notranslate"><span class="pre">FileFormatError</span></code> exception is raised.</p>
-<p>The <cite>startoffset</cite> parameter is the starting point of the file data. If not provided, it defaults to 0.</p>
-<p>After initialization, the FileTables object provides access to the hash tables and other metadata stored in the file.</p>
-<p>Example usage:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">whoosh.filedb.structfile</span> <span class="kn">import</span> <span class="n">StructFile</span>
-<span class="kn">from</span> <span class="nn">whoosh.filedb.filetables</span> <span class="kn">import</span> <span class="n">FileTables</span>
-
-<span class="c1"># Open the file in binary mode</span>
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;data.db&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="c1"># Create a StructFile object</span>
-    <span class="n">dbfile</span> <span class="o">=</span> <span class="n">StructFile</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-    <span class="c1"># Create a FileTables object</span>
-    <span class="n">tables</span> <span class="o">=</span> <span class="n">FileTables</span><span class="p">(</span><span class="n">dbfile</span><span class="p">)</span>
-
-    <span class="c1"># Access the hash tables</span>
-    <span class="k">for</span> <span class="n">table</span> <span class="ow">in</span> <span class="n">tables</span><span class="o">.</span><span class="n">tables</span><span class="p">:</span>
-        <span class="n">position</span><span class="p">,</span> <span class="n">numslots</span> <span class="o">=</span> <span class="n">table</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Table at position </span><span class="si">{</span><span class="n">position</span><span class="si">}</span><span class="s2"> with </span><span class="si">{</span><span class="n">numslots</span><span class="si">}</span><span class="s2"> slots&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
 </dd></dl>
 
 </section>

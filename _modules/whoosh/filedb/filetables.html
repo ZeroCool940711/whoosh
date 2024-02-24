@@ -143,52 +143,13 @@
 
 
 <span class="k">class</span> <span class="nc">FileFormatError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Exception raised when there is an error with the file format.</span>
-
-<span class="sd">    This exception is raised when there is an issue with the format of a file being processed.</span>
-<span class="sd">    It can be used to handle specific errors related to file formats in the application.</span>
-
-<span class="sd">    Attributes:</span>
-<span class="sd">        message (str): The error message describing the specific file format error.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initialize a new instance of FileFormatError.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            message (str): The error message describing the specific file format error.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+    <span class="k">pass</span>
 
 
 <span class="c1"># Hash functions</span>
 
 
 <span class="k">def</span> <span class="nf">cdb_hash</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Implements the CDB hash function.</span>
-
-<span class="sd">    This function calculates the hash value of a given key using the CDB hash algorithm.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        key (str): The key to be hashed.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        int: The hash value of the key.</span>
-
-<span class="sd">    Notes:</span>
-<span class="sd">        The CDB hash algorithm is a simple and efficient hash function that produces a 32-bit hash value.</span>
-<span class="sd">        It is commonly used in hash-based data structures like CDB (Constant Database) and similar systems.</span>
-
-<span class="sd">    Example:</span>
-<span class="sd">        &gt;&gt;&gt; cdb_hash(&quot;example&quot;)</span>
-<span class="sd">        123456789</span>
-
-<span class="sd">    References:</span>
-<span class="sd">        - CDB Hash Function: https://cr.yp.to/cdb/cdb.txt</span>
-<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">h</span> <span class="o">=</span> <span class="mi">5381</span>
     <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">key</span><span class="p">:</span>
         <span class="n">h</span> <span class="o">=</span> <span class="p">(</span><span class="n">h</span> <span class="o">+</span> <span class="p">(</span><span class="n">h</span> <span class="o">&lt;&lt;</span> <span class="mi">5</span><span class="p">))</span> <span class="o">&amp;</span> <span class="mh">0xFFFFFFFF</span> <span class="o">^</span> <span class="nb">ord</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
@@ -196,73 +157,17 @@
 
 
 <span class="k">def</span> <span class="nf">md5_hash</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Implements the MD5 hash function.</span>
-
-<span class="sd">    This function takes a key and returns its hash value using the MD5 algorithm.</span>
-<span class="sd">    The hash value is a 32-bit integer.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        key (bytes or bytearray): The key to be hashed.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        int: The hash value of the key.</span>
-
-<span class="sd">    Raises:</span>
-<span class="sd">        TypeError: If the key is not of type bytes or bytearray.</span>
-
-<span class="sd">    Example:</span>
-<span class="sd">        &gt;&gt;&gt; key = b&#39;my_key&#39;</span>
-<span class="sd">        &gt;&gt;&gt; hash_value = md5_hash(key)</span>
-<span class="sd">        &gt;&gt;&gt; print(hash_value)</span>
-<span class="sd">        1234567890</span>
-
-<span class="sd">    Note:</span>
-<span class="sd">        This function uses the MD5 algorithm to compute the hash value of the key.</span>
-<span class="sd">        The MD5 algorithm produces a 128-bit hash value, but this function truncates it to a 32-bit integer.</span>
-<span class="sd">        If the Python version is less than 3.9, the `md5` function from the `hashlib` module is used.</span>
-<span class="sd">        Otherwise, the `md5` function is called with the `usedforsecurity=False` argument.</span>
-
-<span class="sd">    References:</span>
-<span class="sd">        - Python hashlib module: https://docs.python.org/3/library/hashlib.html</span>
-<span class="sd">        - MD5 algorithm: https://en.wikipedia.org/wiki/MD5</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="p">(</span><span class="nb">bytes</span><span class="p">,</span> <span class="nb">bytearray</span><span class="p">)):</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Key must be of type bytes or bytearray.&quot;</span><span class="p">)</span>
-
     <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">md5</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">(),</span> <span class="mi">16</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xFFFFFFFF</span>
     <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">md5</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">usedforsecurity</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">(),</span> <span class="mi">16</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xFFFFFFFF</span>
 
 
 <span class="k">def</span> <span class="nf">crc_hash</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Implements the CRC32 hash function.</span>
-
-<span class="sd">    This function takes a key as input and returns the hash value of the key using the CRC32 algorithm.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        key (bytes or bytearray): The key to be hashed.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        int: The hash value of the key.</span>
-
-<span class="sd">    Example:</span>
-<span class="sd">        &gt;&gt;&gt; key = b&quot;example&quot;</span>
-<span class="sd">        &gt;&gt;&gt; crc_hash(key)</span>
-<span class="sd">        123456789</span>
-
-<span class="sd">    Note:</span>
-<span class="sd">        The key should be of type bytes or bytearray. If the key is of any other type, a TypeError will be raised.</span>
-
-<span class="sd">    References:</span>
-<span class="sd">        - CRC32 algorithm: https://en.wikipedia.org/wiki/Cyclic_redundancy_check</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">crc32</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xFFFFFFFF</span>
 
 
 <span class="n">_hash_functions</span> <span class="o">=</span> <span class="p">(</span><span class="n">md5_hash</span><span class="p">,</span> <span class="n">crc_hash</span><span class="p">,</span> <span class="n">cdb_hash</span><span class="p">)</span>
+
 
 <span class="c1"># Structs</span>
 
@@ -280,110 +185,55 @@
 
 
 <div class="viewcode-block" id="HashWriter"><a class="viewcode-back" href="../../../api/filedb/filetables.html#whoosh.filedb.filetables.HashWriter">[docs]</a><span class="k">class</span> <span class="nc">HashWriter</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Implements a fast on-disk key-value store.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Implements a fast on-disk key-value store. This hash uses a two-level</span>
+<span class="sd">    hashing scheme, where a key is hashed, the low eight bits of the hash value</span>
+<span class="sd">    are used to index into one of 256 hash tables. This is basically the CDB</span>
+<span class="sd">    algorithm, but unlike CDB this object writes all data serially (it doesn&#39;t</span>
+<span class="sd">    seek backwards to overwrite information at the end).</span>
 
-<span class="sd">    This hash writer uses a two-level hashing scheme, where a key is hashed, and the low eight bits of the hash value</span>
-<span class="sd">    are used to index into one of 256 hash tables. It is similar to the CDB algorithm but with some differences.</span>
-
-<span class="sd">    The HashWriter object writes all data serially and does not seek backwards to overwrite information at the end.</span>
-<span class="sd">    It supports 64-bit file pointers, allowing for essentially unlimited file length. However, each key and value must</span>
-<span class="sd">    be less than 2 GB in length.</span>
-
-<span class="sd">    Usage:</span>
-<span class="sd">    1. Create an instance of HashWriter by providing a StructFile object to write to, along with optional parameters</span>
-<span class="sd">       like the format tag bytes and the hashing algorithm to use.</span>
-<span class="sd">    2. Use the `add` method to add key/value pairs to the file. Note that keys do not need to be unique, and multiple</span>
-<span class="sd">       values can be stored under the same key.</span>
-<span class="sd">    3. Optionally, use the `add_all` method to add a sequence of `(key, value)` pairs.</span>
-<span class="sd">    4. Call the `close` method to finalize the writing process and return the end position of the file.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        dbfile (StructFile): A StructFile object to write to.</span>
-<span class="sd">        magic (bytes, optional): The format tag bytes to write at the start of the file. Defaults to b&quot;HSH3&quot;.</span>
-<span class="sd">        hashtype (int, optional): An integer indicating which hashing algorithm to use.</span>
-<span class="sd">            Possible values are 0 (MD5), 1 (CRC32), or 2 (CDB hash). Defaults to 0.</span>
-
-<span class="sd">    Attributes:</span>
-<span class="sd">        dbfile (StructFile): The StructFile object being written to.</span>
-<span class="sd">        hashtype (int): The hashing algorithm being used.</span>
-<span class="sd">        hashfn (function): The hash function corresponding to the selected algorithm.</span>
-<span class="sd">        extras (dict): A dictionary for subclasses to store extra metadata.</span>
-<span class="sd">        startoffset (int): The starting offset of the file.</span>
-
-<span class="sd">    Methods:</span>
-<span class="sd">        tell() -&gt; int:</span>
-<span class="sd">            Returns the current position in the file.</span>
-
-<span class="sd">        add(key: bytes, value: bytes) -&gt; None:</span>
-<span class="sd">            Adds a key/value pair to the file.</span>
-
-<span class="sd">        add_all(items: Iterable[Tuple[bytes, bytes]]) -&gt; None:</span>
-<span class="sd">            Adds a sequence of `(key, value)` pairs to the file.</span>
-
-<span class="sd">        close() -&gt; int:</span>
-<span class="sd">            Finalizes the writing process and returns the end position of the file.</span>
+<span class="sd">    Also unlike CDB, this format uses 64-bit file pointers, so the file length</span>
+<span class="sd">    is essentially unlimited. However, each key and value must be less than</span>
+<span class="sd">    2 GB in length.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbfile</span><span class="p">,</span> <span class="n">magic</span><span class="o">=</span><span class="sa">b</span><span class="s2">&quot;HSH3&quot;</span><span class="p">,</span> <span class="n">hashtype</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initializes a FileTables object.</span>
-
-<span class="sd">        :param dbfile: A :class:`~whoosh.filedb.structfile.StructFile` object to write to.</span>
-<span class="sd">        :type dbfile: :class:`~whoosh.filedb.structfile.StructFile`</span>
-<span class="sd">        :param magic: The format tag bytes to write at the start of the file. Default is b&quot;HSH3&quot;.</span>
-<span class="sd">        :type magic: bytes, optional</span>
-<span class="sd">        :param hashtype: An integer indicating which hashing algorithm to use. Possible values are 0 (MD5), 1 (CRC32), or 2 (CDB hash). Default is 0.</span>
-<span class="sd">        :type hashtype: int, optional</span>
+<span class="sd">        :param dbfile: a :class:`~whoosh.filedb.structfile.StructFile` object</span>
+<span class="sd">            to write to.</span>
+<span class="sd">        :param magic: the format tag bytes to write at the start of the file.</span>
+<span class="sd">        :param hashtype: an integer indicating which hashing algorithm to use.</span>
+<span class="sd">            Possible values are 0 (MD5), 1 (CRC32), or 2 (CDB hash).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">dbfile</span> <span class="o">=</span> <span class="n">dbfile</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">hashtype</span> <span class="o">=</span> <span class="n">hashtype</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">hashfn</span> <span class="o">=</span> <span class="n">_hash_functions</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">hashtype</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">extras</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># A place for subclasses to put extra metadata</span>
+        <span class="c1"># A place for subclasses to put extra metadata</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">extras</span> <span class="o">=</span> <span class="p">{}</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">startoffset</span> <span class="o">=</span> <span class="n">dbfile</span><span class="o">.</span><span class="n">tell</span><span class="p">()</span>
-        <span class="n">dbfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">magic</span><span class="p">)</span>  <span class="c1"># Write format tag</span>
-        <span class="n">dbfile</span><span class="o">.</span><span class="n">write_byte</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hashtype</span><span class="p">)</span>  <span class="c1"># Write hash type</span>
-        <span class="n">dbfile</span><span class="o">.</span><span class="n">write_int</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># Unused future expansion bits</span>
+        <span class="c1"># Write format tag</span>
+        <span class="n">dbfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">magic</span><span class="p">)</span>
+        <span class="c1"># Write hash type</span>
+        <span class="n">dbfile</span><span class="o">.</span><span class="n">write_byte</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hashtype</span><span class="p">)</span>
+        <span class="c1"># Unused future expansion bits</span>
+        <span class="n">dbfile</span><span class="o">.</span><span class="n">write_int</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
         <span class="n">dbfile</span><span class="o">.</span><span class="n">write_int</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">buckets</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="p">[]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">256</span><span class="p">)</span>
-        <span class="p">]</span>  <span class="c1"># 256 lists of hashed keys and positions</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">directory</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># List to remember the positions of the hash tables</span>
+        <span class="c1"># 256 lists of hashed keys and positions</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">buckets</span> <span class="o">=</span> <span class="p">[[]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">256</span><span class="p">)]</span>
+        <span class="c1"># List to remember the positions of the hash tables</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">directory</span> <span class="o">=</span> <span class="p">[]</span>
 
-<div class="viewcode-block" id="HashWriter.tell"><a class="viewcode-back" href="../../../api/filedb/filetables.html#whoosh.filedb.filetables.HashWriter.tell">[docs]</a>    <span class="k">def</span> <span class="nf">tell</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns the current position of the file pointer within the database file.</span>
-
-<span class="sd">        :return: The current position of the file pointer.</span>
-<span class="sd">        :rtype: int</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dbfile</span><span class="o">.</span><span class="n">tell</span><span class="p">()</span></div>
+    <span class="k">def</span> <span class="nf">tell</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dbfile</span><span class="o">.</span><span class="n">tell</span><span class="p">()</span>
 
 <div class="viewcode-block" id="HashWriter.add"><a class="viewcode-back" href="../../../api/filedb/filetables.html#whoosh.filedb.filetables.HashWriter.add">[docs]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Adds a key/value pair to the file.</span>
-
-<span class="sd">        This method is used to add a key/value pair to the file. The keys do not need to be unique,</span>
-<span class="sd">        meaning you can store multiple values under the same key. The values are stored in a file</span>
-<span class="sd">        using the specified key.</span>
-
-<span class="sd">        Parameters:</span>
-<span class="sd">        - key (bytes): The key associated with the value. It must be of type bytes.</span>
-<span class="sd">        - value (bytes): The value to be stored. It must be of type bytes.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">        None</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">        AssertionError: If the key or value is not of type bytes.</span>
-
-<span class="sd">        Usage:</span>
-<span class="sd">        file_table = FileTable()</span>
-<span class="sd">        file_table.add(b&#39;key1&#39;, b&#39;value1&#39;)</span>
-<span class="sd">        file_table.add(b&#39;key1&#39;, b&#39;value2&#39;)</span>
-<span class="sd">        file_table.add(b&#39;key2&#39;, b&#39;value3&#39;)</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Adds a key/value pair to the file. Note that keys DO NOT need to be</span>
+<span class="sd">        unique. You can store multiple values under the same key and retrieve</span>
+<span class="sd">        them using :meth:`HashReader.all`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">)</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">)</span>
 
@@ -399,63 +249,21 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">buckets</span><span class="p">[</span><span class="n">h</span> <span class="o">&amp;</span> <span class="mi">255</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">h</span><span class="p">,</span> <span class="n">pos</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="HashWriter.add_all"><a class="viewcode-back" href="../../../api/filedb/filetables.html#whoosh.filedb.filetables.HashWriter.add_all">[docs]</a>    <span class="k">def</span> <span class="nf">add_all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Convenience method to add a sequence of ``(key, value)`` pairs to the file table.</span>
-
-<span class="sd">        This method allows you to add multiple key-value pairs to the file table at once.</span>
-<span class="sd">        It iterates over the given sequence of ``(key, value)`` pairs and calls the</span>
-<span class="sd">        :meth:`add` method for each pair.</span>
-
-<span class="sd">        Parameters:</span>
-<span class="sd">            items (sequence): A sequence of ``(key, value)`` pairs to be added to the file table.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; items = [(&#39;key1&#39;, &#39;value1&#39;), (&#39;key2&#39;, &#39;value2&#39;), (&#39;key3&#39;, &#39;value3&#39;)]</span>
-<span class="sd">            &gt;&gt;&gt; file_table.add_all(items)</span>
-
-<span class="sd">        Note:</span>
-<span class="sd">            - The `items` parameter should be an iterable containing ``(key, value)`` pairs.</span>
-<span class="sd">            - The `key` should be a unique identifier for each value in the file table.</span>
-<span class="sd">            - The `value` can be any object that needs to be associated with the `key`.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convenience method to add a sequence of ``(key, value)`` pairs. This</span>
+<span class="sd">        is the same as calling :meth:`HashWriter.add` on each pair in the</span>
+<span class="sd">        sequence.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="n">add</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add</span>
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
             <span class="n">add</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">_write_hashes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Writes 256 hash tables containing pointers to the key/value pairs.</span>
+        <span class="c1"># Writes 256 hash tables containing pointers to the key/value pairs</span>
 
-<span class="sd">        This method is responsible for creating and writing the hash tables to disk.</span>
-<span class="sd">        Each hash table contains pointers to the key/value pairs stored in the database.</span>
-
-<span class="sd">        Parameters:</span>
-<span class="sd">        - None</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">        - None</span>
-
-<span class="sd">        Usage:</span>
-<span class="sd">        - Call this method to write the hash tables to disk after populating the buckets.</span>
-
-<span class="sd">        Algorithm:</span>
-<span class="sd">        - For each bucket in the buckets list:</span>
-<span class="sd">            - Get the start position of the bucket&#39;s hash table in the database file.</span>
-<span class="sd">            - Calculate the number of slots in the hash table.</span>
-<span class="sd">            - Append the (start position, number of slots) tuple to the directory list.</span>
-<span class="sd">            - Create an empty hash table with the specified number of slots.</span>
-<span class="sd">            - For each (hash value, key position) tuple in the bucket:</span>
-<span class="sd">                - Calculate the slot index for the entry using bit shifting and wrapping.</span>
-<span class="sd">                - If the slot is already taken, find the next empty slot.</span>
-<span class="sd">                - Insert the entry into the hash table at the calculated slot index.</span>
-<span class="sd">            - Write the hash table for the bucket to the database file.</span>
-
-<span class="sd">        Note:</span>
-<span class="sd">        - The hash tables are written in a specific format using the _pointer.pack() method.</span>
-<span class="sd">        - The database file (dbfile) and the null value (representing an empty slot) are used throughout the method.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">dbfile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dbfile</span>
         <span class="c1"># Represent and empty slot in the hash table using 0,0 (no key can</span>
+        <span class="c1"># start at position 0 because of the header)</span>
         <span class="n">null</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">entries</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">buckets</span><span class="p">:</span>
@@ -482,72 +290,16 @@
                 <span class="n">dbfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">_pointer</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">hashval</span><span class="p">,</span> <span class="n">position</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">_write_directory</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Writes a directory of pointers to the 256 hash tables.</span>
+        <span class="c1"># Writes a directory of pointers to the 256 hash tables</span>
 
-<span class="sd">        This method is responsible for writing a directory of pointers to the 256 hash tables</span>
-<span class="sd">        in the database file. Each entry in the directory consists of the position and number</span>
-<span class="sd">        of slots for a hash table.</span>
-
-<span class="sd">        Parameters:</span>
-<span class="sd">            None</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            None</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            None</span>
-
-<span class="sd">        Usage:</span>
-<span class="sd">            Call this method to write the directory of pointers to the hash tables in the</span>
-<span class="sd">            database file.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            _write_directory()</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">dbfile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dbfile</span>
         <span class="k">for</span> <span class="n">position</span><span class="p">,</span> <span class="n">numslots</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">directory</span><span class="p">:</span>
             <span class="n">dbfile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">_dir_entry</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="n">position</span><span class="p">,</span> <span class="n">numslots</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">_write_extras</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Write the extras dictionary to the database file.</span>
-
-<span class="sd">        This method serializes and writes the extras dictionary to the database file.</span>
-<span class="sd">        The extras dictionary contains additional metadata or information associated</span>
-<span class="sd">        with the file database.</span>
-
-<span class="sd">        Note:</span>
-<span class="sd">            This method should only be called internally by the filetables module.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            IOError: If there is an error writing the extras dictionary to the file.</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dbfile</span><span class="o">.</span><span class="n">write_pickle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">extras</span><span class="p">)</span>
 
-<div class="viewcode-block" id="HashWriter.close"><a class="viewcode-back" href="../../../api/filedb/filetables.html#whoosh.filedb.filetables.HashWriter.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Closes the file database and performs necessary write operations.</span>
-
-<span class="sd">        This method is responsible for closing the file database and performing</span>
-<span class="sd">        necessary write operations before closing. It writes hash tables, the</span>
-<span class="sd">        directory of pointers to hash tables, extra information, and the length</span>
-<span class="sd">        of the pickle to the file.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            int: The position of the end of the file.</span>
-
-<span class="sd">        Usage:</span>
-<span class="sd">            Call this method when you are finished using the file database and</span>
-<span class="sd">            want to close it. It ensures that all necessary write operations are</span>
-<span class="sd">            performed before closing the file.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            file_db = FileDatabase()</span>
-<span class="sd">            # ... perform operations on the file database ...</span>
-<span class="sd">            file_db.close()</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">dbfile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dbfile</span>
 
         <span class="c1"># Write hash tables</span>
@@ -563,152 +315,26 @@
 
         <span class="n">endpos</span> <span class="o">=</span> <span class="n">dbfile</span><span class="o">.</span><span class="n">tell</span><span class="p">()</span>
         <span class="n">dbfile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">endpos</span></div></div>
+        <span class="k">return</span> <span class="n">endpos</span></div>
 
 
 <div class="viewcode-block" id="HashReader"><a class="viewcode-back" href="../../../api/filedb/filetables.html#whoosh.filedb.filetables.HashReader">[docs]</a><span class="k">class</span> <span class="nc">HashReader</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Reader for the fast on-disk key-value files created by</span>
 <span class="sd">    :class:`HashWriter`.</span>
-
-<span class="sd">    This class provides methods to read and retrieve key-value pairs from a</span>
-<span class="sd">    hash file. It is designed to work with files created by the `HashWriter`</span>
-<span class="sd">    class.</span>
-
-<span class="sd">    Usage:</span>
-<span class="sd">    ------</span>
-<span class="sd">    To use the `HashReader` class, you need to provide a file object and</span>
-<span class="sd">    optionally the length of the file data. The file object should be an</span>
-<span class="sd">    instance of `whoosh.filedb.structfile.StructFile`.</span>
-
-<span class="sd">    Example:</span>
-<span class="sd">    --------</span>
-<span class="sd">    # Open a hash file</span>
-<span class="sd">    dbfile = StructFile(&quot;data.hash&quot;)</span>
-<span class="sd">    reader = HashReader(dbfile)</span>
-
-<span class="sd">    # Retrieve a value for a given key</span>
-<span class="sd">    value = reader[&quot;key&quot;]</span>
-
-<span class="sd">    # Iterate over all key-value pairs</span>
-<span class="sd">    for key, value in reader:</span>
-<span class="sd">        print(key, value)</span>
-
-<span class="sd">    # Close the reader</span>
-<span class="sd">    reader.close()</span>
-
-<span class="sd">    Parameters:</span>
-<span class="sd">    -----------</span>
-<span class="sd">    dbfile : whoosh.filedb.structfile.StructFile</span>
-<span class="sd">        A file object to read from. This should be an instance of</span>
-<span class="sd">        `whoosh.filedb.structfile.StructFile`.</span>
-<span class="sd">    length : int, optional</span>
-<span class="sd">        The length of the file data. This is necessary since the hashing</span>
-<span class="sd">        information is written at the end of the file.</span>
-<span class="sd">    magic : bytes, optional</span>
-<span class="sd">        The format tag bytes to look for at the start of the file. If the</span>
-<span class="sd">        file&#39;s format tag does not match these bytes, the object raises a</span>
-<span class="sd">        `FileFormatError` exception.</span>
-<span class="sd">    startoffset : int, optional</span>
-<span class="sd">        The starting point of the file data.</span>
-
-<span class="sd">    Attributes:</span>
-<span class="sd">    -----------</span>
-<span class="sd">    dbfile : whoosh.filedb.structfile.StructFile</span>
-<span class="sd">        The file object being read from.</span>
-<span class="sd">    startoffset : int</span>
-<span class="sd">        The starting point of the file data.</span>
-<span class="sd">    is_closed : bool</span>
-<span class="sd">        Indicates whether the reader has been closed.</span>
-
-<span class="sd">    Methods:</span>
-<span class="sd">    --------</span>
-<span class="sd">    open(cls, storage, name)</span>
-<span class="sd">        Convenience method to open a hash file given a</span>
-<span class="sd">        `whoosh.filedb.filestore.Storage` object and a name. This takes care</span>
-<span class="sd">        of opening the file and passing its length to the initializer.</span>
-<span class="sd">    file()</span>
-<span class="sd">        Returns the file object being read from.</span>
-<span class="sd">    close()</span>
-<span class="sd">        Closes the reader.</span>
-<span class="sd">    key_at(pos)</span>
-<span class="sd">        Returns the key bytes at the given position.</span>
-<span class="sd">    key_and_range_at(pos)</span>
-<span class="sd">        Returns a (keybytes, datapos, datalen) tuple for the key at the given</span>
-<span class="sd">        position.</span>
-<span class="sd">    __getitem__(key)</span>
-<span class="sd">        Retrieves the value associated with the given key.</span>
-<span class="sd">    __iter__()</span>
-<span class="sd">        Iterates over all key-value pairs.</span>
-<span class="sd">    __contains__(key)</span>
-<span class="sd">        Checks if the given key exists in the hash file.</span>
-<span class="sd">    keys()</span>
-<span class="sd">        Returns an iterator over all keys.</span>
-<span class="sd">    values()</span>
-<span class="sd">        Returns an iterator over all values.</span>
-<span class="sd">    items()</span>
-<span class="sd">        Returns an iterator over all key-value pairs.</span>
-<span class="sd">    get(key, default=None)</span>
-<span class="sd">        Retrieves the value associated with the given key, or returns the</span>
-<span class="sd">        default value if the key is not found.</span>
-<span class="sd">    all(key)</span>
-<span class="sd">        Returns a generator that yields all values associated with the given</span>
-<span class="sd">        key.</span>
-<span class="sd">    ranges_for_key(key)</span>
-<span class="sd">        Returns a generator that yields (datapos, datalength) tuples</span>
-<span class="sd">        associated with the given key.</span>
-<span class="sd">    range_for_key(key)</span>
-<span class="sd">        Returns the first (datapos, datalength) tuple associated with the</span>
-<span class="sd">        given key.</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbfile</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">magic</span><span class="o">=</span><span class="sa">b</span><span class="s2">&quot;HSH3&quot;</span><span class="p">,</span> <span class="n">startoffset</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initializes a FileTables object.</span>
-
-<span class="sd">        :param dbfile: A :class:`~whoosh.filedb.structfile.StructFile` object to read from.</span>
-<span class="sd">        :type dbfile: :class:`~whoosh.filedb.structfile.StructFile`</span>
-<span class="sd">        :param length: The length of the file data. This is necessary since the hashing information is written at the end of the file.</span>
-<span class="sd">        :type length: int, optional</span>
-<span class="sd">        :param magic: The format tag bytes to look for at the start of the file. If the file&#39;s format tag does not match these bytes, the object raises a :class:`~whoosh.filedb.filetables.FileFormatError` exception.</span>
-<span class="sd">        :type magic: bytes, optional</span>
-<span class="sd">        :param startoffset: The starting point of the file data.</span>
-<span class="sd">        :type startoffset: int, optional</span>
-
-<span class="sd">        :raises FileFormatError: If the format tag of the file does not match the specified magic bytes.</span>
-
-<span class="sd">        The FileTables object represents a file-based hash table. It reads and interprets the data from the provided `dbfile` object.</span>
-
-<span class="sd">        The `dbfile` parameter should be an instance of :class:`~whoosh.filedb.structfile.StructFile`, which is a file-like object that supports reading and seeking.</span>
-
-<span class="sd">        The `length` parameter is the length of the file data. If not provided, the object will determine the length by seeking to the end of the file and calculating the difference between the current position and the `startoffset`.</span>
-
-<span class="sd">        The `magic` parameter is the format tag bytes to look for at the start of the file. If the file&#39;s format tag does not match these bytes, a :class:`~whoosh.filedb.filetables.FileFormatError` exception is raised.</span>
-
-<span class="sd">        The `startoffset` parameter is the starting point of the file data. If not provided, it defaults to 0.</span>
-
-<span class="sd">        After initialization, the FileTables object provides access to the hash tables and other metadata stored in the file.</span>
-
-<span class="sd">        Example usage:</span>
-
-<span class="sd">        .. code-block:: python</span>
-
-<span class="sd">            from whoosh.filedb.structfile import StructFile</span>
-<span class="sd">            from whoosh.filedb.filetables import FileTables</span>
-
-<span class="sd">            # Open the file in binary mode</span>
-<span class="sd">            with open(&quot;data.db&quot;, &quot;rb&quot;) as f:</span>
-<span class="sd">                # Create a StructFile object</span>
-<span class="sd">                dbfile = StructFile(f)</span>
-<span class="sd">                # Create a FileTables object</span>
-<span class="sd">                tables = FileTables(dbfile)</span>
-
-<span class="sd">                # Access the hash tables</span>
-<span class="sd">                for table in tables.tables:</span>
-<span class="sd">                    position, numslots = table</span>
-<span class="sd">                    print(f&quot;Table at position {position} with {numslots} slots&quot;)</span>
-
+<span class="sd">        :param dbfile: a :class:`~whoosh.filedb.structfile.StructFile` object</span>
+<span class="sd">            to read from.</span>
+<span class="sd">        :param length: the length of the file data. This is necessary since the</span>
+<span class="sd">            hashing information is written at the end of the file.</span>
+<span class="sd">        :param magic: the format tag bytes to look for at the start of the</span>
+<span class="sd">            file. If the file&#39;s format tag does not match these bytes, the</span>
+<span class="sd">            object raises a :class:`FileFormatError` exception.</span>
+<span class="sd">        :param startoffset: the starting point of the file data.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">dbfile</span> <span class="o">=</span> <span class="n">dbfile</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">startoffset</span> <span class="o">=</span> <span class="n">startoffset</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">is_closed</span> <span class="o">=</span> <span class="kc">False</span>
@@ -755,119 +381,37 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Convenience method to open a hash file given a</span>
 <span class="sd">        :class:`whoosh.filedb.filestore.Storage` object and a name. This takes</span>
 <span class="sd">        care of opening the file and passing its length to the initializer.</span>
-
-<span class="sd">        :param storage: The storage object representing the file store.</span>
-<span class="sd">        :type storage: whoosh.filedb.filestore.Storage</span>
-<span class="sd">        :param name: The name of the hash file to open.</span>
-<span class="sd">        :type name: str</span>
-<span class="sd">        :return: An instance of the hash file.</span>
-<span class="sd">        :rtype: whoosh.filedb.filetables.HashFile</span>
-
-<span class="sd">        :raises FileNotFoundError: If the specified file does not exist.</span>
-<span class="sd">        :raises IOError: If there is an error opening the file.</span>
-
-<span class="sd">        Usage:</span>
-<span class="sd">        &gt;&gt;&gt; storage = Storage()</span>
-<span class="sd">        &gt;&gt;&gt; hash_file = HashFile.open(storage, &quot;example.txt&quot;)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="n">length</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">file_length</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="n">dbfile</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">open_file</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">dbfile</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="HashReader.file"><a class="viewcode-back" href="../../../api/filedb/filetables.html#whoosh.filedb.filetables.HashReader.file">[docs]</a>    <span class="k">def</span> <span class="nf">file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns the database file associated with this instance.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            str: The path to the database file.</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dbfile</span></div>
+    <span class="k">def</span> <span class="nf">file</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dbfile</span>
 
     <span class="k">def</span> <span class="nf">_read_extras</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Reads the extras from the database file.</span>
-
-<span class="sd">        This method reads the extras stored in the database file and assigns them to the `extras` attribute of the</span>
-<span class="sd">        FileTables object. If an EOFError occurs during the reading process, an empty dictionary is assigned to the</span>
-<span class="sd">        `extras` attribute.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            None</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            None</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">extras</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dbfile</span><span class="o">.</span><span class="n">read_pickle</span><span class="p">()</span>
         <span class="k">except</span> <span class="ne">EOFError</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">extras</span> <span class="o">=</span> <span class="p">{}</span>
 
-<div class="viewcode-block" id="HashReader.close"><a class="viewcode-back" href="../../../api/filedb/filetables.html#whoosh.filedb.filetables.HashReader.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Closes the file table.</span>
-
-<span class="sd">        This method closes the file table by closing the underlying database file.</span>
-<span class="sd">        Once closed, the file table cannot be used for any further operations.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            ValueError: If the file table is already closed.</span>
-
-<span class="sd">        Usage:</span>
-<span class="sd">            table = FileTable(...)</span>
-<span class="sd">            table.close()</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_closed</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Tried to close </span><span class="si">{</span><span class="bp">self</span><span class="si">}</span><span class="s2"> twice&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Tried to close </span><span class="si">{</span><span class="bp">self</span><span class="si">!r}</span><span class="s2"> twice&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dbfile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">is_closed</span> <span class="o">=</span> <span class="kc">True</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_closed</span> <span class="o">=</span> <span class="kc">True</span>
 
-<div class="viewcode-block" id="HashReader.key_at"><a class="viewcode-back" href="../../../api/filedb/filetables.html#whoosh.filedb.filetables.HashReader.key_at">[docs]</a>    <span class="k">def</span> <span class="nf">key_at</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns the key bytes at the given position.</span>
+    <span class="k">def</span> <span class="nf">key_at</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">):</span>
+        <span class="c1"># Returns the key bytes at the given position</span>
 
-<span class="sd">        Parameters:</span>
-<span class="sd">            pos (int): The position of the key in the database file.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            bytes: The key bytes at the given position.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            IndexError: If the position is out of range.</span>
-
-<span class="sd">        Notes:</span>
-<span class="sd">            This method retrieves the key bytes from the database file at the specified position.</span>
-<span class="sd">            The position should be a valid index within the file.</span>
-<span class="sd">            The returned key bytes can be used for further processing or lookups in the database.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; db = FileTables()</span>
-<span class="sd">            &gt;&gt;&gt; key = db.key_at(10)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">dbfile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dbfile</span>
         <span class="n">keylen</span> <span class="o">=</span> <span class="n">dbfile</span><span class="o">.</span><span class="n">get_uint</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">dbfile</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pos</span> <span class="o">+</span> <span class="n">_lengths</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">keylen</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">dbfile</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pos</span> <span class="o">+</span> <span class="n">_lengths</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">keylen</span><span class="p">)</span>
 
-<div class="viewcode-block" id="HashReader.key_and_range_at"><a class="viewcode-back" href="../../../api/filedb/filetables.html#whoosh.filedb.filetables.HashReader.key_and_range_at">[docs]</a>    <span class="k">def</span> <span class="nf">key_and_range_at</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns a tuple containing the key, data position, and data length for the key at the given position.</span>
-
-<span class="sd">        Parameters:</span>
-<span class="sd">        - pos (int): The position of the key in the database file.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">        - tuple: A tuple containing the following elements:</span>
-<span class="sd">            - keybytes (bytes): The key as bytes.</span>
-<span class="sd">            - datapos (int): The position of the data in the database file.</span>
-<span class="sd">            - datalen (int): The length of the data.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">        - None</span>
-
-<span class="sd">        Notes:</span>
-<span class="sd">        - This method assumes that the database file is already open and accessible.</span>
-<span class="sd">        - The position should be within the valid range of data in the file.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">key_and_range_at</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">):</span>
+        <span class="c1"># Returns a (keybytes, datapos, datalen) tuple for the key at the given</span>
+        <span class="c1"># position</span>
         <span class="n">dbfile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dbfile</span>
         <span class="n">lenssize</span> <span class="o">=</span> <span class="n">_lengths</span><span class="o">.</span><span class="n">size</span>
 
@@ -877,31 +421,11 @@
         <span class="n">keylen</span><span class="p">,</span> <span class="n">datalen</span> <span class="o">=</span> <span class="n">_lengths</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="n">dbfile</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">lenssize</span><span class="p">))</span>
         <span class="n">keybytes</span> <span class="o">=</span> <span class="n">dbfile</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pos</span> <span class="o">+</span> <span class="n">lenssize</span><span class="p">,</span> <span class="n">keylen</span><span class="p">)</span>
         <span class="n">datapos</span> <span class="o">=</span> <span class="n">pos</span> <span class="o">+</span> <span class="n">lenssize</span> <span class="o">+</span> <span class="n">keylen</span>
-        <span class="k">return</span> <span class="n">keybytes</span><span class="p">,</span> <span class="n">datapos</span><span class="p">,</span> <span class="n">datalen</span></div>
+        <span class="k">return</span> <span class="n">keybytes</span><span class="p">,</span> <span class="n">datapos</span><span class="p">,</span> <span class="n">datalen</span>
 
     <span class="k">def</span> <span class="nf">_ranges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">eod</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Yields a series of (keypos, keylength, datapos, datalength) tuples for the key/value pairs in the file.</span>
-
-<span class="sd">        Parameters:</span>
-<span class="sd">            pos (int, optional): The starting position to iterate from. If not provided, it defaults to self.startofdata.</span>
-<span class="sd">            eod (int, optional): The ending position to iterate until. If not provided, it defaults to self.endofdata.</span>
-
-<span class="sd">        Yields:</span>
-<span class="sd">            tuple: A tuple containing the key position, key length, data position, and data length.</span>
-
-<span class="sd">        Usage:</span>
-<span class="sd">            Use this method to iterate over the key/value pairs in the file. It returns a series of tuples, where each tuple represents a key/value pair in the file. The tuple contains the following information:</span>
-<span class="sd">            - keypos: The position of the key in the file.</span>
-<span class="sd">            - keylen: The length of the key.</span>
-<span class="sd">            - datapos: The position of the data in the file.</span>
-<span class="sd">            - datalen: The length of the data.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            for keypos, keylen, datapos, datalen in _ranges():</span>
-<span class="sd">                # Process the key/value pair</span>
-<span class="sd">                ...</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Yields a series of (keypos, keylength, datapos, datalength) tuples</span>
+        <span class="c1"># for the key/value pairs in the file</span>
         <span class="n">dbfile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dbfile</span>
         <span class="n">pos</span> <span class="o">=</span> <span class="n">pos</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">startofdata</span>
         <span class="n">eod</span> <span class="o">=</span> <span class="n">eod</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">endofdata</span>
@@ -916,38 +440,11 @@
             <span class="n">pos</span> <span class="o">=</span> <span class="n">datapos</span> <span class="o">+</span> <span class="n">datalen</span>
 
     <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retrieve the value associated with the given key.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            key: The key to retrieve the value for.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            The value associated with the given key.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            KeyError: If the key is not found in the table.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">value</span>
         <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Iterate over the key-value pairs stored in the file table.</span>
-
-<span class="sd">        Yields:</span>
-<span class="sd">            tuple: A tuple containing the key and value of each entry in the file table.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            IOError: If there is an error reading the file table.</span>
-
-<span class="sd">        Usage:</span>
-<span class="sd">            file_table = FileTable()</span>
-<span class="sd">            for key, value in file_table:</span>
-<span class="sd">                # Process key-value pair</span>
-<span class="sd">                ...</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">dbfile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dbfile</span>
         <span class="k">for</span> <span class="n">keypos</span><span class="p">,</span> <span class="n">keylen</span><span class="p">,</span> <span class="n">datapos</span><span class="p">,</span> <span class="n">datalen</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ranges</span><span class="p">():</span>
             <span class="n">key</span> <span class="o">=</span> <span class="n">dbfile</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">keypos</span><span class="p">,</span> <span class="n">keylen</span><span class="p">)</span>
@@ -955,135 +452,33 @@
             <span class="k">yield</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Check if the given key exists in the file table.</span>
-
-<span class="sd">        Parameters:</span>
-<span class="sd">        - key (str): The key to check for existence in the file table.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">        - bool: True if the key exists in the file table, False otherwise.</span>
-
-<span class="sd">        Description:</span>
-<span class="sd">        This method checks if the given key exists in the file table. It iterates over the ranges associated with the key</span>
-<span class="sd">        and returns True if at least one range is found. Otherwise, it returns False.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">        &gt;&gt;&gt; file_table = FileTable()</span>
-<span class="sd">        &gt;&gt;&gt; file_table[&quot;key1&quot;] = Range(0, 100)</span>
-<span class="sd">        &gt;&gt;&gt; file_table[&quot;key2&quot;] = Range(200, 300)</span>
-<span class="sd">        &gt;&gt;&gt; &quot;key1&quot; in file_table</span>
-<span class="sd">        True</span>
-<span class="sd">        &gt;&gt;&gt; &quot;key3&quot; in file_table</span>
-<span class="sd">        False</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ranges_for_key</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
             <span class="k">return</span> <span class="kc">True</span>
         <span class="k">return</span> <span class="kc">False</span>
 
-<div class="viewcode-block" id="HashReader.keys"><a class="viewcode-back" href="../../../api/filedb/filetables.html#whoosh.filedb.filetables.HashReader.keys">[docs]</a>    <span class="k">def</span> <span class="nf">keys</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retrieve the keys from the file table.</span>
-
-<span class="sd">        This method iterates over the file table and yields each key stored in it.</span>
-
-<span class="sd">        Yields:</span>
-<span class="sd">            str: The keys stored in the file table.</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">keys</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">dbfile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dbfile</span>
         <span class="k">for</span> <span class="n">keypos</span><span class="p">,</span> <span class="n">keylen</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ranges</span><span class="p">():</span>
-            <span class="k">yield</span> <span class="n">dbfile</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">keypos</span><span class="p">,</span> <span class="n">keylen</span><span class="p">)</span></div>
+            <span class="k">yield</span> <span class="n">dbfile</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">keypos</span><span class="p">,</span> <span class="n">keylen</span><span class="p">)</span>
 
-<div class="viewcode-block" id="HashReader.values"><a class="viewcode-back" href="../../../api/filedb/filetables.html#whoosh.filedb.filetables.HashReader.values">[docs]</a>    <span class="k">def</span> <span class="nf">values</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns an iterator over the values stored in the file table.</span>
-
-<span class="sd">        Yields:</span>
-<span class="sd">            bytes: The value stored in the file table.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            KeyError: If the file table is empty.</span>
-
-<span class="sd">        Notes:</span>
-<span class="sd">            This method iterates over the ranges of data stored in the file table and retrieves</span>
-<span class="sd">            the corresponding values using the `dbfile.get()` method. The values are yielded one</span>
-<span class="sd">            by one, allowing for efficient memory usage when working with large file tables.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; table = FileTable()</span>
-<span class="sd">            &gt;&gt;&gt; table.add(1, b&#39;value1&#39;)</span>
-<span class="sd">            &gt;&gt;&gt; table.add(2, b&#39;value2&#39;)</span>
-<span class="sd">            &gt;&gt;&gt; table.add(3, b&#39;value3&#39;)</span>
-<span class="sd">            &gt;&gt;&gt; for value in table.values():</span>
-<span class="sd">            ...     print(value)</span>
-<span class="sd">            b&#39;value1&#39;</span>
-<span class="sd">            b&#39;value2&#39;</span>
-<span class="sd">            b&#39;value3&#39;</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">values</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">dbfile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dbfile</span>
         <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">datapos</span><span class="p">,</span> <span class="n">datalen</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ranges</span><span class="p">():</span>
-            <span class="k">yield</span> <span class="n">dbfile</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">datapos</span><span class="p">,</span> <span class="n">datalen</span><span class="p">)</span></div>
+            <span class="k">yield</span> <span class="n">dbfile</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">datapos</span><span class="p">,</span> <span class="n">datalen</span><span class="p">)</span>
 
-<div class="viewcode-block" id="HashReader.items"><a class="viewcode-back" href="../../../api/filedb/filetables.html#whoosh.filedb.filetables.HashReader.items">[docs]</a>    <span class="k">def</span> <span class="nf">items</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns an iterator over the key-value pairs stored in the file table.</span>
-
-<span class="sd">        Yields:</span>
-<span class="sd">            tuple: A tuple containing the key and value retrieved from the file table.</span>
-
-<span class="sd">        Notes:</span>
-<span class="sd">            This method iterates over the ranges of the file table and retrieves the key-value pairs</span>
-<span class="sd">            using the positions and lengths stored in each range. The key and value are obtained by</span>
-<span class="sd">            calling the `get` method of the `dbfile` object.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; file_table = FileTable()</span>
-<span class="sd">            &gt;&gt;&gt; for key, value in file_table.items():</span>
-<span class="sd">            ...     print(key, value)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">items</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">dbfile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dbfile</span>
         <span class="k">for</span> <span class="n">keypos</span><span class="p">,</span> <span class="n">keylen</span><span class="p">,</span> <span class="n">datapos</span><span class="p">,</span> <span class="n">datalen</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ranges</span><span class="p">():</span>
-            <span class="k">yield</span> <span class="p">(</span><span class="n">dbfile</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">keypos</span><span class="p">,</span> <span class="n">keylen</span><span class="p">),</span> <span class="n">dbfile</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">datapos</span><span class="p">,</span> <span class="n">datalen</span><span class="p">))</span></div>
+            <span class="k">yield</span> <span class="p">(</span><span class="n">dbfile</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">keypos</span><span class="p">,</span> <span class="n">keylen</span><span class="p">),</span> <span class="n">dbfile</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">datapos</span><span class="p">,</span> <span class="n">datalen</span><span class="p">))</span>
 
-<div class="viewcode-block" id="HashReader.get"><a class="viewcode-back" href="../../../api/filedb/filetables.html#whoosh.filedb.filetables.HashReader.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retrieve the value associated with the given key.</span>
-
-<span class="sd">        This method returns the first value found for the given key in the file table.</span>
-<span class="sd">        If no value is found, it returns the default value provided.</span>
-
-<span class="sd">        Parameters:</span>
-<span class="sd">        - key (str): The key to search for in the file table.</span>
-<span class="sd">        - default (Any, optional): The default value to return if no value is found. Defaults to None.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">        - The value associated with the given key, or the default value if no value is found.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">value</span>
-        <span class="k">return</span> <span class="n">default</span></div>
+        <span class="k">return</span> <span class="n">default</span>
 
 <div class="viewcode-block" id="HashReader.all"><a class="viewcode-back" href="../../../api/filedb/filetables.html#whoosh.filedb.filetables.HashReader.all">[docs]</a>    <span class="k">def</span> <span class="nf">all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Yields a sequence of values associated with the given key.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Yields a sequence of values associated with the given key.&quot;&quot;&quot;</span>
 
-<span class="sd">        Parameters:</span>
-<span class="sd">        - key (str): The key to retrieve values for.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">        - generator: A generator that yields the values associated with the key.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">        - KeyError: If the key is not found in the database.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">        &gt;&gt;&gt; db = FileTables()</span>
-<span class="sd">        &gt;&gt;&gt; db.all(&quot;key1&quot;)</span>
-<span class="sd">        &lt;generator object all at 0x7f9e9a6e3f20&gt;</span>
-<span class="sd">        &gt;&gt;&gt; list(db.all(&quot;key1&quot;))</span>
-<span class="sd">        [&#39;value1&#39;, &#39;value2&#39;, &#39;value3&#39;]</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">dbfile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dbfile</span>
         <span class="k">for</span> <span class="n">datapos</span><span class="p">,</span> <span class="n">datalen</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ranges_for_key</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
             <span class="k">yield</span> <span class="n">dbfile</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">datapos</span><span class="p">,</span> <span class="n">datalen</span><span class="p">)</span></div>
@@ -1091,28 +486,6 @@
 <div class="viewcode-block" id="HashReader.ranges_for_key"><a class="viewcode-back" href="../../../api/filedb/filetables.html#whoosh.filedb.filetables.HashReader.ranges_for_key">[docs]</a>    <span class="k">def</span> <span class="nf">ranges_for_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Yields a sequence of ``(datapos, datalength)`` tuples associated</span>
 <span class="sd">        with the given key.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            key (bytes): The key to search for. Should be of type bytes.</span>
-
-<span class="sd">        Yields:</span>
-<span class="sd">            tuple: A tuple containing the data position and data length associated with the key.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            TypeError: If the key is not of type bytes.</span>
-
-<span class="sd">        Notes:</span>
-<span class="sd">            This method is used to retrieve the data position and data length associated with a given key.</span>
-<span class="sd">            It performs a lookup in the hash table to find the key&#39;s slot, and then checks if the key matches</span>
-<span class="sd">            the one stored in the slot. If a match is found, it yields the data position and data length.</span>
-
-<span class="sd">            The method assumes that the hash table and data file have been properly initialized.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; db = FileTables()</span>
-<span class="sd">            &gt;&gt;&gt; key = b&#39;my_key&#39;</span>
-<span class="sd">            &gt;&gt;&gt; for datapos, datalength in db.ranges_for_key(key):</span>
-<span class="sd">            ...     print(f&quot;Data position: {datapos}, Data length: {datalength}&quot;)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">):</span>
@@ -1159,75 +532,22 @@
             <span class="k">if</span> <span class="n">slotpos</span> <span class="o">==</span> <span class="n">tablestart</span> <span class="o">+</span> <span class="p">(</span><span class="n">numslots</span> <span class="o">*</span> <span class="n">ptrsize</span><span class="p">):</span>
                 <span class="n">slotpos</span> <span class="o">=</span> <span class="n">tablestart</span></div>
 
-<div class="viewcode-block" id="HashReader.range_for_key"><a class="viewcode-back" href="../../../api/filedb/filetables.html#whoosh.filedb.filetables.HashReader.range_for_key">[docs]</a>    <span class="k">def</span> <span class="nf">range_for_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns the range associated with the given key.</span>
-
-<span class="sd">        This method retrieves the range associated with the given key from the file table.</span>
-<span class="sd">        If the key is found, the range is returned. If the key is not found, a KeyError is raised.</span>
-
-<span class="sd">        Parameters:</span>
-<span class="sd">        - key (str): The key to search for in the file table.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">        - range (tuple): The range associated with the given key.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">        - KeyError: If the key is not found in the file table.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">        &gt;&gt;&gt; table = FileTable()</span>
-<span class="sd">        &gt;&gt;&gt; table.range_for_key(&#39;key1&#39;)</span>
-<span class="sd">        (0, 100)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
+    <span class="k">def</span> <span class="nf">range_for_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ranges_for_key</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">item</span>
-        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">key</span><span class="p">)</span></div></div>
+        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">key</span><span class="p">)</span></div>
 
 
 <span class="c1"># Ordered hash file</span>
 
 
 <div class="viewcode-block" id="OrderedHashWriter"><a class="viewcode-back" href="../../../api/filedb/filetables.html#whoosh.filedb.filetables.OrderedHashWriter">[docs]</a><span class="k">class</span> <span class="nc">OrderedHashWriter</span><span class="p">(</span><span class="n">HashWriter</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Implements an on-disk hash, but requires that keys be added in order.</span>
-<span class="sd">    An OrderedHashReader can then look up &quot;nearest keys&quot; based on the ordering.</span>
-
-<span class="sd">    Parameters:</span>
-<span class="sd">    - dbfile (file-like object): The file-like object to write the hash data to.</span>
-
-<span class="sd">    Usage:</span>
-<span class="sd">    1. Create an instance of OrderedHashWriter by providing a file-like object.</span>
-<span class="sd">    2. Use the add() method to add keys and values to the hash in increasing order.</span>
-<span class="sd">    3. Call the _write_extras() method to write the metadata and index array to the file.</span>
-
-<span class="sd">    Example:</span>
-<span class="sd">    ```</span>
-<span class="sd">    with open(&quot;hash.db&quot;, &quot;wb&quot;) as dbfile:</span>
-<span class="sd">        writer = OrderedHashWriter(dbfile)</span>
-<span class="sd">        writer.add(&quot;key1&quot;, &quot;value1&quot;)</span>
-<span class="sd">        writer.add(&quot;key2&quot;, &quot;value2&quot;)</span>
-<span class="sd">        writer._write_extras()</span>
-<span class="sd">    ```</span>
-
-<span class="sd">    Note:</span>
-<span class="sd">    - Keys must be added in increasing order. If a key is added that is not greater than the previous key, a ValueError will be raised.</span>
-<span class="sd">    - The index array, which contains the positions of all keys, will be stored as metadata in the file.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Implements an on-disk hash, but requires that keys be added in order.</span>
+<span class="sd">    An :class:`OrderedHashReader` can then look up &quot;nearest keys&quot; based on</span>
+<span class="sd">    the ordering.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbfile</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initialize a FileTables object.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            dbfile (str): The path to the database file.</span>
-
-<span class="sd">        Attributes:</span>
-<span class="sd">            index (GrowableArray): An array of the positions of all keys.</span>
-<span class="sd">            lastkey (bytes): The last key added.</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">HashWriter</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbfile</span><span class="p">)</span>
         <span class="c1"># Keep an array of the positions of all keys</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">GrowableArray</span><span class="p">(</span><span class="s2">&quot;H&quot;</span><span class="p">)</span>
@@ -1235,19 +555,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">lastkey</span> <span class="o">=</span> <span class="n">emptybytes</span>
 
     <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Adds a key-value pair to the hash.</span>
-
-<span class="sd">        Parameters:</span>
-<span class="sd">        - key: The key to add. Must be greater than the previous key.</span>
-<span class="sd">        - value: The value associated with the key.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">        - ValueError: If the key is not greater than the previous key.</span>
-
-<span class="sd">        Note:</span>
-<span class="sd">        - The position of the key in the file will be stored in the index array.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">key</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lastkey</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Keys must increase: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">lastkey</span><span class="si">!r}</span><span class="s2">..</span><span class="si">{</span><span class="n">key</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dbfile</span><span class="o">.</span><span class="n">tell</span><span class="p">())</span>
@@ -1255,12 +562,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">lastkey</span> <span class="o">=</span> <span class="n">key</span>
 
     <span class="k">def</span> <span class="nf">_write_extras</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Writes the metadata and index array to the file.</span>
-
-<span class="sd">        Note:</span>
-<span class="sd">        - This method should be called after adding all keys and values to the hash.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">dbfile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dbfile</span>
         <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">index</span>
 
@@ -1274,163 +575,47 @@
 
 
 <div class="viewcode-block" id="OrderedHashReader"><a class="viewcode-back" href="../../../api/filedb/filetables.html#whoosh.filedb.filetables.OrderedHashReader">[docs]</a><span class="k">class</span> <span class="nc">OrderedHashReader</span><span class="p">(</span><span class="n">HashReader</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A class for reading an ordered hash file and performing operations on it.</span>
-
-<span class="sd">    This class extends the `HashReader` class and provides additional methods</span>
-<span class="sd">    for working with an ordered series of keys in the hash file.</span>
-
-<span class="sd">    Methods:</span>
-<span class="sd">        closest_key(key):</span>
-<span class="sd">            Returns the closest key equal to or greater than the given key. If</span>
-<span class="sd">            there is no key in the file equal to or greater than the given key,</span>
-<span class="sd">            returns None.</span>
-
-<span class="sd">        ranges_from(key):</span>
-<span class="sd">            Yields a series of ``(keypos, keylen, datapos, datalen)`` tuples</span>
-<span class="sd">            for the ordered series of keys equal or greater than the given key.</span>
-
-<span class="sd">        keys_from(key):</span>
-<span class="sd">            Yields an ordered series of keys equal to or greater than the given</span>
-<span class="sd">            key.</span>
-
-<span class="sd">        items_from(key):</span>
-<span class="sd">            Yields an ordered series of ``(key, value)`` tuples for keys equal</span>
-<span class="sd">            to or greater than the given key.</span>
-
-<span class="sd">    Attributes:</span>
-<span class="sd">        indexbase:</span>
-<span class="sd">            The base position of the index array in the hash file.</span>
-
-<span class="sd">        indexlen:</span>
-<span class="sd">            The length of the index array.</span>
-
-<span class="sd">        indexsize:</span>
-<span class="sd">            The size of each index element in bytes.</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-
-<div class="viewcode-block" id="OrderedHashReader.closest_key"><a class="viewcode-back" href="../../../api/filedb/filetables.html#whoosh.filedb.filetables.OrderedHashReader.closest_key">[docs]</a>    <span class="k">def</span> <span class="nf">closest_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns the closest key equal to or greater than the given key. If there is no key in the file</span>
-<span class="sd">        equal to or greater than the given key, returns None.</span>
-
-<span class="sd">        Parameters:</span>
-<span class="sd">            key (Any): The key to search for.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            Any: The closest key equal to or greater than the given key, or None if no such key exists.</span>
+    <span class="k">def</span> <span class="nf">closest_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the closest key equal to or greater than the given key. If</span>
+<span class="sd">        there is no key in the file equal to or greater than the given key,</span>
+<span class="sd">        returns None.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="n">pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">closest_key_pos</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">pos</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">key_at</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">key_at</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
 
-<div class="viewcode-block" id="OrderedHashReader.ranges_from"><a class="viewcode-back" href="../../../api/filedb/filetables.html#whoosh.filedb.filetables.OrderedHashReader.ranges_from">[docs]</a>    <span class="k">def</span> <span class="nf">ranges_from</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">ranges_from</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Yields a series of ``(keypos, keylen, datapos, datalen)`` tuples</span>
 <span class="sd">        for the ordered series of keys equal or greater than the given key.</span>
-
-<span class="sd">        Parameters:</span>
-<span class="sd">        - key (bytes): The key to start the range from.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">        - Generator: A generator that yields ``(keypos, keylen, datapos, datalen)`` tuples.</span>
-
-<span class="sd">        Notes:</span>
-<span class="sd">        - This method returns a generator that iterates over the ordered series of keys in the file table,</span>
-<span class="sd">            starting from the given key and including all keys that are equal or greater.</span>
-<span class="sd">        - Each tuple in the generator represents a range of data associated with a key, where:</span>
-<span class="sd">            - keypos: The position of the key in the file table.</span>
-<span class="sd">            - keylen: The length of the key.</span>
-<span class="sd">            - datapos: The position of the associated data in the file table.</span>
-<span class="sd">            - datalen: The length of the associated data.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">        ```</span>
-<span class="sd">        file_table = FileTable()</span>
-<span class="sd">        for keypos, keylen, datapos, datalen in file_table.ranges_from(b&#39;my_key&#39;):</span>
-<span class="sd">                # Process the key and associated data</span>
-<span class="sd">                ...</span>
-<span class="sd">        ```</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">closest_key_pos</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">pos</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span>
 
-        <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ranges</span><span class="p">(</span><span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">)</span></div>
+        <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ranges</span><span class="p">(</span><span class="n">pos</span><span class="o">=</span><span class="n">pos</span><span class="p">)</span>
 
-<div class="viewcode-block" id="OrderedHashReader.keys_from"><a class="viewcode-back" href="../../../api/filedb/filetables.html#whoosh.filedb.filetables.OrderedHashReader.keys_from">[docs]</a>    <span class="k">def</span> <span class="nf">keys_from</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Yields an ordered series of keys equal to or greater than the given key.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            key: The key to start yielding from.</span>
-
-<span class="sd">        Yields:</span>
-<span class="sd">            The keys equal to or greater than the given key.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            None.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; db = FileTables()</span>
-<span class="sd">            &gt;&gt;&gt; for key in db.keys_from(&#39;abc&#39;):</span>
-<span class="sd">            ...     print(key)</span>
-<span class="sd">            abc</span>
-<span class="sd">            abcd</span>
-<span class="sd">            abcde</span>
+    <span class="k">def</span> <span class="nf">keys_from</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Yields an ordered series of keys equal to or greater than the given</span>
+<span class="sd">        key.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">dbfile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dbfile</span>
         <span class="k">for</span> <span class="n">keypos</span><span class="p">,</span> <span class="n">keylen</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ranges_from</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
-            <span class="k">yield</span> <span class="n">dbfile</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">keypos</span><span class="p">,</span> <span class="n">keylen</span><span class="p">)</span></div>
+            <span class="k">yield</span> <span class="n">dbfile</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">keypos</span><span class="p">,</span> <span class="n">keylen</span><span class="p">)</span>
 
-<div class="viewcode-block" id="OrderedHashReader.items_from"><a class="viewcode-back" href="../../../api/filedb/filetables.html#whoosh.filedb.filetables.OrderedHashReader.items_from">[docs]</a>    <span class="k">def</span> <span class="nf">items_from</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">items_from</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Yields an ordered series of ``(key, value)`` tuples for keys equal</span>
 <span class="sd">        to or greater than the given key.</span>
-
-<span class="sd">        Parameters:</span>
-<span class="sd">        - key (bytes): The key to start iterating from.</span>
-
-<span class="sd">        Yields:</span>
-<span class="sd">        - tuple: A ``(key, value)`` tuple for each key equal to or greater than the given key.</span>
-
-<span class="sd">        Notes:</span>
-<span class="sd">        - This method retrieves the ``(key, value)`` pairs from the file database starting from the given key.</span>
-<span class="sd">        - The keys are ordered in ascending order.</span>
-<span class="sd">        - The values are retrieved from the file database using the key positions and lengths.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">        &gt;&gt;&gt; db = FileTables()</span>
-<span class="sd">        &gt;&gt;&gt; for key, value in db.items_from(b&#39;key1&#39;):</span>
-<span class="sd">        ...     print(key, value)</span>
-<span class="sd">        (&#39;key1&#39;, &#39;value1&#39;)</span>
-<span class="sd">        (&#39;key2&#39;, &#39;value2&#39;)</span>
-<span class="sd">        (&#39;key3&#39;, &#39;value3&#39;)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">dbfile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dbfile</span>
         <span class="k">for</span> <span class="n">keypos</span><span class="p">,</span> <span class="n">keylen</span><span class="p">,</span> <span class="n">datapos</span><span class="p">,</span> <span class="n">datalen</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ranges_from</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
-            <span class="k">yield</span> <span class="p">(</span><span class="n">dbfile</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">keypos</span><span class="p">,</span> <span class="n">keylen</span><span class="p">),</span> <span class="n">dbfile</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">datapos</span><span class="p">,</span> <span class="n">datalen</span><span class="p">))</span></div>
+            <span class="k">yield</span> <span class="p">(</span><span class="n">dbfile</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">keypos</span><span class="p">,</span> <span class="n">keylen</span><span class="p">),</span> <span class="n">dbfile</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">datapos</span><span class="p">,</span> <span class="n">datalen</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">_read_extras</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Reads the extras from the database file and sets up the necessary variables for reading the index array.</span>
-
-<span class="sd">        This method is called internally by the FileTables class.</span>
-
-<span class="sd">        Parameters:</span>
-<span class="sd">        - None</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">        - None</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">        - Exception: If the index type is unknown.</span>
-
-<span class="sd">        Usage:</span>
-<span class="sd">        - This method should not be called directly. It is called internally by the FileTables class to read the extras</span>
-<span class="sd">          from the database file and set up the necessary variables for reading the index array.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">dbfile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dbfile</span>
 
         <span class="c1"># Read the extras</span>
@@ -1456,33 +641,8 @@
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown index type </span><span class="si">{</span><span class="n">indextype</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">closest_key_pos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Given a key, return the position of that key OR the next highest key if the given key does not exist.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            key (bytes): The key to search for. Should be of type bytes.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            int or None: The position of the key in the index array, or None if the key is not found.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            TypeError: If the key is not of type bytes.</span>
-
-<span class="sd">        Notes:</span>
-<span class="sd">            This method performs a binary search on the positions in the index array to find the closest key.</span>
-<span class="sd">            It assumes that the index array is sorted in ascending order.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; index = FileTables()</span>
-<span class="sd">            &gt;&gt;&gt; index.closest_key_pos(b&#39;key1&#39;)</span>
-<span class="sd">            0</span>
-<span class="sd">            &gt;&gt;&gt; index.closest_key_pos(b&#39;key2&#39;)</span>
-<span class="sd">            1</span>
-<span class="sd">            &gt;&gt;&gt; index.closest_key_pos(b&#39;key3&#39;)</span>
-<span class="sd">            2</span>
-<span class="sd">            &gt;&gt;&gt; index.closest_key_pos(b&#39;key4&#39;)</span>
-<span class="sd">            2</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Given a key, return the position of that key OR the next highest key</span>
+        <span class="c1"># if the given key does not exist</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Key </span><span class="si">{</span><span class="n">key</span><span class="si">!r}</span><span class="s2"> should be bytes&quot;</span><span class="p">)</span>
 
@@ -1513,87 +673,19 @@
 
 
 <span class="k">class</span> <span class="nc">FieldedOrderedHashWriter</span><span class="p">(</span><span class="n">HashWriter</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Implements an on-disk hash, but writes separate position indexes for each field.</span>
-
-<span class="sd">    This class is used to write a hash table to disk, where each field has its own position index.</span>
-<span class="sd">    It is designed to work with the `HashReader` class to provide efficient retrieval of values</span>
-<span class="sd">    based on keys.</span>
-
-<span class="sd">    Usage:</span>
-<span class="sd">    1. Create an instance of `FieldedOrderedHashWriter` by passing the `dbfile` parameter, which</span>
-<span class="sd">       represents the file to write the hash table to.</span>
-<span class="sd">    2. Call the `start_field` method to indicate the start of a new field. Pass the `fieldname`</span>
-<span class="sd">       parameter to specify the name of the field.</span>
-<span class="sd">    3. Call the `add` method to add a key-value pair to the hash table. The keys must be in increasing</span>
-<span class="sd">       order. If a key is added that is less than or equal to the previous key, a `ValueError` is raised.</span>
-<span class="sd">    4. Repeat steps 2 and 3 for each field and key-value pair.</span>
-<span class="sd">    5. Call the `end_field` method to indicate the end of the current field. This will store the</span>
-<span class="sd">       position index for the field in the `fieldmap` dictionary.</span>
-<span class="sd">    6. After adding all fields and key-value pairs, the hash table can be accessed using the `HashReader`</span>
-<span class="sd">       class.</span>
-
-<span class="sd">    Attributes:</span>
-<span class="sd">    - `fieldmap`: A dictionary that maps field names to tuples containing the start position, end position,</span>
-<span class="sd">      length, and typecode of the position index for each field.</span>
-<span class="sd">    - `lastkey`: The last key that was added to the hash table.</span>
-
-<span class="sd">    Note:</span>
-<span class="sd">    - This class inherits from the `HashWriter` class, which provides the basic functionality for writing</span>
-<span class="sd">      a hash table to disk.</span>
-
-<span class="sd">    Example:</span>
-<span class="sd">    ```</span>
-<span class="sd">    writer = FieldedOrderedHashWriter(dbfile)</span>
-<span class="sd">    writer.start_field(&quot;field1&quot;)</span>
-<span class="sd">    writer.add(&quot;key1&quot;, &quot;value1&quot;)</span>
-<span class="sd">    writer.add(&quot;key2&quot;, &quot;value2&quot;)</span>
-<span class="sd">    writer.end_field()</span>
-<span class="sd">    writer.start_field(&quot;field2&quot;)</span>
-<span class="sd">    writer.add(&quot;key3&quot;, &quot;value3&quot;)</span>
-<span class="sd">    writer.end_field()</span>
-<span class="sd">    # ...</span>
-<span class="sd">    ```</span>
-
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Implements an on-disk hash, but writes separate position indexes for</span>
+<span class="sd">    each field.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbfile</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initialize a FileTables object.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            dbfile (str): The path to the database file.</span>
-
-<span class="sd">        Attributes:</span>
-<span class="sd">            fieldmap (dict): A dictionary mapping field names to tuples containing</span>
-<span class="sd">                the start position, index position, length, and type code.</span>
-<span class="sd">            lastkey (bytes): The last key added to the FileTables object.</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">HashWriter</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dbfile</span><span class="p">)</span>
         <span class="c1"># Map field names to (startpos, indexpos, length, typecode)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fieldmap</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">extras</span><span class="p">[</span><span class="s2">&quot;fieldmap&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
         <span class="c1"># Keep track of the last key added</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lastkey</span> <span class="o">=</span> <span class="n">emptybytes</span>
 
     <span class="k">def</span> <span class="nf">start_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Start a new field in the hash table.</span>
-
-<span class="sd">        This method is used to initialize a new field in the hash table. It sets the current position in the database file</span>
-<span class="sd">        as the starting position for the field and stores the field name. It also initializes an array to keep track of the</span>
-<span class="sd">        positions of all keys associated with this field.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            fieldname (str): The name of the field.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            None</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            To start a new field named &quot;title&quot;, you can call this method as follows:</span>
-<span class="sd">            &gt;&gt;&gt; start_field(&quot;title&quot;)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fieldstart</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dbfile</span><span class="o">.</span><span class="n">tell</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fieldname</span> <span class="o">=</span> <span class="n">fieldname</span>
         <span class="c1"># Keep an array of the positions of all keys</span>
@@ -1601,33 +693,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">lastkey</span> <span class="o">=</span> <span class="n">emptybytes</span>
 
     <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Add a key-value pair to the hash table.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">        - `key` (int): The key to add. It should be greater than any previously added key.</span>
-<span class="sd">        - `value` (Any): The value associated with the key.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">        - `ValueError`: If the key is less than or equal to the previous key.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">        - None</span>
-
-<span class="sd">        Notes:</span>
-<span class="sd">        - This method appends the position of the value in the database file to the `poses` list.</span>
-<span class="sd">        - The `HashWriter.add` method is called to actually add the key-value pair to the hash table.</span>
-<span class="sd">        - The `lastkey` attribute is updated with the newly added key.</span>
-
-<span class="sd">        Example usage:</span>
-<span class="sd">        ```</span>
-<span class="sd">        table = FileTable()</span>
-<span class="sd">        table.add(1, &quot;Value 1&quot;)</span>
-<span class="sd">        table.add(2, &quot;Value 2&quot;)</span>
-<span class="sd">        table.add(3, &quot;Value 3&quot;)</span>
-<span class="sd">        ```</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">key</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lastkey</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Keys must increase: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">lastkey</span><span class="si">!r}</span><span class="s2">..</span><span class="si">{</span><span class="n">key</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">poses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dbfile</span><span class="o">.</span><span class="n">tell</span><span class="p">()</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">fieldstart</span><span class="p">)</span>
@@ -1635,39 +700,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">lastkey</span> <span class="o">=</span> <span class="n">key</span>
 
     <span class="k">def</span> <span class="nf">end_field</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        End the current field in the hash table.</span>
-
-<span class="sd">        This method stores the position index for the field in the `fieldmap` dictionary.</span>
-<span class="sd">        The `fieldmap` dictionary is used to keep track of the start and end positions of each field</span>
-<span class="sd">        in the hash table, as well as the number of positions and the typecode of the positions.</span>
-
-<span class="sd">        Usage:</span>
-<span class="sd">        ------</span>
-<span class="sd">        Call this method after adding all the positions for a field in the hash table.</span>
-<span class="sd">        It will update the `fieldmap` dictionary with the relevant information for the field.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">        --------</span>
-<span class="sd">        # Create a FileTables object</span>
-<span class="sd">        filetables = FileTables()</span>
-
-<span class="sd">        # Add positions for a field</span>
-<span class="sd">        filetables.add_position(1)</span>
-<span class="sd">        filetables.add_position(2)</span>
-<span class="sd">        filetables.add_position(3)</span>
-
-<span class="sd">        # End the field and update the fieldmap</span>
-<span class="sd">        filetables.end_field()</span>
-
-<span class="sd">        Parameters:</span>
-<span class="sd">        -----------</span>
-<span class="sd">        None</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">        --------</span>
-<span class="sd">        None</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">dbfile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dbfile</span>
         <span class="n">fieldname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fieldname</span>
         <span class="n">poses</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">poses</span>
@@ -1681,295 +713,66 @@
 
 
 <span class="k">class</span> <span class="nc">FieldedOrderedHashReader</span><span class="p">(</span><span class="n">HashReader</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A subclass of HashReader that provides additional functionality for reading fielded ordered hash data.</span>
-
-<span class="sd">    This class extends the HashReader class and adds methods for working with fielded ordered hash data.</span>
-<span class="sd">    It provides methods for iterating over terms, retrieving term data, checking if a term exists,</span>
-<span class="sd">    finding the closest term, and more.</span>
-
-<span class="sd">    Usage:</span>
-<span class="sd">    1. Create an instance of FieldedOrderedHashReader by passing the necessary arguments to the constructor.</span>
-<span class="sd">    2. Use the various methods provided by this class to interact with the fielded ordered hash data.</span>
-
-<span class="sd">    Example:</span>
-<span class="sd">    ```</span>
-<span class="sd">    reader = FieldedOrderedHashReader(...)</span>
-<span class="sd">    for fieldname, term in reader.iter_terms():</span>
-<span class="sd">        print(fieldname, term)</span>
-<span class="sd">    ```</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        *args: Variable length argument list to be passed to the parent class constructor.</span>
-<span class="sd">        **kwargs: Arbitrary keyword arguments to be passed to the parent class constructor.</span>
-
-<span class="sd">    Attributes:</span>
-<span class="sd">        fieldmap (dict): A dictionary mapping field names to their corresponding start and end ranges.</span>
-<span class="sd">        fieldlist (list): A sorted list of field names with their start and end ranges.</span>
-
-<span class="sd">    Methods:</span>
-<span class="sd">        field_start(fieldname): Get the start position of a field.</span>
-<span class="sd">        fielded_ranges(pos=None, eod=None): Generate fielded ranges for the given position range.</span>
-<span class="sd">        iter_terms(): Iterate over the terms in the fielded ordered hash data.</span>
-<span class="sd">        iter_term_items(): Iterate over the term items in the fielded ordered hash data.</span>
-<span class="sd">        contains_term(fieldname, btext): Check if a term exists in the fielded ordered hash data.</span>
-<span class="sd">        range_for_term(fieldname, btext): Get the range (position and length) of a term in the fielded ordered hash data.</span>
-<span class="sd">        term_data(fieldname, btext): Get the data associated with a term in the fielded ordered hash data.</span>
-<span class="sd">        term_get(fieldname, btext, default=None): Get the data associated with a term, or a default value if the term does not exist.</span>
-<span class="sd">        closest_term_pos(fieldname, key): Get the position of the closest term to the given key.</span>
-<span class="sd">        closest_term(fieldname, btext): Get the closest term to the given term in the fielded ordered hash data.</span>
-<span class="sd">        term_ranges_from(fieldname, btext): Generate term ranges starting from the given term in the fielded ordered hash data.</span>
-<span class="sd">        terms_from(fieldname, btext): Iterate over the terms starting from the given term in the fielded ordered hash data.</span>
-<span class="sd">        term_items_from(fieldname, btext): Iterate over the term items starting from the given term in the fielded ordered hash data.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initialize the FileTables object.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            *args: Variable length argument list.</span>
-<span class="sd">            **kwargs: Arbitrary keyword arguments.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            None.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            None.</span>
-
-<span class="sd">        Notes:</span>
-<span class="sd">            This method initializes the FileTables object by calling the __init__ method of the HashReader class.</span>
-<span class="sd">            It also sets the fieldmap attribute using the extras dictionary passed as a keyword argument.</span>
-<span class="sd">            The fieldmap is a dictionary that maps field names to their corresponding start position, index position, and other information.</span>
-<span class="sd">            The fieldlist attribute is then created as a sorted list of tuples, where each tuple contains the field name, start position, and index position.</span>
-
-<span class="sd">        Usage:</span>
-<span class="sd">            filetables = FileTables(*args, **kwargs)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">HashReader</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fieldmap</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">extras</span><span class="p">[</span><span class="s2">&quot;fieldmap&quot;</span><span class="p">]</span>
         <span class="c1"># Make a sorted list of the field names with their start and end ranges</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fieldlist</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">fieldname</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fieldmap</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
-            <span class="n">startpos</span><span class="p">,</span> <span class="n">ixpos</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">__</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fieldmap</span><span class="p">[</span><span class="n">fieldname</span><span class="p">]</span>
+            <span class="n">startpos</span><span class="p">,</span> <span class="n">ixpos</span><span class="p">,</span> <span class="n">ixsize</span><span class="p">,</span> <span class="n">ixtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fieldmap</span><span class="p">[</span><span class="n">fieldname</span><span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">fieldlist</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">fieldname</span><span class="p">,</span> <span class="n">startpos</span><span class="p">,</span> <span class="n">ixpos</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">field_start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns the start position of the specified field in the file.</span>
-
-<span class="sd">        Parameters:</span>
-<span class="sd">            fieldname (str): The name of the field.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            int: The start position of the field in the file.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            KeyError: If the specified fieldname does not exist in the fieldmap.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; field_start(&#39;title&#39;)</span>
-<span class="sd">            10</span>
-
-<span class="sd">        Note:</span>
-<span class="sd">            The start position of a field represents the byte offset in the file where the field&#39;s data begins.</span>
-<span class="sd">            This method is used internally by the filetables module to retrieve the start position of a field.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fieldmap</span><span class="p">[</span><span class="n">fieldname</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
 
     <span class="k">def</span> <span class="nf">fielded_ranges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">eod</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Generator that yields field information for each key-value pair in the filetable.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            pos (int, optional): The starting position to iterate from. Defaults to None.</span>
-<span class="sd">            eod (int, optional): The ending position to iterate until. Defaults to None.</span>
-
-<span class="sd">        Yields:</span>
-<span class="sd">            tuple: A tuple containing the field name, key position, key length, data position, and data length.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            IndexError: If the starting position is out of range.</span>
-
-<span class="sd">        Notes:</span>
-<span class="sd">            - This method is used to iterate over the field information of each key-value pair in the filetable.</span>
-<span class="sd">            - The field information includes the field name, key position, key length, data position, and data length.</span>
-<span class="sd">            - If the starting position is not specified, the iteration starts from the beginning of the filetable.</span>
-<span class="sd">            - If the ending position is not specified, the iteration continues until the end of the filetable.</span>
-<span class="sd">            - If the starting position is out of range, an IndexError is raised.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">flist</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fieldlist</span>
         <span class="n">fpos</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">fieldname</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="n">flist</span><span class="p">[</span><span class="n">fpos</span><span class="p">]</span>
+        <span class="n">fieldname</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="n">flist</span><span class="p">[</span><span class="n">fpos</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">keypos</span><span class="p">,</span> <span class="n">keylen</span><span class="p">,</span> <span class="n">datapos</span><span class="p">,</span> <span class="n">datalen</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ranges</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">eod</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">keypos</span> <span class="o">&gt;=</span> <span class="n">end</span><span class="p">:</span>
                 <span class="n">fpos</span> <span class="o">+=</span> <span class="mi">1</span>
-                <span class="n">fieldname</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="n">flist</span><span class="p">[</span><span class="n">fpos</span><span class="p">]</span>
+                <span class="n">fieldname</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="n">flist</span><span class="p">[</span><span class="n">fpos</span><span class="p">]</span>
             <span class="k">yield</span> <span class="n">fieldname</span><span class="p">,</span> <span class="n">keypos</span><span class="p">,</span> <span class="n">keylen</span><span class="p">,</span> <span class="n">datapos</span><span class="p">,</span> <span class="n">datalen</span>
 
     <span class="k">def</span> <span class="nf">iter_terms</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Iterates over the terms in the filetable.</span>
-
-<span class="sd">        Yields tuples containing the field name and the term value for each term in the filetable.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            Iterator[tuple]: An iterator over the terms in the filetable.</span>
-
-<span class="sd">        Notes:</span>
-<span class="sd">            This method retrieves the terms from the filetable using the `get` method of the `dbfile` object.</span>
-<span class="sd">            It iterates over the fielded ranges in the filetable and yields tuples containing the field name</span>
-<span class="sd">            and the term value for each term.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; for fieldname, term in filetable.iter_terms():</span>
-<span class="sd">            ...     print(fieldname, term)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">get</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dbfile</span><span class="o">.</span><span class="n">get</span>
         <span class="k">for</span> <span class="n">fieldname</span><span class="p">,</span> <span class="n">keypos</span><span class="p">,</span> <span class="n">keylen</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fielded_ranges</span><span class="p">():</span>
             <span class="k">yield</span> <span class="n">fieldname</span><span class="p">,</span> <span class="n">get</span><span class="p">(</span><span class="n">keypos</span><span class="p">,</span> <span class="n">keylen</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">iter_term_items</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Iterates over the term items in the file table.</span>
-
-<span class="sd">        Yields tuples containing the field name, key, and data for each term item.</span>
-
-<span class="sd">        Parameters:</span>
-<span class="sd">        - None</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">        - Generator: A generator that yields tuples of the form (fieldname, key, data).</span>
-
-<span class="sd">        Example usage:</span>
-<span class="sd">        ```</span>
-<span class="sd">        for fieldname, key, data in iter_term_items():</span>
-<span class="sd">            # Process the fieldname, key, and data</span>
-<span class="sd">            ...</span>
-<span class="sd">        ```</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">get</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dbfile</span><span class="o">.</span><span class="n">get</span>
         <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fielded_ranges</span><span class="p">():</span>
             <span class="n">fieldname</span><span class="p">,</span> <span class="n">keypos</span><span class="p">,</span> <span class="n">keylen</span><span class="p">,</span> <span class="n">datapos</span><span class="p">,</span> <span class="n">datalen</span> <span class="o">=</span> <span class="n">item</span>
             <span class="k">yield</span> <span class="n">fieldname</span><span class="p">,</span> <span class="n">get</span><span class="p">(</span><span class="n">keypos</span><span class="p">,</span> <span class="n">keylen</span><span class="p">),</span> <span class="n">get</span><span class="p">(</span><span class="n">datapos</span><span class="p">,</span> <span class="n">datalen</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">contains_term</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">,</span> <span class="n">btext</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Checks if the given term exists in the specified field.</span>
-
-<span class="sd">        Parameters:</span>
-<span class="sd">            fieldname (str): The name of the field to search in.</span>
-<span class="sd">            btext (bytes): The term to search for, encoded as bytes.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            bool: True if the term exists in the field, False otherwise.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            KeyError: If the field or term does not exist.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; table = FileTables()</span>
-<span class="sd">            &gt;&gt;&gt; table.contains_term(&quot;title&quot;, b&quot;example&quot;)</span>
-<span class="sd">            True</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">range_for_term</span><span class="p">(</span><span class="n">fieldname</span><span class="p">,</span> <span class="n">btext</span><span class="p">)</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">range_for_term</span><span class="p">(</span><span class="n">fieldname</span><span class="p">,</span> <span class="n">btext</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">True</span>
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
 
     <span class="k">def</span> <span class="nf">range_for_term</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">,</span> <span class="n">btext</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns the range (datapos, datalen) for a given term in a specific field.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            fieldname (str): The name of the field.</span>
-<span class="sd">            btext (bytes): The term to search for.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            tuple: A tuple containing the data position (datapos) and data length (datalen) for the term.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            KeyError: If the term is not found in the field.</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">start</span><span class="p">,</span> <span class="n">ixpos</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">__</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fieldmap</span><span class="p">[</span><span class="n">fieldname</span><span class="p">]</span>
+        <span class="n">start</span><span class="p">,</span> <span class="n">ixpos</span><span class="p">,</span> <span class="n">ixsize</span><span class="p">,</span> <span class="n">code</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fieldmap</span><span class="p">[</span><span class="n">fieldname</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">datapos</span><span class="p">,</span> <span class="n">datalen</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ranges_for_key</span><span class="p">(</span><span class="n">btext</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">start</span> <span class="o">&lt;</span> <span class="n">datapos</span> <span class="o">&lt;</span> <span class="n">ixpos</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">datapos</span><span class="p">,</span> <span class="n">datalen</span>
         <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">((</span><span class="n">fieldname</span><span class="p">,</span> <span class="n">btext</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">term_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">,</span> <span class="n">btext</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retrieve the data associated with a term in a specific field.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            fieldname (str): The name of the field.</span>
-<span class="sd">            btext (bytes): The term to retrieve the data for.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            bytes: The data associated with the term.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            KeyError: If the term or field does not exist.</span>
-
-<span class="sd">        Notes:</span>
-<span class="sd">            This method retrieves the data associated with a term in a specific field</span>
-<span class="sd">            from the file database. It uses the `range_for_term` method to determine</span>
-<span class="sd">            the position and length of the data in the database file, and then retrieves</span>
-<span class="sd">            the data using the `get` method of the `dbfile` object.</span>
-
-<span class="sd">            Example usage:</span>
-<span class="sd">            ```</span>
-<span class="sd">            fieldname = &quot;title&quot;</span>
-<span class="sd">            term = b&quot;example&quot;</span>
-<span class="sd">            data = term_data(fieldname, term)</span>
-<span class="sd">            print(data)</span>
-<span class="sd">            ```</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">datapos</span><span class="p">,</span> <span class="n">datalen</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">range_for_term</span><span class="p">(</span><span class="n">fieldname</span><span class="p">,</span> <span class="n">btext</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dbfile</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">datapos</span><span class="p">,</span> <span class="n">datalen</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">term_get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">,</span> <span class="n">btext</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retrieve the term data for a given field and term text.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            fieldname (str): The name of the field.</span>
-<span class="sd">            btext (bytes): The term text in bytes.</span>
-<span class="sd">            default: The value to return if the term data is not found.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            The term data for the given field and term text, or the default value if not found.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">term_data</span><span class="p">(</span><span class="n">fieldname</span><span class="p">,</span> <span class="n">btext</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">default</span>
 
     <span class="k">def</span> <span class="nf">closest_term_pos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Given a key, return the position of that key OR the next highest key if the given key does not exist.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            fieldname (str): The name of the field.</span>
-<span class="sd">            key (bytes): The key to search for.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            int or None: The position of the key in the index array, or None if the key is not found.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            TypeError: If the key is not of type bytes.</span>
-<span class="sd">            ValueError: If the index type is unknown.</span>
-
-<span class="sd">        Note:</span>
-<span class="sd">            This method assumes that the index array is sorted in ascending order.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; db = FileTables()</span>
-<span class="sd">            &gt;&gt;&gt; db.closest_term_pos(&quot;title&quot;, b&quot;apple&quot;)</span>
-<span class="sd">            10</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Given a key, return the position of that key OR the next highest key</span>
+        <span class="c1"># if the given key does not exist</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Key </span><span class="si">{</span><span class="n">key</span><span class="si">!r}</span><span class="s2"> should be bytes&quot;</span><span class="p">)</span>
 
@@ -1988,7 +791,7 @@
         <span class="k">elif</span> <span class="n">ixtype</span> <span class="o">==</span> <span class="s2">&quot;q&quot;</span><span class="p">:</span>
             <span class="n">get_pos</span> <span class="o">=</span> <span class="n">dbfile</span><span class="o">.</span><span class="n">get_long</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown index type </span><span class="si">{</span><span class="n">ixtype</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown index type </span><span class="si">{</span><span class="n">ixtype</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
 
         <span class="c1"># Do a binary search of the positions in the index array</span>
         <span class="n">lo</span> <span class="o">=</span> <span class="mi">0</span>
@@ -2008,82 +811,25 @@
         <span class="k">return</span> <span class="n">startpos</span> <span class="o">+</span> <span class="n">get_pos</span><span class="p">(</span><span class="n">ixpos</span> <span class="o">+</span> <span class="n">lo</span> <span class="o">*</span> <span class="n">ixsize</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">closest_term</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">,</span> <span class="n">btext</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns the closest term to the given text in the specified field.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            fieldname (str): The name of the field to search in.</span>
-<span class="sd">            btext (bytes): The text to find the closest term for.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            str or None: The closest term to the given text in the specified field,</span>
-<span class="sd">            or None if no term is found.</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">closest_term_pos</span><span class="p">(</span><span class="n">fieldname</span><span class="p">,</span> <span class="n">btext</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">pos</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">key_at</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">term_ranges_from</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">,</span> <span class="n">btext</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns a generator that yields term ranges for a given field and binary text.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            fieldname (str): The name of the field.</span>
-<span class="sd">            btext (bytes): The binary text to search for.</span>
-
-<span class="sd">        Yields:</span>
-<span class="sd">            tuple: A tuple representing a term range. Each tuple contains two integers,</span>
-<span class="sd">                   representing the start and end positions of the term in the index.</span>
-
-<span class="sd">        Returns None if no term is found for the given field and binary text.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="n">pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">closest_term_pos</span><span class="p">(</span><span class="n">fieldname</span><span class="p">,</span> <span class="n">btext</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">pos</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span>
 
-        <span class="n">_</span><span class="p">,</span> <span class="n">ixpos</span><span class="p">,</span> <span class="n">__</span><span class="p">,</span> <span class="n">___</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fieldmap</span><span class="p">[</span><span class="n">fieldname</span><span class="p">]</span>
+        <span class="n">startpos</span><span class="p">,</span> <span class="n">ixpos</span><span class="p">,</span> <span class="n">ixsize</span><span class="p">,</span> <span class="n">ixtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fieldmap</span><span class="p">[</span><span class="n">fieldname</span><span class="p">]</span>
         <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ranges</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">ixpos</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">terms_from</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">,</span> <span class="n">btext</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retrieves terms from the specified field that match the given binary text.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            fieldname (str): The name of the field to retrieve terms from.</span>
-<span class="sd">            btext (bytes): The binary text to match against the terms.</span>
-
-<span class="sd">        Yields:</span>
-<span class="sd">            bytes: The terms that match the given binary text.</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">dbfile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dbfile</span>
         <span class="k">for</span> <span class="n">keypos</span><span class="p">,</span> <span class="n">keylen</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">term_ranges_from</span><span class="p">(</span><span class="n">fieldname</span><span class="p">,</span> <span class="n">btext</span><span class="p">):</span>
             <span class="k">yield</span> <span class="n">dbfile</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">keypos</span><span class="p">,</span> <span class="n">keylen</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">term_items_from</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fieldname</span><span class="p">,</span> <span class="n">btext</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retrieves term items from the file database for a given field and binary text.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            fieldname (str): The name of the field to retrieve term items from.</span>
-<span class="sd">            btext (bytes): The binary text to match against.</span>
-
-<span class="sd">        Yields:</span>
-<span class="sd">            tuple: A tuple containing the key and data associated with each term item.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            None</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            None</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; for key, data in term_items_from(&quot;title&quot;, b&quot;example&quot;):</span>
-<span class="sd">            ...     print(key, data)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">dbfile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dbfile</span>
         <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">term_ranges_from</span><span class="p">(</span><span class="n">fieldname</span><span class="p">,</span> <span class="n">btext</span><span class="p">):</span>
             <span class="n">keypos</span><span class="p">,</span> <span class="n">keylen</span><span class="p">,</span> <span class="n">datapos</span><span class="p">,</span> <span class="n">datalen</span> <span class="o">=</span> <span class="n">item</span>

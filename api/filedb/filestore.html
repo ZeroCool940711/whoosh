@@ -172,232 +172,63 @@ file) to be used transparently.</p>
 <span class="n">st</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>The <a class="reference internal" href="#id1" title="whoosh.filedb.filestore.Storage.create"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Storage.create()</span></code></a> method makes it slightly easier to swap storage
-implementations. The <cite>create()</cite> method handles set-up of the storage
-object. For example, <cite>FileStorage.create()</cite> creates the directory. A
+<p>The <a class="reference internal" href="#whoosh.filedb.filestore.Storage.create" title="whoosh.filedb.filestore.Storage.create"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Storage.create()</span></code></a> method makes it slightly easier to swap storage
+implementations. The <code class="docutils literal notranslate"><span class="pre">create()</span></code> method handles set-up of the storage
+object. For example, <code class="docutils literal notranslate"><span class="pre">FileStorage.create()</span></code> creates the directory. A
 database implementation might create tables. This is designed to let you
 avoid putting implementation-specific setup code in your application.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="whoosh.filedb.filestore.Storage.readonly">
-<span class="sig-name descname"><span class="pre">readonly</span></span><a class="headerlink" href="#whoosh.filedb.filestore.Storage.readonly" title="Permalink to this definition">¶</a></dt>
-<dd><p>Indicates if the storage object is read-only.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)">bool</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="whoosh.filedb.filestore.Storage.supports_mmap">
-<span class="sig-name descname"><span class="pre">supports_mmap</span></span><a class="headerlink" href="#whoosh.filedb.filestore.Storage.supports_mmap" title="Permalink to this definition">¶</a></dt>
-<dd><p>Indicates if the storage object supports memory-mapped files.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)">bool</a></p>
-</dd>
-</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.filedb.filestore.Storage.close">
+<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#Storage.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filestore.Storage.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Closes any resources opened by this storage object. For some storage
+implementations this will be a no-op, but for others it is necessary
+to release locks and/or prevent leaks, so it’s a good idea to call it
+when you’re done with a storage object.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="whoosh.filedb.filestore.Storage.create">
 <span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#Storage.create"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filestore.Storage.create" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates any required implementation-specific resources.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="whoosh.filedb.filestore.Storage.destroy">
-<span class="sig-name descname"><span class="pre">destroy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#Storage.destroy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filestore.Storage.destroy" title="Permalink to this definition">¶</a></dt>
-<dd><p>Removes any implementation-specific resources related to this storage object.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="whoosh.filedb.filestore.Storage.create_index">
-<span class="sig-name descname"><span class="pre">create_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indexname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">_DEF_INDEX_NAME</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indexclass</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#Storage.create_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filestore.Storage.create_index" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates a new index in this storage.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="whoosh.filedb.filestore.Storage.open_index">
-<span class="sig-name descname"><span class="pre">open_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">indexname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">_DEF_INDEX_NAME</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schema</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indexclass</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#Storage.open_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filestore.Storage.open_index" title="Permalink to this definition">¶</a></dt>
-<dd><p>Opens an existing index in this storage.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="whoosh.filedb.filestore.Storage.index_exists">
-<span class="sig-name descname"><span class="pre">index_exists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">indexname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#Storage.index_exists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filestore.Storage.index_exists" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns True if a non-empty index exists in this storage.</p>
+<dd><p>Creates any required implementation-specific resources. For example,
+a filesystem-based implementation might create a directory, while a
+database implementation might create tables. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">whoosh.filedb.filestore</span> <span class="kn">import</span> <span class="n">FileStorage</span>
+<span class="c1"># Create a storage object</span>
+<span class="n">st</span> <span class="o">=</span> <span class="n">FileStorage</span><span class="p">(</span><span class="s2">&quot;indexdir&quot;</span><span class="p">)</span>
+<span class="c1"># Create any necessary resources</span>
+<span class="n">st</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This method returns <code class="docutils literal notranslate"><span class="pre">self</span></code> so you can also say:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">st</span> <span class="o">=</span> <span class="n">FileStorage</span><span class="p">(</span><span class="s2">&quot;indexdir&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Storage implementations should be written so that calling create() a
+second time on the same storage</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>a <a class="reference internal" href="#whoosh.filedb.filestore.Storage" title="whoosh.filedb.filestore.Storage"><code class="xref py py-class docutils literal notranslate"><span class="pre">Storage</span></code></a> instance.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="whoosh.filedb.filestore.Storage.create_file">
 <span class="sig-name descname"><span class="pre">create_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#Storage.create_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filestore.Storage.create_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a file with the given name in this storage.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="whoosh.filedb.filestore.Storage.open_file">
-<span class="sig-name descname"><span class="pre">open_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#Storage.open_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filestore.Storage.open_file" title="Permalink to this definition">¶</a></dt>
-<dd><p>Opens a file with the given name in this storage.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="whoosh.filedb.filestore.Storage.list">
-<span class="sig-name descname"><span class="pre">list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#Storage.list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filestore.Storage.list" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a list of file names in this storage.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="whoosh.filedb.filestore.Storage.file_exists">
-<span class="sig-name descname"><span class="pre">file_exists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#Storage.file_exists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filestore.Storage.file_exists" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns True if the given file exists in this storage.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="whoosh.filedb.filestore.Storage.file_modified">
-<span class="sig-name descname"><span class="pre">file_modified</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#Storage.file_modified"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filestore.Storage.file_modified" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the last-modified time of the given file in this storage.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="whoosh.filedb.filestore.Storage.file_length">
-<span class="sig-name descname"><span class="pre">file_length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#Storage.file_length"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filestore.Storage.file_length" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the size (in bytes) of the given file in this storage.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="whoosh.filedb.filestore.Storage.delete_file">
-<span class="sig-name descname"><span class="pre">delete_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#Storage.delete_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filestore.Storage.delete_file" title="Permalink to this definition">¶</a></dt>
-<dd><p>Removes the given file from this storage.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="whoosh.filedb.filestore.Storage.rename_file">
-<span class="sig-name descname"><span class="pre">rename_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">safe</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#Storage.rename_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filestore.Storage.rename_file" title="Permalink to this definition">¶</a></dt>
-<dd><p>Renames a file in this storage.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="whoosh.filedb.filestore.Storage.lock">
-<span class="sig-name descname"><span class="pre">lock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#Storage.lock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filestore.Storage.lock" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a named lock object.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="whoosh.filedb.filestore.Storage.close">
-<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#Storage.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filestore.Storage.close" title="Permalink to this definition">¶</a></dt>
-<dd><p>Closes any resources opened by this storage object.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="whoosh.filedb.filestore.Storage.optimize">
-<span class="sig-name descname"><span class="pre">optimize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#Storage.optimize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filestore.Storage.optimize" title="Permalink to this definition">¶</a></dt>
-<dd><p>Optimizes the storage object.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="whoosh.filedb.filestore.Storage.temp_storage">
-<span class="sig-name descname"><span class="pre">temp_storage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#Storage.temp_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filestore.Storage.temp_storage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates a new storage object for temporary files.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id0">
-<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#Storage.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Permalink to this definition">¶</a></dt>
-<dd><p>Closes any resources opened by this storage object.</p>
-<p>This method is used to release any resources held by the storage object, such as locks or file handles.
-It should be called when you are done using the storage object to prevent resource leaks.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>For some storage implementations, this method may be a no-op and not perform any actions.
-However, it is still good practice to call this method to ensure proper cleanup.</p>
-</div>
-<dl class="simple">
-<dt>Usage:</dt><dd><p>storage = FileStorage()
-# Perform operations using the storage object
-storage.close()</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id1">
-<span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#Storage.create"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id1" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates any required implementation-specific resources.</p>
-<p>This method is used to create the necessary resources for a storage implementation. For example, a filesystem-based implementation might create a directory, while a database implementation might create tables.</p>
-<section id="usage">
-<h3>Usage:<a class="headerlink" href="#usage" title="Permalink to this heading">¶</a></h3>
-<ol class="arabic simple">
-<li><dl class="simple">
-<dt>Import the necessary modules:</dt><dd><p>from whoosh.filedb.filestore import FileStorage</p>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt>Create a storage object:</dt><dd><p>st = FileStorage(“indexdir”)</p>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt>Call the create() method to create the required resources:</dt><dd><p>st.create()</p>
-</dd>
-</dl>
-</li>
-</ol>
-</section>
-<section id="returns">
-<h3>Returns:<a class="headerlink" href="#returns" title="Permalink to this heading">¶</a></h3>
-<p>A Storage instance representing the created resources.</p>
-</section>
-<section id="example">
-<h3>Example:<a class="headerlink" href="#example" title="Permalink to this heading">¶</a></h3>
-<p>st = FileStorage(“indexdir”).create()</p>
-</section>
-<section id="notes">
-<h3>Notes:<a class="headerlink" href="#notes" title="Permalink to this heading">¶</a></h3>
-<ul class="simple">
-<li><p>Storage implementations should be written in such a way that calling create() multiple times on the same storage does not cause any issues.</p></li>
-<li><p>The create() method returns the Storage instance itself, allowing method chaining.</p></li>
-</ul>
-<dl class="field-list simple">
-<dt class="field-odd">return<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A Storage instance representing the created resources.</p>
-</dd>
-</dl>
-</section>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id2">
-<span class="sig-name descname"><span class="pre">create_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#Storage.create_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id2" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates a file with the given name in this storage.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The name for the new file.</p>
+<dd class="field-odd"><p><strong>name</strong> – the name for the new file.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A <a class="reference internal" href="structfile.html#whoosh.filedb.structfile.StructFile" title="whoosh.filedb.structfile.StructFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">whoosh.filedb.structfile.StructFile</span></code></a> instance.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="structfile.html#whoosh.filedb.structfile.StructFile" title="whoosh.filedb.structfile.StructFile">whoosh.filedb.structfile.StructFile</a></p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.12)"><strong>NotImplementedError</strong></a> – If the method is not implemented by the subclass.</p>
+<dd class="field-even"><p>a <a class="reference internal" href="structfile.html#whoosh.filedb.structfile.StructFile" title="whoosh.filedb.structfile.StructFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">whoosh.filedb.structfile.StructFile</span></code></a> instance.</p>
 </dd>
 </dl>
-<p>This method creates a new file with the specified name in the storage. It returns
-an instance of the <cite>StructFile</cite> class, which provides methods for reading and writing
-data to the file.</p>
-<p>Example usage:
-&gt;&gt;&gt; storage = FileStorage(“/path/to/storage”)
-&gt;&gt;&gt; file = storage.create_file(“example.txt”)
-&gt;&gt;&gt; file.write(“Hello, World!”)
-&gt;&gt;&gt; file.close()</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id3">
-<span class="sig-name descname"><span class="pre">create_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indexname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'MAIN'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indexclass</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#Storage.create_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id3" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="whoosh.filedb.filestore.Storage.create_index">
+<span class="sig-name descname"><span class="pre">create_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">schema</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indexname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'MAIN'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indexclass</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#Storage.create_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filestore.Storage.create_index" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a new index in this storage.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">whoosh</span> <span class="kn">import</span> <span class="n">fields</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">whoosh.filedb.filestore</span> <span class="kn">import</span> <span class="n">FileStorage</span>
@@ -428,233 +259,131 @@ create the index files. The default is
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id4">
-<span class="sig-name descname"><span class="pre">delete_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#Storage.delete_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id4" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="whoosh.filedb.filestore.Storage.delete_file">
+<span class="sig-name descname"><span class="pre">delete_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#Storage.delete_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filestore.Storage.delete_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Removes the given file from this storage.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The name of the file to delete.</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.12)"><strong>NotImplementedError</strong></a> – This method is not implemented in the base class.</p>
+<dd class="field-odd"><p><strong>name</strong> – the name to delete.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id5">
-<span class="sig-name descname"><span class="pre">destroy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#Storage.destroy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id5" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="whoosh.filedb.filestore.Storage.destroy">
+<span class="sig-name descname"><span class="pre">destroy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#Storage.destroy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filestore.Storage.destroy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Removes any implementation-specific resources related to this storage
 object. For example, a filesystem-based implementation might delete a
 directory, and a database implementation might drop tables.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>args</strong> – Implementation-specific arguments.</p></li>
-<li><p><strong>kwargs</strong> – Implementation-specific keyword arguments.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
-</dd>
-</dl>
-<p>This method should be called when you want to permanently remove all
-resources associated with this storage object. It is implementation-specific,
-so the behavior may vary depending on the storage implementation being used.</p>
-<p>Example usage:
-&gt;&gt;&gt; store = FileStore()
-&gt;&gt;&gt; store.destroy()</p>
+<p>The arguments are implementation-specific.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id6">
-<span class="sig-name descname"><span class="pre">file_exists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#Storage.file_exists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id6" title="Permalink to this definition">¶</a></dt>
-<dd><p>Check if the given file exists in this storage.</p>
+<dt class="sig sig-object py" id="whoosh.filedb.filestore.Storage.file_exists">
+<span class="sig-name descname"><span class="pre">file_exists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#Storage.file_exists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filestore.Storage.file_exists" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if the given file exists in this storage.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The name of the file to check.</p>
+<dd class="field-odd"><p><strong>name</strong> – the name to check.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>True if the file exists, False otherwise.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)">bool</a></p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.12)"><strong>NotImplementedError</strong></a> – This method is not implemented in the base class.</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)">bool</a></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id7">
-<span class="sig-name descname"><span class="pre">file_length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#Storage.file_length"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id7" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="whoosh.filedb.filestore.Storage.file_length">
+<span class="sig-name descname"><span class="pre">file_length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#Storage.file_length"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filestore.Storage.file_length" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the size (in bytes) of the given file in this storage.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The name of the file to check.</p>
+<dd class="field-odd"><p><strong>name</strong> – the name to check.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The size of the file in bytes.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)">int</a></p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.12)"><strong>NotImplementedError</strong></a> – If the method is not implemented by a subclass.</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)">int</a></p>
 </dd>
 </dl>
-<p>This method returns the size of the file with the given name in the storage.
-It is used to determine the size of a file stored in the file storage.</p>
-<p>Example usage:
-&gt;&gt;&gt; storage = FileStorage()
-&gt;&gt;&gt; file_size = storage.file_length(“example.txt”)
-&gt;&gt;&gt; print(file_size)
-1024</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id8">
-<span class="sig-name descname"><span class="pre">file_modified</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#Storage.file_modified"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id8" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="whoosh.filedb.filestore.Storage.file_modified">
+<span class="sig-name descname"><span class="pre">file_modified</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#Storage.file_modified"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filestore.Storage.file_modified" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the last-modified time of the given file in this storage (as
 a “ctime” UNIX timestamp).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The name of the file to check.</p>
+<dd class="field-odd"><p><strong>name</strong> – the name to check.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The “ctime” number representing the last-modified time of the file.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)">float</a></p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.12)"><strong>NotImplementedError</strong></a> – This method is not implemented in the base class and should be overridden in subclasses.</p>
+<dd class="field-even"><p>a “ctime” number.</p>
 </dd>
 </dl>
-<p>This method returns the last-modified time of the specified file in the storage.
-The last-modified time is returned as a “ctime” UNIX timestamp, which represents the number of seconds
-since the epoch (January 1, 1970).</p>
-<p>Example usage:
-&gt;&gt;&gt; storage = FileStorage()
-&gt;&gt;&gt; last_modified = storage.file_modified(“example.txt”)
-&gt;&gt;&gt; print(last_modified)
-1629876543.0</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id9">
-<span class="sig-name descname"><span class="pre">index_exists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">indexname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#Storage.index_exists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id9" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="whoosh.filedb.filestore.Storage.index_exists">
+<span class="sig-name descname"><span class="pre">index_exists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">indexname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#Storage.index_exists"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filestore.Storage.index_exists" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns True if a non-empty index exists in this storage.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>indexname</strong> – (str, optional) The name of the index within the storage object.
-You can use this option to store multiple indexes in the same storage.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>(bool) True if a non-empty index exists, False otherwise.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="id10">
-<span class="sig-name descname"><span class="pre">list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#Storage.list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id10" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a list of file names in this storage.</p>
-<p>This method returns a list of file names present in the storage. The storage represents a file system or a similar
-file storage mechanism.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A list of strings representing the file names in the storage.</p>
+<dd class="field-odd"><p><strong>indexname</strong> – the name of the index within the storage object. You
+can use this option to store multiple indexes in the same storage.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)">list</a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a>]</p>
-</dd>
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.12)"><strong>NotImplementedError</strong></a> – If the method is not implemented by a subclass.</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)">bool</a></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id11">
-<span class="sig-name descname"><span class="pre">lock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#Storage.lock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id11" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a named lock object (implementing <code class="docutils literal notranslate"><span class="pre">.acquire()</span></code> and <code class="docutils literal notranslate"><span class="pre">.release()</span></code> methods).</p>
-<p>Different storage implementations may use different lock types with different guarantees.
-For example, the RamStorage object uses Python thread locks, while the FileStorage object
-uses filesystem-based locks that are valid across different processes.</p>
+<dt class="sig sig-object py" id="whoosh.filedb.filestore.Storage.list">
+<span class="sig-name descname"><span class="pre">list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#Storage.list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filestore.Storage.list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of file names in this storage.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>a list of strings</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="whoosh.filedb.filestore.Storage.lock">
+<span class="sig-name descname"><span class="pre">lock</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#Storage.lock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filestore.Storage.lock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a named lock object (implementing <code class="docutils literal notranslate"><span class="pre">.acquire()</span></code> and
+<code class="docutils literal notranslate"><span class="pre">.release()</span></code> methods). Different storage implementations may use
+different lock types with different guarantees. For example, the
+RamStorage object uses Python thread locks, while the FileStorage
+object uses filesystem-based locks that are valid across different
+processes.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – A name for the lock. This can be any string that uniquely identifies the lock.</p>
+<dd class="field-odd"><p><strong>name</strong> – a name for the lock.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A lock-like object that provides the <code class="docutils literal notranslate"><span class="pre">acquire()</span></code> and <code class="docutils literal notranslate"><span class="pre">release()</span></code> methods.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)">object</a></p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.12)"><strong>NotImplementedError</strong></a> – This method is meant to be overridden by subclasses.</p>
+<dd class="field-even"><p>a lock-like object.</p>
 </dd>
 </dl>
-<p>Lock objects are used to synchronize access to shared resources, ensuring that only one
-thread or process can access the resource at a time. The <code class="docutils literal notranslate"><span class="pre">acquire()</span></code> method is used to
-acquire the lock, and the <code class="docutils literal notranslate"><span class="pre">release()</span></code> method is used to release the lock.</p>
-<p>Example usage:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">store</span> <span class="o">=</span> <span class="n">FileStorage</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">lock</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">lock</span><span class="p">(</span><span class="s2">&quot;my_lock&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">try</span><span class="p">:</span>
-<span class="gp">... </span>    <span class="c1"># Perform operations on the shared resource</span>
-<span class="gp">... </span>    <span class="k">pass</span>
-<span class="gp">... </span><span class="k">finally</span><span class="p">:</span>
-<span class="gp">... </span>    <span class="n">lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
-</pre></div>
-</div>
-<p>Note that the lock object returned by this method may have additional methods or properties
-specific to the storage implementation being used. It is recommended to consult the
-documentation of the specific storage implementation for more details.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id12">
-<span class="sig-name descname"><span class="pre">open_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#Storage.open_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id12" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="whoosh.filedb.filestore.Storage.open_file">
+<span class="sig-name descname"><span class="pre">open_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#Storage.open_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filestore.Storage.open_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Opens a file with the given name in this storage.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The name of the file to be opened.</p></li>
-<li><p><strong>args</strong> – Additional positional arguments to be passed to the file opening mechanism.</p></li>
-<li><p><strong>kwargs</strong> – Additional keyword arguments to be passed to the file opening mechanism.</p></li>
-</ul>
+<dd class="field-odd"><p><strong>name</strong> – the name for the new file.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A <a class="reference internal" href="structfile.html#whoosh.filedb.structfile.StructFile" title="whoosh.filedb.structfile.StructFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">whoosh.filedb.structfile.StructFile</span></code></a> instance representing the opened file.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="structfile.html#whoosh.filedb.structfile.StructFile" title="whoosh.filedb.structfile.StructFile">whoosh.filedb.structfile.StructFile</a></p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.12)"><strong>NotImplementedError</strong></a> – If the method is not implemented by a subclass.</p>
+<dd class="field-even"><p>a <a class="reference internal" href="structfile.html#whoosh.filedb.structfile.StructFile" title="whoosh.filedb.structfile.StructFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">whoosh.filedb.structfile.StructFile</span></code></a> instance.</p>
 </dd>
 </dl>
-<p>This method is used to open a file within the storage. It returns a <a class="reference internal" href="structfile.html#whoosh.filedb.structfile.StructFile" title="whoosh.filedb.structfile.StructFile"><code class="xref py py-class docutils literal notranslate"><span class="pre">whoosh.filedb.structfile.StructFile</span></code></a>
-instance that provides file-like operations for reading and writing data.</p>
-<p>Example usage:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">storage</span> <span class="o">=</span> <span class="n">FileStorage</span><span class="p">(</span><span class="s1">&#39;/path/to/storage&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">file</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">open_file</span><span class="p">(</span><span class="s1">&#39;example.txt&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">content</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-</pre></div>
-</div>
-<p>Note that the specific behavior of the <cite>open_file</cite> method may vary depending on the implementation of the storage.
-Subclasses of <cite>FileStorage</cite> should override this method to provide the appropriate file opening mechanism.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id13">
-<span class="sig-name descname"><span class="pre">open_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">indexname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'MAIN'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schema</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indexclass</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#Storage.open_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id13" title="Permalink to this definition">¶</a></dt>
-<dd><p>Opens an existing index (created using <a class="reference internal" href="#id3" title="whoosh.filedb.filestore.Storage.create_index"><code class="xref py py-meth docutils literal notranslate"><span class="pre">create_index()</span></code></a>) in this
+<dt class="sig sig-object py" id="whoosh.filedb.filestore.Storage.open_index">
+<span class="sig-name descname"><span class="pre">open_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">indexname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'MAIN'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schema</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indexclass</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#Storage.open_index"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filestore.Storage.open_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Opens an existing index (created using <a class="reference internal" href="#whoosh.filedb.filestore.Storage.create_index" title="whoosh.filedb.filestore.Storage.create_index"><code class="xref py py-meth docutils literal notranslate"><span class="pre">create_index()</span></code></a>) in this
 storage.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">whoosh.filedb.filestore</span> <span class="kn">import</span> <span class="n">FileStorage</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">st</span> <span class="o">=</span> <span class="n">FileStorage</span><span class="p">(</span><span class="s2">&quot;indexdir&quot;</span><span class="p">)</span>
@@ -683,85 +412,44 @@ class with this storage object.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id14">
-<span class="sig-name descname"><span class="pre">optimize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#Storage.optimize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id14" title="Permalink to this definition">¶</a></dt>
-<dd><p>Optimizes the storage object.</p>
-<p>This method is used to optimize the storage object. The specific
-implementation of optimization may vary depending on the storage
-backend being used. For example, a database implementation might
-run a garbage collection procedure on the underlying database.</p>
-<p>This method does not take any arguments and does not return any
-values. It performs the optimization operation in-place on the
-storage object.</p>
-<dl class="simple">
-<dt>Usage:</dt><dd><p>store = FileStore()
-store.optimize()</p>
-</dd>
-</dl>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The behavior of this method may be different for different
-storage backends. It is recommended to consult the documentation
-of the specific storage backend for more information on how
-optimization is performed.</p>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.12)"><strong>NotImplementedError</strong></a> – If the storage backend does not support
-    optimization.</p>
-</dd>
-</dl>
+<dt class="sig sig-object py" id="whoosh.filedb.filestore.Storage.optimize">
+<span class="sig-name descname"><span class="pre">optimize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#Storage.optimize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filestore.Storage.optimize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Optimizes the storage object. The meaning and cost of “optimizing”
+will vary by implementation. For example, a database implementation
+might run a garbage collection procedure on the underlying database.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id15">
-<span class="sig-name descname"><span class="pre">rename_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">safe</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#Storage.rename_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id15" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="whoosh.filedb.filestore.Storage.rename_file">
+<span class="sig-name descname"><span class="pre">rename_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">to</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">safe</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#Storage.rename_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filestore.Storage.rename_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Renames a file in this storage.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>frm</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The current name of the file.</p></li>
-<li><p><strong>to</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The new name for the file.</p></li>
-<li><p><strong>safe</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a>) – If True, raise an exception if a file with the new name already exists.</p></li>
+<li><p><strong>frm</strong> – The current name of the file.</p></li>
+<li><p><strong>to</strong> – The new name for the file.</p></li>
+<li><p><strong>safe</strong> – if True, raise an exception if a file with the new name
+already exists.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.12)"><strong>NotImplementedError</strong></a> – This method is not implemented in the base class.</p>
-</dd>
 </dl>
-<p>This method renames a file in the storage. It takes the current name of the file
-(<cite>frm</cite>) and the new name for the file (<cite>to</cite>). By default, if a file with the new
-name already exists, it will overwrite the existing file. However, if the <cite>safe</cite>
-parameter is set to True, an exception will be raised if a file with the new name
-already exists.</p>
-<p>Example usage:
-&gt;&gt;&gt; storage = FileStorage()
-&gt;&gt;&gt; storage.rename_file(“old_file.txt”, “new_file.txt”)</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id16">
-<span class="sig-name descname"><span class="pre">temp_storage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#Storage.temp_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id16" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates a new storage object for temporary files.</p>
-<p>This method creates a new storage object that can be used to store temporary files. The storage object can be accessed using the returned value and can be manipulated using its methods.</p>
+<dt class="sig sig-object py" id="whoosh.filedb.filestore.Storage.temp_storage">
+<span class="sig-name descname"><span class="pre">temp_storage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#Storage.temp_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filestore.Storage.temp_storage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new storage object for temporary files. You can call
+<a class="reference internal" href="#whoosh.filedb.filestore.Storage.destroy" title="whoosh.filedb.filestore.Storage.destroy"><code class="xref py py-meth docutils literal notranslate"><span class="pre">Storage.destroy()</span></code></a> on the new storage when you’re finished with
+it.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em> or </em><em>None</em>) – Optional. A name for the new storage. This parameter may be required or optional depending on the storage implementation.</p>
+<dd class="field-odd"><p><strong>name</strong> – a name for the new storage. This may be optional or
+required depending on the storage implementation.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A new storage object for temporary files.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#whoosh.filedb.filestore.Storage" title="whoosh.filedb.filestore.Storage">Storage</a></p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.12)"><strong>NotImplementedError</strong></a> – This method is not implemented in the current class and should be overridden by subclasses.</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#whoosh.filedb.filestore.Storage" title="whoosh.filedb.filestore.Storage"><code class="xref py py-class docutils literal notranslate"><span class="pre">Storage</span></code></a></p>
 </dd>
 </dl>
-<p>Example usage:
-&gt;&gt;&gt; storage = temp_storage()
-&gt;&gt;&gt; # Use the storage object to perform operations on temporary files
-&gt;&gt;&gt; storage.destroy()  # Clean up the temporary storage when finished</p>
 </dd></dl>
 
 </dd></dl>
@@ -780,92 +468,13 @@ directory exists at initialization. This change is to support using the
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – A path to a directory.</p></li>
-<li><p><strong>supports_mmap</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a><em>, </em><em>optional</em>) – If True (the default), use the <code class="docutils literal notranslate"><span class="pre">mmap</span></code> module to
+<li><p><strong>path</strong> – a path to a directory.</p></li>
+<li><p><strong>supports_mmap</strong> – if True (the default), use the <code class="docutils literal notranslate"><span class="pre">mmap</span></code> module to
 open memory mapped files. You can open the storage object with
 <code class="docutils literal notranslate"><span class="pre">supports_mmap=False</span></code> to force Whoosh to open files normally
 instead of with <code class="docutils literal notranslate"><span class="pre">mmap</span></code>.</p></li>
-<li><p><strong>readonly</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a><em>, </em><em>optional</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, the object will raise an exception if you
+<li><p><strong>readonly</strong> – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, the object will raise an exception if you
 attempt to create or rename a file.</p></li>
-<li><p><strong>debug</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a><em>, </em><em>optional</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, enables debug mode.</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="whoosh.filedb.filestore.FileStorage.folder">
-<span class="sig-name descname"><span class="pre">folder</span></span><a class="headerlink" href="#whoosh.filedb.filestore.FileStorage.folder" title="Permalink to this definition">¶</a></dt>
-<dd><p>The path to the directory where the index files are stored.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="whoosh.filedb.filestore.FileStorage.supports_mmap">
-<span class="sig-name descname"><span class="pre">supports_mmap</span></span><a class="headerlink" href="#whoosh.filedb.filestore.FileStorage.supports_mmap" title="Permalink to this definition">¶</a></dt>
-<dd><p>If True, the storage object uses memory mapped files.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)">bool</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="whoosh.filedb.filestore.FileStorage.readonly">
-<span class="sig-name descname"><span class="pre">readonly</span></span><a class="headerlink" href="#whoosh.filedb.filestore.FileStorage.readonly" title="Permalink to this definition">¶</a></dt>
-<dd><p>If True, the storage object is read-only.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)">bool</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="whoosh.filedb.filestore.FileStorage._debug">
-<span class="sig-name descname"><span class="pre">_debug</span></span><a class="headerlink" href="#whoosh.filedb.filestore.FileStorage._debug" title="Permalink to this definition">¶</a></dt>
-<dd><p>If True, debug mode is enabled.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)">bool</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="whoosh.filedb.filestore.FileStorage.locks">
-<span class="sig-name descname"><span class="pre">locks</span></span><a class="headerlink" href="#whoosh.filedb.filestore.FileStorage.locks" title="Permalink to this definition">¶</a></dt>
-<dd><p>A dictionary of file locks.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)">dict</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="field-list simple">
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#IOError" title="(in Python v3.12)"><strong>IOError</strong></a> – If the given path is not a directory.</p></li>
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#OSError" title="(in Python v3.12)"><strong>OSError</strong></a> – If an error occurs while creating or removing the directory.</p></li>
-</ul>
-</dd>
-</dl>
-<p>Initializes a FileStorage object.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – A path to a directory.</p></li>
-<li><p><strong>supports_mmap</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a><em>, </em><em>optional</em>) – If True (the default), use the <code class="docutils literal notranslate"><span class="pre">mmap</span></code> module to
-open memory mapped files. You can open the storage object with
-<code class="docutils literal notranslate"><span class="pre">supports_mmap=False</span></code> to force Whoosh to open files normally
-instead of with <code class="docutils literal notranslate"><span class="pre">mmap</span></code>.</p></li>
-<li><p><strong>readonly</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a><em>, </em><em>optional</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, the object will raise an exception if you
-attempt to create or rename a file.</p></li>
-<li><p><strong>debug</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a><em>, </em><em>optional</em>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, enables debug mode.</p></li>
 </ul>
 </dd>
 </dl>
@@ -875,62 +484,6 @@ attempt to create or rename a file.</p></li>
 <dt class="sig sig-object py" id="whoosh.filedb.filestore.RamStorage">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">whoosh.filedb.filestore.</span></span><span class="sig-name descname"><span class="pre">RamStorage</span></span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#RamStorage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filestore.RamStorage" title="Permalink to this definition">¶</a></dt>
 <dd><p>Storage object that keeps the index in memory.</p>
-<p>This class provides an implementation of the <cite>Storage</cite> interface that stores the index in memory.
-It is suitable for small indexes or for testing purposes.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="whoosh.filedb.filestore.RamStorage.files">
-<span class="sig-name descname"><span class="pre">files</span></span><a class="headerlink" href="#whoosh.filedb.filestore.RamStorage.files" title="Permalink to this definition">¶</a></dt>
-<dd><p>A dictionary that stores the file content in memory.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)">dict</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="whoosh.filedb.filestore.RamStorage.locks">
-<span class="sig-name descname"><span class="pre">locks</span></span><a class="headerlink" href="#whoosh.filedb.filestore.RamStorage.locks" title="Permalink to this definition">¶</a></dt>
-<dd><p>A dictionary that stores locks for file access.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)">dict</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="whoosh.filedb.filestore.RamStorage.folder">
-<span class="sig-name descname"><span class="pre">folder</span></span><a class="headerlink" href="#whoosh.filedb.filestore.RamStorage.folder" title="Permalink to this definition">¶</a></dt>
-<dd><p>The folder path associated with the storage.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<ul class="simple">
-<li><p>This implementation does not support memory-mapped files (<cite>supports_mmap</cite> is set to False).</p></li>
-<li><p>The <cite>files</cite> dictionary stores the file content as key-value pairs, where the key is the file name and the value is the file content.</p></li>
-<li><p>The <cite>locks</cite> dictionary stores locks for file access, where the key is the file name and the value is the lock object.</p></li>
-<li><p>The <cite>folder</cite> attribute is not used in this implementation.</p></li>
-</ul>
-</div>
-<p>Initialize a FileStore object.</p>
-<p>This class represents a file store that manages a collection of files and their locks.
-It provides methods for adding, retrieving, and managing files within the store.</p>
-<p>Attributes:
-- files (dict): A dictionary that maps file names to their corresponding file objects.
-- locks (dict): A dictionary that maps file names to their corresponding lock objects.
-- folder (str): The folder path where the files are stored.</p>
-<p>Usage:
-- Create a new FileStore object by calling the constructor.
-- Use the <cite>add_file</cite> method to add a file to the store.
-- Use the <cite>get_file</cite> method to retrieve a file from the store.
-- Use the <cite>lock_file</cite> and <cite>unlock_file</cite> methods to manage file locks.</p>
 </dd></dl>
 
 </section>
@@ -941,63 +494,13 @@ It provides methods for adding, retrieving, and managing files within the store.
 <span class="sig-prename descclassname"><span class="pre">whoosh.filedb.filestore.</span></span><span class="sig-name descname"><span class="pre">copy_storage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sourcestore</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">deststore</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#copy_storage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filestore.copy_storage" title="Permalink to this definition">¶</a></dt>
 <dd><p>Copies the files from the source storage object to the destination
 storage object using <code class="docutils literal notranslate"><span class="pre">shutil.copyfileobj</span></code>.</p>
-<p>Parameters:
-- sourcestore (object): The source storage object from which files will be copied.
-- deststore (object): The destination storage object to which files will be copied.</p>
-<p>Returns:
-- None</p>
-<p>Raises:
-- None</p>
-<p>Example usage:
-<code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">sourcestore</span> <span class="pre">=</span> <span class="pre">FileStore(...)</span>
-<span class="pre">deststore</span> <span class="pre">=</span> <span class="pre">FileStore(...)</span>
-<span class="pre">copy_storage(sourcestore,</span> <span class="pre">deststore)</span>
-<span class="pre">`</span></code></p>
-<p>This function iterates over the files in the source storage object and copies each file
-to the destination storage object using the <cite>shutil.copyfileobj</cite> function. It is useful
-for copying files between different storage objects, such as local file systems or cloud
-storage systems.</p>
-<p>Note: Both the source and destination storage objects must implement the following methods:
-- <cite>list()</cite>: Returns a list of file names in the storage object.
-- <cite>open_file(name)</cite>: Opens the file with the given name in the storage object and returns</p>
-<blockquote>
-<div><p>a file-like object.</p>
-</div></blockquote>
-<ul class="simple">
-<li><p><cite>create_file(name)</cite>: Creates a new file with the given name in the storage object and
-returns a file-like object for writing.</p></li>
-</ul>
-<p>Example storage object implementation:
-<a href="#id17"><span class="problematic" id="id18">``</span></a>`
-class FileStore:</p>
-<blockquote>
-<div><dl class="simple">
-<dt>def list(self):</dt><dd><p># implementation</p>
-</dd>
-<dt>def open_file(self, name):</dt><dd><p># implementation</p>
-</dd>
-<dt>def create_file(self, name):</dt><dd><p># implementation</p>
-</dd>
-</dl>
-</div></blockquote>
-<p><a href="#id19"><span class="problematic" id="id20">``</span></a><a href="#id21"><span class="problematic" id="id22">`</span></a></p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="whoosh.filedb.filestore.copy_to_ram">
 <span class="sig-prename descclassname"><span class="pre">whoosh.filedb.filestore.</span></span><span class="sig-name descname"><span class="pre">copy_to_ram</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">storage</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#copy_to_ram"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filestore.copy_to_ram" title="Permalink to this definition">¶</a></dt>
 <dd><p>Copies the given FileStorage object into a new RamStorage object.</p>
-<p>This function creates a new RamStorage object and copies all the files and directories
-from the provided FileStorage object into it. The RamStorage object is an in-memory
-storage implementation that allows fast access to the files.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>storage</strong> (<a class="reference internal" href="#whoosh.filedb.filestore.FileStorage" title="whoosh.filedb.filestore.FileStorage"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileStorage</span></code></a>) – The FileStorage object to be copied.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The newly created RamStorage object containing the copied files.</p>
-</dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference internal" href="#whoosh.filedb.filestore.RamStorage" title="whoosh.filedb.filestore.RamStorage"><code class="xref py py-class docutils literal notranslate"><span class="pre">RamStorage</span></code></a></p>
 </dd>
@@ -1009,24 +512,8 @@ storage implementation that allows fast access to the files.</p>
 <h2>Exceptions<a class="headerlink" href="#exceptions" title="Permalink to this heading">¶</a></h2>
 <dl class="py exception">
 <dt class="sig sig-object py" id="whoosh.filedb.filestore.ReadOnlyError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">whoosh.filedb.filestore.</span></span><span class="sig-name descname"><span class="pre">ReadOnlyError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#ReadOnlyError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filestore.ReadOnlyError" title="Permalink to this definition">¶</a></dt>
-<dd><p>Exception raised when attempting to modify a read-only storage.</p>
-<p>This exception is raised when attempting to modify a storage that has been opened in read-only mode.
-It is a subclass of <cite>StorageError</cite> and can be caught separately from other storage-related exceptions.</p>
-<section id="id23">
-<h3>Usage:<a class="headerlink" href="#id23" title="Permalink to this heading">¶</a></h3>
-<p>When using a storage object, if an attempt is made to modify the storage while it is in read-only mode,
-a <cite>ReadOnlyError</cite> will be raised. To handle this exception, you can use a try-except block like this:</p>
-<dl class="simple">
-<dt>try:</dt><dd><p># Attempt to modify the storage
-storage.modify()</p>
-</dd>
-<dt>except ReadOnlyError:</dt><dd><p># Handle the read-only error
-print(“The storage is read-only and cannot be modified.”)</p>
-</dd>
-</dl>
-</section>
-</dd></dl>
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">whoosh.filedb.filestore.</span></span><span class="sig-name descname"><span class="pre">ReadOnlyError</span></span><a class="reference internal" href="../../_modules/whoosh/filedb/filestore.html#ReadOnlyError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.filedb.filestore.ReadOnlyError" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </section>
 </section>

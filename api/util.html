@@ -102,8 +102,6 @@
 <li class="toctree-l3"><a class="reference internal" href="#whoosh.util.fib"><code class="docutils literal notranslate"><span class="pre">fib()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#whoosh.util.make_binary_tree"><code class="docutils literal notranslate"><span class="pre">make_binary_tree()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#whoosh.util.make_weighted_tree"><code class="docutils literal notranslate"><span class="pre">make_weighted_tree()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#whoosh.util.random_bytes"><code class="docutils literal notranslate"><span class="pre">random_bytes()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#whoosh.util.random_name"><code class="docutils literal notranslate"><span class="pre">random_name()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#whoosh.util.synchronized"><code class="docutils literal notranslate"><span class="pre">synchronized()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#whoosh.util.unclosed"><code class="docutils literal notranslate"><span class="pre">unclosed()</span></code></a></li>
 </ul>
@@ -145,13 +143,6 @@
 <dt class="sig sig-object py" id="whoosh.util.fib">
 <span class="sig-prename descclassname"><span class="pre">whoosh.util.</span></span><span class="sig-name descname"><span class="pre">fib</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/util.html#fib"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.util.fib" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the nth value in the Fibonacci sequence.</p>
-<p>Parameters:
-- n (int): The position of the value in the Fibonacci sequence to be returned.</p>
-<p>Returns:
-- int: The nth value in the Fibonacci sequence.</p>
-<p>Notes:
-- The Fibonacci sequence starts with 0 and 1, and each subsequent value is the sum of the two preceding values.
-- The function uses memoization to improve performance by caching previously calculated values.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -159,43 +150,12 @@
 <span class="sig-prename descclassname"><span class="pre">whoosh.util.</span></span><span class="sig-name descname"><span class="pre">make_binary_tree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/util.html#make_binary_tree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.util.make_binary_tree" title="Permalink to this definition">¶</a></dt>
 <dd><p>Takes a function/class that takes two positional arguments and a list of
 arguments and returns a binary tree of results/instances.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>fn</strong> (<em>callable</em>) – A function or class that takes two positional arguments.</p></li>
-<li><p><strong>args</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><em>list</em></a>) – A list of arguments to be used to construct the binary tree.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Keyword Arguments<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>**kwargs</strong> – Additional keyword arguments to be passed to the class initializer.</p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The binary tree of results/instances.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)">object</a></p>
-</dd>
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.12)"><strong>ValueError</strong></a> – If called with an empty list.</p>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">make_binary_tree</span><span class="p">(</span><span class="n">UnionMatcher</span><span class="p">,</span> <span class="p">[</span><span class="n">matcher1</span><span class="p">,</span> <span class="n">matcher2</span><span class="p">,</span> <span class="n">matcher3</span><span class="p">])</span>
 <span class="go">UnionMatcher(matcher1, UnionMatcher(matcher2, matcher3))</span>
 </pre></div>
 </div>
-<p>This function takes a function or class <cite>fn</cite> that takes two positional arguments,
-and a list of arguments <cite>args</cite>. It constructs a binary tree of results/instances
-by recursively splitting the <cite>args</cite> list into two halves and calling <cite>fn</cite> with
-the left and right halves as arguments.</p>
-<p>If the <cite>args</cite> list contains only one element, that element is returned as is.</p>
-<p>Any additional keyword arguments given to this function are passed to the class
-initializer of <cite>fn</cite>.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The <cite>fn</cite> should be a function or class that can be called with two positional
-arguments and returns a result/instance.</p>
-</div>
+<p>Any keyword arguments given to this function are passed to the class
+initializer.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -204,61 +164,6 @@ arguments and returns a result/instance.</p>
 <dd><p>Takes a function/class that takes two positional arguments and a list of
 (weight, argument) tuples and returns a huffman-like weighted tree of
 results/instances.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>fn</strong> (<em>function/class</em>) – The function or class that takes two positional arguments.</p></li>
-<li><p><strong>ls</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><em>list</em></a>) – A list of (weight, argument) tuples.</p></li>
-<li><p><strong>**kwargs</strong> – Additional keyword arguments that can be passed to the function/class.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The huffman-like weighted tree of results/instances.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)">object</a></p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.12)"><strong>ValueError</strong></a> – If the input list is empty.</p>
-</dd>
-</dl>
-<p class="rubric">Example</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">combine</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
-<span class="gp">... </span>    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
-<span class="gp">...</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ls</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">)]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">make_weighted_tree</span><span class="p">(</span><span class="n">combine</span><span class="p">,</span> <span class="n">ls</span><span class="p">)</span>
-<span class="go">&#39;abc&#39;</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="whoosh.util.random_bytes">
-<span class="sig-prename descclassname"><span class="pre">whoosh.util.</span></span><span class="sig-name descname"><span class="pre">random_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">28</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/util.html#random_bytes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.util.random_bytes" title="Permalink to this definition">¶</a></dt>
-<dd><blockquote>
-<div><p>Generate a random byte string of the specified size.</p>
-<p>Parameters:
-- size (int): The size of the byte string to generate. Default is 28.</p>
-<p>Returns:
-- bytes: A random byte string of the specified size.</p>
-<p>Example:
-&gt;&gt;&gt; random_bytes(16)
-b’</p>
-</div></blockquote>
-<p>
-
-’</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="whoosh.util.random_name">
-<span class="sig-prename descclassname"><span class="pre">whoosh.util.</span></span><span class="sig-name descname"><span class="pre">random_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">28</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/util.html#random_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.util.random_name" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generates a random name consisting of alphanumeric characters.</p>
-<p>Parameters:
-- size (int): The length of the random name to generate. Default is 28.</p>
-<p>Returns:
-- str: The randomly generated name.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -266,51 +171,12 @@ b’</p>
 <span class="sig-prename descclassname"><span class="pre">whoosh.util.</span></span><span class="sig-name descname"><span class="pre">synchronized</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/util.html#synchronized"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.util.synchronized" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decorator for storage-access methods, which synchronizes on a threading
 lock. The parent object must have ‘is_closed’ and ‘_sync_lock’ attributes.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>func</strong> (<em>callable</em>) – The function to be decorated.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The decorated function.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>callable</p>
-</dd>
-</dl>
-<p class="rubric">Example</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">MyClass</span><span class="p">:</span>
-<span class="gp">... </span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="gp">... </span>        <span class="bp">self</span><span class="o">.</span><span class="n">_sync_lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
-<span class="gp">...</span>
-<span class="gp">... </span>    <span class="nd">@synchronized</span>
-<span class="gp">... </span>    <span class="k">def</span> <span class="nf">my_method</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="gp">... </span>        <span class="c1"># Access shared storage here</span>
-<span class="gp">... </span>        <span class="k">pass</span>
-</pre></div>
-</div>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="whoosh.util.unclosed">
 <span class="sig-prename descclassname"><span class="pre">whoosh.util.</span></span><span class="sig-name descname"><span class="pre">unclosed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/util.html#unclosed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.util.unclosed" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decorator to check if the object is closed.</p>
-<p>This decorator can be used to wrap methods in a class to ensure that the object is not closed before executing the method.
-If the object is closed, a ValueError is raised.</p>
-<p>Parameters:
-- method: The method to be wrapped.</p>
-<p>Returns:
-- The wrapped method.</p>
-<p>Example usage:
-<a href="#id1"><span class="problematic" id="id2">``</span></a>`
-class MyClass:</p>
-<blockquote>
-<div><p>&#64;unclosed
-def my_method(self):</p>
-<blockquote>
-<div><p># Method implementation</p>
-</div></blockquote>
-</div></blockquote>
-<p><a href="#id3"><span class="problematic" id="id4">``</span></a><a href="#id5"><span class="problematic" id="id6">`</span></a></p>
 </dd></dl>
 
 </section>

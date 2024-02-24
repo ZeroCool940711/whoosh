@@ -75,16 +75,16 @@
 <li class="toctree-l1 current"><a class="reference internal" href="api.html">Whoosh API</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">analysis</span></code> module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#analyzers">Analyzers</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#whoosh.analysis.id_analyzer"><code class="docutils literal notranslate"><span class="pre">id_analyzer()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#whoosh.analysis.keyword_analyzer"><code class="docutils literal notranslate"><span class="pre">keyword_analyzer()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#whoosh.analysis.regex_analyzer"><code class="docutils literal notranslate"><span class="pre">regex_analyzer()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#whoosh.analysis.simple_analyzer"><code class="docutils literal notranslate"><span class="pre">simple_analyzer()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#whoosh.analysis.standard_analyzer"><code class="docutils literal notranslate"><span class="pre">standard_analyzer()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#whoosh.analysis.stemming_analyzer"><code class="docutils literal notranslate"><span class="pre">stemming_analyzer()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#whoosh.analysis.fancy_analyzer"><code class="docutils literal notranslate"><span class="pre">fancy_analyzer()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#whoosh.analysis.ngram_analyzer"><code class="docutils literal notranslate"><span class="pre">ngram_analyzer()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#whoosh.analysis.ngram_word_analyzer"><code class="docutils literal notranslate"><span class="pre">ngram_word_analyzer()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#whoosh.analysis.language_analyzer"><code class="docutils literal notranslate"><span class="pre">language_analyzer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#whoosh.analysis.IDAnalyzer"><code class="docutils literal notranslate"><span class="pre">IDAnalyzer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#whoosh.analysis.KeywordAnalyzer"><code class="docutils literal notranslate"><span class="pre">KeywordAnalyzer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#whoosh.analysis.RegexAnalyzer"><code class="docutils literal notranslate"><span class="pre">RegexAnalyzer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#whoosh.analysis.SimpleAnalyzer"><code class="docutils literal notranslate"><span class="pre">SimpleAnalyzer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#whoosh.analysis.StandardAnalyzer"><code class="docutils literal notranslate"><span class="pre">StandardAnalyzer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#whoosh.analysis.StemmingAnalyzer"><code class="docutils literal notranslate"><span class="pre">StemmingAnalyzer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#whoosh.analysis.FancyAnalyzer"><code class="docutils literal notranslate"><span class="pre">FancyAnalyzer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#whoosh.analysis.NgramAnalyzer"><code class="docutils literal notranslate"><span class="pre">NgramAnalyzer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#whoosh.analysis.NgramWordAnalyzer"><code class="docutils literal notranslate"><span class="pre">NgramWordAnalyzer()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#whoosh.analysis.LanguageAnalyzer"><code class="docutils literal notranslate"><span class="pre">LanguageAnalyzer()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#tokenizers">Tokenizers</a><ul>
@@ -201,7 +201,7 @@ to lowercase, which is usually necessary when indexing regular English text.</p>
 generator.</p>
 </li>
 <li><p>Analyzers are convenience functions/classes that “package up” a tokenizer and
-zero or more filters into a single unit. For example, the standard_analyzer
+zero or more filters into a single unit. For example, the StandardAnalyzer
 combines a RegexTokenizer, LowercaseFilter, and StopFilter.</p>
 <p>Every analyzer is a callable that takes a string and returns a token
 iterator. (So Tokenizers can be used as Analyzers if you don’t need any
@@ -217,94 +217,68 @@ a filter first or a tokenizer after the first item).</p>
 <section id="analyzers">
 <h2>Analyzers<a class="headerlink" href="#analyzers" title="Permalink to this heading">¶</a></h2>
 <dl class="py function">
-<dt class="sig sig-object py" id="whoosh.analysis.id_analyzer">
-<span class="sig-prename descclassname"><span class="pre">whoosh.analysis.</span></span><span class="sig-name descname"><span class="pre">id_analyzer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lowercase</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/analysis/analyzers.html#id_analyzer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.analysis.id_analyzer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns an analyzer that tokenizes input text into individual tokens using the IDTokenizer.
-If lowercase is set to True, it also applies the LowercaseFilter to convert tokens to lowercase.</p>
-<p>Parameters:
-- lowercase (bool): Whether to convert tokens to lowercase. Default is False.</p>
-<p>Returns:
-- tokenizer (Analyzer): The configured analyzer.</p>
-<p>Deprecated: This function is deprecated. It is recommended to use IDTokenizer directly, with a LowercaseFilter if desired.</p>
+<dt class="sig sig-object py" id="whoosh.analysis.IDAnalyzer">
+<span class="sig-prename descclassname"><span class="pre">whoosh.analysis.</span></span><span class="sig-name descname"><span class="pre">IDAnalyzer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lowercase</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/analysis/analyzers.html#IDAnalyzer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.analysis.IDAnalyzer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deprecated, just use an IDTokenizer directly, with a LowercaseFilter if
+desired.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="whoosh.analysis.keyword_analyzer">
-<span class="sig-prename descclassname"><span class="pre">whoosh.analysis.</span></span><span class="sig-name descname"><span class="pre">keyword_analyzer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lowercase</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">commas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/analysis/analyzers.html#keyword_analyzer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.analysis.keyword_analyzer" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="whoosh.analysis.KeywordAnalyzer">
+<span class="sig-prename descclassname"><span class="pre">whoosh.analysis.</span></span><span class="sig-name descname"><span class="pre">KeywordAnalyzer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lowercase</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">commas</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/analysis/analyzers.html#KeywordAnalyzer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.analysis.KeywordAnalyzer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parses whitespace- or comma-separated tokens.</p>
-<p>This analyzer is used to parse whitespace- or comma-separated tokens from a given text.
-It can be configured to lowercase the tokens and treat items separated by commas instead of whitespace.</p>
-<p>Example usage:
-&gt;&gt;&gt; ana = keyword_analyzer()
-&gt;&gt;&gt; [token.text for token in ana(“Hello there, this is a TEST”)]
-[“Hello”, “there,”, “this”, “is”, “a”, “TEST”]</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ana</span> <span class="o">=</span> <span class="n">KeywordAnalyzer</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">token</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">ana</span><span class="p">(</span><span class="s2">&quot;Hello there, this is a TEST&quot;</span><span class="p">)]</span>
+<span class="go">[&quot;Hello&quot;, &quot;there,&quot;, &quot;this&quot;, &quot;is&quot;, &quot;a&quot;, &quot;TEST&quot;]</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>lowercase</strong> – A boolean indicating whether to lowercase the tokens. Default is False.</p></li>
-<li><p><strong>commas</strong> – A boolean indicating whether items are separated by commas instead of whitespace. Default is False.</p></li>
+<li><p><strong>lowercase</strong> – whether to lowercase the tokens.</p></li>
+<li><p><strong>commas</strong> – if True, items are separated by commas rather than
+whitespace.</p></li>
 </ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A tokenizer object that can be used to tokenize the input text.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="whoosh.analysis.regex_analyzer">
-<span class="sig-prename descclassname"><span class="pre">whoosh.analysis.</span></span><span class="sig-name descname"><span class="pre">regex_analyzer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expression</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'\\w+(\\.?\\w+)*'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gaps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/analysis/analyzers.html#regex_analyzer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.analysis.regex_analyzer" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="whoosh.analysis.RegexAnalyzer">
+<span class="sig-prename descclassname"><span class="pre">whoosh.analysis.</span></span><span class="sig-name descname"><span class="pre">RegexAnalyzer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expression</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'\\w+(\\.?\\w+)*'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gaps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/analysis/analyzers.html#RegexAnalyzer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.analysis.RegexAnalyzer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Deprecated, just use a RegexTokenizer directly.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>expression</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>, </em><em>optional</em>) – The regular expression pattern to match. Defaults to r”w+(.?w+)*”.</p></li>
-<li><p><strong>gaps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a><em>, </em><em>optional</em>) – Whether to split on gaps (non-matching substrings) or matches. Defaults to False.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A tokenizer that tokenizes text using a regular expression pattern.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#whoosh.analysis.RegexTokenizer" title="whoosh.analysis.RegexTokenizer">RegexTokenizer</a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="whoosh.analysis.simple_analyzer">
-<span class="sig-prename descclassname"><span class="pre">whoosh.analysis.</span></span><span class="sig-name descname"><span class="pre">simple_analyzer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expression</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">re.compile('[\\w\\*]+(\\.?[\\w\\*]+)*')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gaps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/analysis/analyzers.html#simple_analyzer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.analysis.simple_analyzer" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="whoosh.analysis.SimpleAnalyzer">
+<span class="sig-prename descclassname"><span class="pre">whoosh.analysis.</span></span><span class="sig-name descname"><span class="pre">SimpleAnalyzer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expression</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">re.compile('[\\w\\*]+(\\.?[\\w\\*]+)*')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gaps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/analysis/analyzers.html#SimpleAnalyzer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.analysis.SimpleAnalyzer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Composes a RegexTokenizer with a LowercaseFilter.</p>
-<p>This function creates an analyzer that tokenizes text using a regular expression pattern and converts the tokens to lowercase.</p>
-<p>Example usage:
-&gt;&gt;&gt; ana = simple_analyzer()
-&gt;&gt;&gt; [token.text for token in ana(“Hello there, this is a TEST”)]
-[“hello”, “there”, “this”, “is”, “a”, “test”]</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ana</span> <span class="o">=</span> <span class="n">SimpleAnalyzer</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">token</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">ana</span><span class="p">(</span><span class="s2">&quot;Hello there, this is a TEST&quot;</span><span class="p">)]</span>
+<span class="go">[&quot;hello&quot;, &quot;there&quot;, &quot;this&quot;, &quot;is&quot;, &quot;a&quot;, &quot;test&quot;]</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>expression</strong> – The regular expression pattern to use for token extraction. Defaults to <cite>default_pattern</cite>.</p></li>
-<li><p><strong>gaps</strong> – If True, the tokenizer <em>splits</em> on the expression, rather than matching on the expression. Defaults to False.</p></li>
+<li><p><strong>expression</strong> – The regular expression pattern to use to extract tokens.</p></li>
+<li><p><strong>gaps</strong> – If True, the tokenizer <em>splits</em> on the expression, rather
+than matching on the expression.</p></li>
 </ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>An analyzer object that tokenizes text using the specified regular expression pattern and converts the tokens to lowercase.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="whoosh.analysis.standard_analyzer">
-<span class="sig-prename descclassname"><span class="pre">whoosh.analysis.</span></span><span class="sig-name descname"><span class="pre">standard_analyzer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expression</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">re.compile('[\\w\\*]+(\\.?[\\w\\*]+)*')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stoplist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">frozenset({'a',</span> <span class="pre">'an',</span> <span class="pre">'and',</span> <span class="pre">'are',</span> <span class="pre">'as',</span> <span class="pre">'at',</span> <span class="pre">'be',</span> <span class="pre">'by',</span> <span class="pre">'can',</span> <span class="pre">'for',</span> <span class="pre">'from',</span> <span class="pre">'have',</span> <span class="pre">'if',</span> <span class="pre">'in',</span> <span class="pre">'is',</span> <span class="pre">'it',</span> <span class="pre">'may',</span> <span class="pre">'not',</span> <span class="pre">'of',</span> <span class="pre">'on',</span> <span class="pre">'or',</span> <span class="pre">'tbd',</span> <span class="pre">'that',</span> <span class="pre">'the',</span> <span class="pre">'this',</span> <span class="pre">'to',</span> <span class="pre">'us',</span> <span class="pre">'we',</span> <span class="pre">'when',</span> <span class="pre">'will',</span> <span class="pre">'with',</span> <span class="pre">'yet',</span> <span class="pre">'you',</span> <span class="pre">'your'})</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gaps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/analysis/analyzers.html#standard_analyzer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.analysis.standard_analyzer" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="whoosh.analysis.StandardAnalyzer">
+<span class="sig-prename descclassname"><span class="pre">whoosh.analysis.</span></span><span class="sig-name descname"><span class="pre">StandardAnalyzer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expression</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">re.compile('[\\w\\*]+(\\.?[\\w\\*]+)*')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stoplist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">frozenset({'a',</span> <span class="pre">'an',</span> <span class="pre">'and',</span> <span class="pre">'are',</span> <span class="pre">'as',</span> <span class="pre">'at',</span> <span class="pre">'be',</span> <span class="pre">'by',</span> <span class="pre">'can',</span> <span class="pre">'for',</span> <span class="pre">'from',</span> <span class="pre">'have',</span> <span class="pre">'if',</span> <span class="pre">'in',</span> <span class="pre">'is',</span> <span class="pre">'it',</span> <span class="pre">'may',</span> <span class="pre">'not',</span> <span class="pre">'of',</span> <span class="pre">'on',</span> <span class="pre">'or',</span> <span class="pre">'tbd',</span> <span class="pre">'that',</span> <span class="pre">'the',</span> <span class="pre">'this',</span> <span class="pre">'to',</span> <span class="pre">'us',</span> <span class="pre">'we',</span> <span class="pre">'when',</span> <span class="pre">'will',</span> <span class="pre">'with',</span> <span class="pre">'yet',</span> <span class="pre">'you',</span> <span class="pre">'your'})</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gaps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/analysis/analyzers.html#StandardAnalyzer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.analysis.StandardAnalyzer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Composes a RegexTokenizer with a LowercaseFilter and optional
 StopFilter.</p>
-<p>This analyzer is used to tokenize and filter text into a stream of tokens.
-It applies a regular expression pattern to extract tokens, converts them to lowercase,
-and optionally removes stop words.</p>
-<p>Example usage:
-&gt;&gt;&gt; ana = standard_analyzer()
-&gt;&gt;&gt; [token.text for token in ana(“Testing is testing and testing”)]
-[“testing”, “testing”, “testing”]</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ana</span> <span class="o">=</span> <span class="n">StandardAnalyzer</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">token</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">ana</span><span class="p">(</span><span class="s2">&quot;Testing is testing and testing&quot;</span><span class="p">)]</span>
+<span class="go">[&quot;testing&quot;, &quot;testing&quot;, &quot;testing&quot;]</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -312,118 +286,73 @@ and optionally removes stop words.</p>
 <li><p><strong>stoplist</strong> – A list of stop words. Set this to None to disable
 the stop word filter.</p></li>
 <li><p><strong>minsize</strong> – Words smaller than this are removed from the stream.</p></li>
-<li><p><strong>maxsize</strong> – Words longer than this are removed from the stream.</p></li>
+<li><p><strong>maxsize</strong> – Words longer that this are removed from the stream.</p></li>
 <li><p><strong>gaps</strong> – If True, the tokenizer <em>splits</em> on the expression, rather
 than matching on the expression.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A chain of tokenizers and filters that can be used to analyze text.</p>
-</dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="whoosh.analysis.stemming_analyzer">
-<span class="sig-prename descclassname"><span class="pre">whoosh.analysis.</span></span><span class="sig-name descname"><span class="pre">stemming_analyzer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expression=re.compile('[\\w\\*]+(\\.?[\\w\\*]+)*')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stoplist=frozenset({'a'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'an'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'and'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'are'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'as'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'at'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'be'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'by'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'can'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'for'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'from'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'have'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'if'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'in'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'is'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'it'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'may'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'not'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'of'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'on'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'or'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'tbd'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'that'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'the'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'this'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'to'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'us'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'we'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'when'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'will'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'with'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'yet'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'you'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'your'})</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minsize=2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxsize=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gaps=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stemfn=&lt;function</span> <span class="pre">stem&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cachesize=50000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/analysis/analyzers.html#stemming_analyzer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.analysis.stemming_analyzer" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="whoosh.analysis.StemmingAnalyzer">
+<span class="sig-prename descclassname"><span class="pre">whoosh.analysis.</span></span><span class="sig-name descname"><span class="pre">StemmingAnalyzer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expression=re.compile('[\\w\\*]+(\\.?[\\w\\*]+)*')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stoplist=frozenset({'a'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'an'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'and'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'are'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'as'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'at'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'be'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'by'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'can'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'for'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'from'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'have'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'if'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'in'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'is'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'it'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'may'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'not'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'of'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'on'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'or'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'tbd'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'that'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'the'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'this'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'to'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'us'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'we'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'when'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'will'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'with'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'yet'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'you'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">'your'})</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minsize=2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxsize=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gaps=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stemfn=&lt;function</span> <span class="pre">stem&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cachesize=50000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/analysis/analyzers.html#StemmingAnalyzer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.analysis.StemmingAnalyzer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Composes a RegexTokenizer with a lower case filter, an optional stop
 filter, and a stemming filter.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>expression</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>, </em><em>optional</em>) – The regular expression pattern to use to extract tokens.</p></li>
-<li><p><strong>stoplist</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><em>list</em></a><em>, </em><em>optional</em>) – A list of stop words. Set this to None to disable the stop word filter.</p></li>
-<li><p><strong>minsize</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a><em>, </em><em>optional</em>) – Words smaller than this are removed from the stream.</p></li>
-<li><p><strong>maxsize</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a><em>, </em><em>optional</em>) – Words longer that this are removed from the stream.</p></li>
-<li><p><strong>gaps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a><em>, </em><em>optional</em>) – If True, the tokenizer <em>splits</em> on the expression, rather than matching on the expression.</p></li>
-<li><p><strong>stemfn</strong> (<em>function</em><em>, </em><em>optional</em>) – The stemming function to use. Defaults to the <cite>stem</cite> function.</p></li>
-<li><p><strong>ignore</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#set" title="(in Python v3.12)"><em>set</em></a><em>, </em><em>optional</em>) – A set of words to not stem.</p></li>
-<li><p><strong>cachesize</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a><em>, </em><em>optional</em>) – The maximum number of stemmed words to cache. The larger this number, the faster stemming will be but the more memory it will use. Use None for no cache, or -1 for an unbounded cache.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The composed analyzer.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Analyzer</p>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ana</span> <span class="o">=</span> <span class="n">stemming_analyzer</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ana</span> <span class="o">=</span> <span class="n">StemmingAnalyzer</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">token</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">ana</span><span class="p">(</span><span class="s2">&quot;Testing is testing and testing&quot;</span><span class="p">)]</span>
 <span class="go">[&quot;test&quot;, &quot;test&quot;, &quot;test&quot;]</span>
 </pre></div>
 </div>
-<p>This function composes an analyzer that tokenizes text using a regular expression pattern,
-converts tokens to lowercase, applies an optional stop word filter, and performs stemming
-on the tokens.</p>
-<p>The <cite>expression</cite> parameter specifies the regular expression pattern to use for token extraction.
-The <cite>stoplist</cite> parameter is a list of stop words to be filtered out. If set to None, the stop word
-filter is disabled. The <cite>minsize</cite> and <cite>maxsize</cite> parameters control the minimum and maximum word
-lengths to keep in the token stream. The <cite>gaps</cite> parameter determines whether the tokenizer splits
-on the expression or matches on it.</p>
-<p>The <cite>stemfn</cite> parameter specifies the stemming function to use. By default, it uses the <cite>stem</cite> function.
-The <cite>ignore</cite> parameter is a set of words that should not be stemmed. The <cite>cachesize</cite> parameter sets
-the maximum number of stemmed words to cache, improving performance at the cost of memory usage.</p>
-<p>The function returns the composed analyzer, which can be used to process text and extract tokens.</p>
-<p>Example usage:
-&gt;&gt;&gt; analyzer = stemming_analyzer(expression=r’w+’, stoplist=[‘is’, ‘and’], minsize=3)
-&gt;&gt;&gt; [token.text for token in analyzer(“Testing is testing and testing”)]
-[“test”, “test”, “test”]</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="whoosh.analysis.fancy_analyzer">
-<span class="sig-prename descclassname"><span class="pre">whoosh.analysis.</span></span><span class="sig-name descname"><span class="pre">fancy_analyzer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expression</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'\\s+'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stoplist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">frozenset({'a',</span> <span class="pre">'an',</span> <span class="pre">'and',</span> <span class="pre">'are',</span> <span class="pre">'as',</span> <span class="pre">'at',</span> <span class="pre">'be',</span> <span class="pre">'by',</span> <span class="pre">'can',</span> <span class="pre">'for',</span> <span class="pre">'from',</span> <span class="pre">'have',</span> <span class="pre">'if',</span> <span class="pre">'in',</span> <span class="pre">'is',</span> <span class="pre">'it',</span> <span class="pre">'may',</span> <span class="pre">'not',</span> <span class="pre">'of',</span> <span class="pre">'on',</span> <span class="pre">'or',</span> <span class="pre">'tbd',</span> <span class="pre">'that',</span> <span class="pre">'the',</span> <span class="pre">'this',</span> <span class="pre">'to',</span> <span class="pre">'us',</span> <span class="pre">'we',</span> <span class="pre">'when',</span> <span class="pre">'will',</span> <span class="pre">'with',</span> <span class="pre">'yet',</span> <span class="pre">'you',</span> <span class="pre">'your'})</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gaps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">splitwords</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">splitnums</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mergewords</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mergenums</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/analysis/analyzers.html#fancy_analyzer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.analysis.fancy_analyzer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Composes a fancy_analyzer with a RegexTokenizer, IntraWordFilter, LowercaseFilter, and StopFilter.</p>
-<p>This analyzer tokenizes text using a regular expression pattern, applies intra-word filtering,
-converts tokens to lowercase, and removes stop words.</p>
-<p>Example usage:
-&gt;&gt;&gt; ana = fancy_analyzer()
-&gt;&gt;&gt; [token.text for token in ana(“Should I call getInt or get_real?”)]
-[“should”, “call”, “getInt”, “get”, “int”, “get_real”, “get”, “real”]</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>expression</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>, </em><em>optional</em>) – The regular expression pattern to use for token extraction.</p></li>
-<li><p><strong>stoplist</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><em>list</em></a><em> or </em><em>None</em><em>, </em><em>optional</em>) – A list of stop words. Set this to None to disable the stop word filter.</p></li>
-<li><p><strong>minsize</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a><em>, </em><em>optional</em>) – Words smaller than this are removed from the token stream.</p></li>
-<li><p><strong>gaps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a><em>, </em><em>optional</em>) – If True, the tokenizer splits on the expression, rather than matching on the expression.</p></li>
-<li><p><strong>splitwords</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a><em>, </em><em>optional</em>) – If True, intra-word filtering splits words.</p></li>
-<li><p><strong>splitnums</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a><em>, </em><em>optional</em>) – If True, intra-word filtering splits numbers.</p></li>
-<li><p><strong>mergewords</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a><em>, </em><em>optional</em>) – If True, intra-word filtering merges words.</p></li>
-<li><p><strong>mergenums</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a><em>, </em><em>optional</em>) – If True, intra-word filtering merges numbers.</p></li>
+<li><p><strong>expression</strong> – The regular expression pattern to use to extract tokens.</p></li>
+<li><p><strong>stoplist</strong> – A list of stop words. Set this to None to disable
+the stop word filter.</p></li>
+<li><p><strong>minsize</strong> – Words smaller than this are removed from the stream.</p></li>
+<li><p><strong>maxsize</strong> – Words longer that this are removed from the stream.</p></li>
+<li><p><strong>gaps</strong> – If True, the tokenizer <em>splits</em> on the expression, rather
+than matching on the expression.</p></li>
+<li><p><strong>ignore</strong> – a set of words to not stem.</p></li>
+<li><p><strong>cachesize</strong> – the maximum number of stemmed words to cache. The larger
+this number, the faster stemming will be but the more memory it will
+use. Use None for no cache, or -1 for an unbounded cache.</p></li>
 </ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A composed analyzer.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Analyzer</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="whoosh.analysis.ngram_analyzer">
-<span class="sig-prename descclassname"><span class="pre">whoosh.analysis.</span></span><span class="sig-name descname"><span class="pre">ngram_analyzer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">minsize</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/analysis/ngrams.html#ngram_analyzer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.analysis.ngram_analyzer" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="whoosh.analysis.FancyAnalyzer">
+<span class="sig-prename descclassname"><span class="pre">whoosh.analysis.</span></span><span class="sig-name descname"><span class="pre">FancyAnalyzer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expression</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'\\s+'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stoplist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">frozenset({'a',</span> <span class="pre">'an',</span> <span class="pre">'and',</span> <span class="pre">'are',</span> <span class="pre">'as',</span> <span class="pre">'at',</span> <span class="pre">'be',</span> <span class="pre">'by',</span> <span class="pre">'can',</span> <span class="pre">'for',</span> <span class="pre">'from',</span> <span class="pre">'have',</span> <span class="pre">'if',</span> <span class="pre">'in',</span> <span class="pre">'is',</span> <span class="pre">'it',</span> <span class="pre">'may',</span> <span class="pre">'not',</span> <span class="pre">'of',</span> <span class="pre">'on',</span> <span class="pre">'or',</span> <span class="pre">'tbd',</span> <span class="pre">'that',</span> <span class="pre">'the',</span> <span class="pre">'this',</span> <span class="pre">'to',</span> <span class="pre">'us',</span> <span class="pre">'we',</span> <span class="pre">'when',</span> <span class="pre">'will',</span> <span class="pre">'with',</span> <span class="pre">'yet',</span> <span class="pre">'you',</span> <span class="pre">'your'})</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gaps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">splitwords</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">splitnums</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mergewords</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mergenums</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/analysis/analyzers.html#FancyAnalyzer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.analysis.FancyAnalyzer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Composes a RegexTokenizer with an IntraWordFilter, LowercaseFilter, and
+StopFilter.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ana</span> <span class="o">=</span> <span class="n">FancyAnalyzer</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">token</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">ana</span><span class="p">(</span><span class="s2">&quot;Should I call getInt or get_real?&quot;</span><span class="p">)]</span>
+<span class="go">[&quot;should&quot;, &quot;call&quot;, &quot;getInt&quot;, &quot;get&quot;, &quot;int&quot;, &quot;get_real&quot;, &quot;get&quot;, &quot;real&quot;]</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>expression</strong> – The regular expression pattern to use to extract tokens.</p></li>
+<li><p><strong>stoplist</strong> – A list of stop words. Set this to None to disable
+the stop word filter.</p></li>
+<li><p><strong>minsize</strong> – Words smaller than this are removed from the stream.</p></li>
+<li><p><strong>maxsize</strong> – Words longer that this are removed from the stream.</p></li>
+<li><p><strong>gaps</strong> – If True, the tokenizer <em>splits</em> on the expression, rather
+than matching on the expression.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="whoosh.analysis.NgramAnalyzer">
+<span class="sig-prename descclassname"><span class="pre">whoosh.analysis.</span></span><span class="sig-name descname"><span class="pre">NgramAnalyzer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">minsize</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/analysis/ngrams.html#NgramAnalyzer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.analysis.NgramAnalyzer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Composes an NgramTokenizer and a LowercaseFilter.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>minsize</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – The minimum size of the n-grams.</p></li>
-<li><p><strong>maxsize</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a><em>, </em><em>optional</em>) – The maximum size of the n-grams. Defaults to None.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>An analyzer that tokenizes text into n-grams and applies lowercase filtering.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Analyzer</p>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ana</span> <span class="o">=</span> <span class="n">ngram_analyzer</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ana</span> <span class="o">=</span> <span class="n">NgramAnalyzer</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">token</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">ana</span><span class="p">(</span><span class="s2">&quot;hi there&quot;</span><span class="p">)]</span>
 <span class="go">[&quot;hi t&quot;, &quot;i th&quot;, &quot; the&quot;, &quot;ther&quot;, &quot;here&quot;]</span>
 </pre></div>
@@ -431,57 +360,36 @@ converts tokens to lowercase, and removes stop words.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="whoosh.analysis.ngram_word_analyzer">
-<span class="sig-prename descclassname"><span class="pre">whoosh.analysis.</span></span><span class="sig-name descname"><span class="pre">ngram_word_analyzer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">minsize</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">at</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/analysis/ngrams.html#ngram_word_analyzer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.analysis.ngram_word_analyzer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates an analyzer that tokenizes text into n-grams.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>minsize</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – The minimum size of the n-grams.</p></li>
-<li><p><strong>maxsize</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a><em>, </em><em>optional</em>) – The maximum size of the n-grams. Defaults to None.</p></li>
-<li><p><strong>tokenizer</strong> (<em>Tokenizer</em><em>, </em><em>optional</em>) – The tokenizer to use. Defaults to None.</p></li>
-<li><p><strong>at</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>, </em><em>optional</em>) – The position at which to split the n-grams. Defaults to None.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The n-gram word analyzer.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Analyzer</p>
-</dd>
-</dl>
-<p class="rubric">Example</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">analyzer</span> <span class="o">=</span> <span class="n">ngram_word_analyzer</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tokens</span> <span class="o">=</span> <span class="n">analyzer</span><span class="p">(</span><span class="s2">&quot;Hello world&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span>
-<span class="go">[&#39;he&#39;, &#39;el&#39;, &#39;ll&#39;, &#39;lo&#39;, &#39;wo&#39;, &#39;or&#39;, &#39;rl&#39;, &#39;ld&#39;]</span>
-</pre></div>
-</div>
-</dd></dl>
+<dt class="sig sig-object py" id="whoosh.analysis.NgramWordAnalyzer">
+<span class="sig-prename descclassname"><span class="pre">whoosh.analysis.</span></span><span class="sig-name descname"><span class="pre">NgramWordAnalyzer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">minsize</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokenizer</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">at</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/analysis/ngrams.html#NgramWordAnalyzer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.analysis.NgramWordAnalyzer" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="whoosh.analysis.language_analyzer">
-<span class="sig-prename descclassname"><span class="pre">whoosh.analysis.</span></span><span class="sig-name descname"><span class="pre">language_analyzer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lang</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expression</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">re.compile('[\\w\\*]+(\\.?[\\w\\*]+)*')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gaps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cachesize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/analysis/analyzers.html#language_analyzer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.analysis.language_analyzer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Configures a simple analyzer for the given language, with a LowercaseFilter, StopFilter, and StemFilter.</p>
+<dt class="sig sig-object py" id="whoosh.analysis.LanguageAnalyzer">
+<span class="sig-prename descclassname"><span class="pre">whoosh.analysis.</span></span><span class="sig-name descname"><span class="pre">LanguageAnalyzer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lang</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expression</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">re.compile('[\\w\\*]+(\\.?[\\w\\*]+)*')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gaps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cachesize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/analysis/analyzers.html#LanguageAnalyzer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.analysis.LanguageAnalyzer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Configures a simple analyzer for the given language, with a
+LowercaseFilter, StopFilter, and StemFilter.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ana</span> <span class="o">=</span> <span class="n">LanguageAnalyzer</span><span class="p">(</span><span class="s2">&quot;es&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">token</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">ana</span><span class="p">(</span><span class="s2">&quot;Por el mar corren las liebres&quot;</span><span class="p">)]</span>
+<span class="go">[&#39;mar&#39;, &#39;corr&#39;, &#39;liebr&#39;]</span>
+</pre></div>
+</div>
+<p>The list of available languages is in <cite>whoosh.lang.languages</cite>.
+You can use <code class="xref py py-func docutils literal notranslate"><span class="pre">whoosh.lang.has_stemmer()</span></code> and
+<code class="xref py py-func docutils literal notranslate"><span class="pre">whoosh.lang.has_stopwords()</span></code> to check if a given language has a
+stemming function and/or stop word list available.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>lang</strong> – The language code for the analyzer. The list of available languages is in <cite>whoosh.lang.languages</cite>.</p></li>
 <li><p><strong>expression</strong> – The regular expression pattern to use to extract tokens.</p></li>
-<li><p><strong>gaps</strong> – If True, the tokenizer <em>splits</em> on the expression, rather than matching on the expression.</p></li>
-<li><p><strong>cachesize</strong> – The maximum number of stemmed words to cache. The larger this number, the faster stemming will be but the more memory it will use.</p></li>
+<li><p><strong>gaps</strong> – If True, the tokenizer <em>splits</em> on the expression, rather
+than matching on the expression.</p></li>
+<li><p><strong>cachesize</strong> – the maximum number of stemmed words to cache. The larger
+this number, the faster stemming will be but the more memory it will
+use.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>The configured analyzer chain.</p>
-</dd>
 </dl>
-<p>Example usage:
-&gt;&gt;&gt; ana = language_analyzer(“es”)
-&gt;&gt;&gt; [token.text for token in ana(“Por el mar corren las liebres”)]
-[‘mar’, ‘corr’, ‘liebr’]</p>
-<p>The list of available languages is in <cite>whoosh.lang.languages</cite>.
-You can use <cite>whoosh.lang.has_stemmer</cite> and <cite>whoosh.lang.has_stopwords</cite> to check if a given language has a stemming function and/or stop word list available.</p>
 </dd></dl>
 
 </section>
@@ -492,58 +400,30 @@ You can use <cite>whoosh.lang.has_stemmer</cite> and <cite>whoosh.lang.has_stopw
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">whoosh.analysis.</span></span><span class="sig-name descname"><span class="pre">IDTokenizer</span></span><a class="reference internal" href="../_modules/whoosh/analysis/tokenizers.html#IDTokenizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.analysis.IDTokenizer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Yields the entire input string as a single token. For use in indexed but
 untokenized fields, such as a document’s path.</p>
-<p class="rubric">Example</p>
-<p>idt = IDTokenizer()
-[token.text for token in idt(“/a/b 123 alpha”)]
-Output: [“/a/b 123 alpha”]</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>positions</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a><em>, </em><em>optional</em>) – Whether to store token positions. Defaults to False.</p></li>
-<li><p><strong>chars</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a><em>, </em><em>optional</em>) – Whether to store token character offsets. Defaults to False.</p></li>
-<li><p><strong>keeporiginal</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a><em>, </em><em>optional</em>) – Whether to store the original token text. Defaults to False.</p></li>
-<li><p><strong>removestops</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a><em>, </em><em>optional</em>) – Whether to remove stop words. Defaults to True.</p></li>
-<li><p><strong>start_pos</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a><em>, </em><em>optional</em>) – The starting position of the token. Defaults to 0.</p></li>
-<li><p><strong>start_char</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a><em>, </em><em>optional</em>) – The starting character offset of the token. Defaults to 0.</p></li>
-<li><p><strong>mode</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>, </em><em>optional</em>) – The tokenization mode. Defaults to “”.</p></li>
-<li><p><strong>**kwargs</strong> – Additional keyword arguments.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Yields<span class="colon">:</span></dt>
-<dd class="field-even"><p><em>Token</em> – The token object containing the token information.</p>
-</dd>
-</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">idt</span> <span class="o">=</span> <span class="n">IDTokenizer</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">token</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">idt</span><span class="p">(</span><span class="s2">&quot;/a/b 123 alpha&quot;</span><span class="p">)]</span>
+<span class="go">[&quot;/a/b 123 alpha&quot;]</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="whoosh.analysis.RegexTokenizer">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">whoosh.analysis.</span></span><span class="sig-name descname"><span class="pre">RegexTokenizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expression</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">re.compile('[\\w\\*]+(\\.?[\\w\\*]+)*')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gaps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/analysis/tokenizers.html#RegexTokenizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.analysis.RegexTokenizer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Uses a regular expression to extract tokens from text.</p>
-<p>Example:
-&gt;&gt;&gt; rex = RegexTokenizer()
-&gt;&gt;&gt; [token.text for token in rex(“hi there 3.141 big-time under_score”)]
-[“hi”, “there”, “3.141”, “big”, “time”, “under_score”]</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rex</span> <span class="o">=</span> <span class="n">RegexTokenizer</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">token</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">rex</span><span class="p">(</span><span class="s2">&quot;hi there 3.141 big-time under_score&quot;</span><span class="p">)]</span>
+<span class="go">[&quot;hi&quot;, &quot;there&quot;, &quot;3.141&quot;, &quot;big&quot;, &quot;time&quot;, &quot;under_score&quot;]</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>expression</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>, </em><em>Pattern</em><em>]</em>) – A regular expression object or string. Each match
+<li><p><strong>expression</strong> – A regular expression object or string. Each match
 of the expression equals a token. Group 0 (the entire matched text)
 is used as the text of the token. If you require more complicated
 handling of the expression match, simply write your own tokenizer.</p></li>
-<li><p><strong>gaps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a>) – If True, the tokenizer <em>splits</em> on the expression, rather
-than matching on the expression.</p></li>
-</ul>
-</dd>
-</dl>
-<p>Initialize the RegexTokenizer.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>expression</strong> (<em>Union</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>, </em><em>Pattern</em><em>]</em>) – A regular expression object or string. Each match
-of the expression equals a token. Group 0 (the entire matched text)
-is used as the text of the token. If you require more complicated
-handling of the expression match, simply write your own tokenizer.</p></li>
-<li><p><strong>gaps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a>) – If True, the tokenizer <em>splits</em> on the expression, rather
+<li><p><strong>gaps</strong> – If True, the tokenizer <em>splits</em> on the expression, rather
 than matching on the expression.</p></li>
 </ul>
 </dd>
@@ -571,10 +451,9 @@ table file using <a class="reference internal" href="support/charset.html#whoosh
 </div>
 <p>The Sphinx charset table format is described at
 <a class="reference external" href="http://www.sphinxsearch.com/docs/current.html#conf-charset-table">http://www.sphinxsearch.com/docs/current.html#conf-charset-table</a>.</p>
-<p>Initialize the Tokenizer with a character map.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>charmap</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><em>dict</em></a>) – A mapping from integer character numbers to Unicode
+<dd class="field-odd"><p><strong>charmap</strong> – a mapping from integer character numbers to unicode
 characters, as used by the unicode.translate() method.</p>
 </dd>
 </dl>
@@ -583,48 +462,24 @@ characters, as used by the unicode.translate() method.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="whoosh.analysis.SpaceSeparatedTokenizer">
 <span class="sig-prename descclassname"><span class="pre">whoosh.analysis.</span></span><span class="sig-name descname"><span class="pre">SpaceSeparatedTokenizer</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/analysis/tokenizers.html#SpaceSeparatedTokenizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.analysis.SpaceSeparatedTokenizer" title="Permalink to this definition">¶</a></dt>
-<dd><blockquote>
-<div><p>Returns a RegexTokenizer that splits tokens by whitespace.</p>
-<p>This tokenizer splits input text into tokens based on whitespace characters (spaces, tabs, newlines).
-It uses a regular expression pattern to match and extract tokens.</p>
-<dl class="simple">
-<dt>Example:</dt><dd><p>sst = SpaceSeparatedTokenizer()
-tokens = [token.text for token in sst(“hi there big-time, what’s up”)]
-print(tokens)
-# Output: [“hi”, “there”, “big-time,”, “what’s”, “up”]</p>
-</dd>
-<dt>Returns:</dt><dd><p>A RegexTokenizer object that tokenizes input text based on whitespace.</p>
-</dd>
-<dt>Note:</dt><dd><p>The regular expression pattern used by this tokenizer is r”[^</p>
-</dd>
-</dl>
-</div></blockquote>
-<dl class="simple">
-<dt>]+”,</dt><dd><p>which matches one or more characters that are not whitespace.</p>
-</dd>
-</dl>
+<dd><p>Returns a RegexTokenizer that splits tokens by whitespace.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sst</span> <span class="o">=</span> <span class="n">SpaceSeparatedTokenizer</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">token</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">sst</span><span class="p">(</span><span class="s2">&quot;hi there big-time, what&#39;s up&quot;</span><span class="p">)]</span>
+<span class="go">[&quot;hi&quot;, &quot;there&quot;, &quot;big-time,&quot;, &quot;what&#39;s&quot;, &quot;up&quot;]</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="whoosh.analysis.CommaSeparatedTokenizer">
 <span class="sig-prename descclassname"><span class="pre">whoosh.analysis.</span></span><span class="sig-name descname"><span class="pre">CommaSeparatedTokenizer</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/analysis/tokenizers.html#CommaSeparatedTokenizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.analysis.CommaSeparatedTokenizer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Tokenizes text by splitting tokens using commas.</p>
-<p>This tokenizer splits the input text into tokens by using commas as the delimiter.
-It also applies the <cite>StripFilter</cite> to remove leading and trailing whitespace from each token.</p>
-<p class="rubric">Example</p>
+<dd><p>Splits tokens by commas.</p>
+<p>Note that the tokenizer calls unicode.strip() on each match of the regular
+expression.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cst</span> <span class="o">=</span> <span class="n">CommaSeparatedTokenizer</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">token</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">cst</span><span class="p">(</span><span class="s2">&quot;hi there, what&#39;s , up&quot;</span><span class="p">)]</span>
 <span class="go">[&quot;hi there&quot;, &quot;what&#39;s&quot;, &quot;up&quot;]</span>
 </pre></div>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A tokenizer object that can be used to tokenize text.</p>
-</dd>
-</dl>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The tokenizer relies on the <cite>RegexTokenizer</cite> and <cite>StripFilter</cite> classes from the <cite>whoosh.analysis</cite> module.</p>
 </div>
 </dd></dl>
 
@@ -632,60 +487,23 @@ It also applies the <cite>StripFilter</cite> to remove leading and trailing whit
 <dt class="sig sig-object py" id="whoosh.analysis.NgramTokenizer">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">whoosh.analysis.</span></span><span class="sig-name descname"><span class="pre">NgramTokenizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">minsize</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/analysis/ngrams.html#NgramTokenizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.analysis.NgramTokenizer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Splits input text into N-grams instead of words.</p>
-<p>This tokenizer splits the input text into N-grams, where an N-gram is a
-contiguous sequence of N characters. The N-grams emitted by this tokenizer
-may contain whitespace, punctuation, and other characters. If you only want
-sub-word N-grams without whitespace, you can combine a RegexTokenizer with
-NgramFilter instead.</p>
-<p class="rubric">Example</p>
-<p>ngt = NgramTokenizer(4)
-tokens = [token.text for token in ngt(“hi there”)]
-# tokens = [“hi t”, “i th”, “ the”, “ther”, “here”]</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This tokenizer does not use a regular expression to extract words, so
-the N-grams emitted by it will contain whitespace, punctuation, etc.
-You may want to massage the input or add a custom filter to this
-tokenizer’s output.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ngt</span> <span class="o">=</span> <span class="n">NgramTokenizer</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">token</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">ngt</span><span class="p">(</span><span class="s2">&quot;hi there&quot;</span><span class="p">)]</span>
+<span class="go">[&quot;hi t&quot;, &quot;i th&quot;, &quot; the&quot;, &quot;ther&quot;, &quot;here&quot;]</span>
+</pre></div>
 </div>
+<p>Note that this tokenizer does NOT use a regular expression to extract
+words, so the grams emitted by it will contain whitespace, punctuation,
+etc. You may want to massage the input or add a custom filter to this
+tokenizer’s output.</p>
+<p>Alternatively, if you only want sub-word grams without whitespace, you
+could combine a RegexTokenizer with NgramFilter instead.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>minsize</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – The minimum size of the N-grams.</p></li>
-<li><p><strong>maxsize</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a><em>, </em><em>optional</em>) – The maximum size of the N-grams. If not
-provided, maxsize will be set to minsize.</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="whoosh.analysis.NgramTokenizer.min">
-<span class="sig-name descname"><span class="pre">min</span></span><a class="headerlink" href="#whoosh.analysis.NgramTokenizer.min" title="Permalink to this definition">¶</a></dt>
-<dd><p>The minimum size of the N-grams.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)">int</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="whoosh.analysis.NgramTokenizer.max">
-<span class="sig-name descname"><span class="pre">max</span></span><a class="headerlink" href="#whoosh.analysis.NgramTokenizer.max" title="Permalink to this definition">¶</a></dt>
-<dd><p>The maximum size of the N-grams.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)">int</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<p>Initialize the NgramTokenizer.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>minsize</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – The minimum size of the N-grams.</p></li>
-<li><p><strong>maxsize</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a><em>, </em><em>optional</em>) – The maximum size of the N-grams. If not
-provided, maxsize will be set to minsize.</p></li>
+<li><p><strong>minsize</strong> – The minimum size of the N-grams.</p></li>
+<li><p><strong>maxsize</strong> – The maximum size of the N-grams. If you omit
+this parameter, maxsize == minsize.</p></li>
 </ul>
 </dd>
 </dl>
@@ -696,33 +514,6 @@ provided, maxsize will be set to minsize.</p></li>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">whoosh.analysis.</span></span><span class="sig-name descname"><span class="pre">PathTokenizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expression</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'[^/]+'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/analysis/tokenizers.html#PathTokenizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.analysis.PathTokenizer" title="Permalink to this definition">¶</a></dt>
 <dd><p>A simple tokenizer that given a string <code class="docutils literal notranslate"><span class="pre">&quot;/a/b/c&quot;</span></code> yields tokens
 <code class="docutils literal notranslate"><span class="pre">[&quot;/a&quot;,</span> <span class="pre">&quot;/a/b&quot;,</span> <span class="pre">&quot;/a/b/c&quot;]</span></code>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>expression</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>, </em><em>optional</em>) – The regular expression pattern used to tokenize the input string.
-Defaults to “[^/]+”.</p>
-</dd>
-</dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="whoosh.analysis.PathTokenizer.expr">
-<span class="sig-name descname"><span class="pre">expr</span></span><a class="headerlink" href="#whoosh.analysis.PathTokenizer.expr" title="Permalink to this definition">¶</a></dt>
-<dd><p>The compiled regular expression pattern.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Pattern</p>
-</dd>
-</dl>
-</dd></dl>
-
-<p>Initialize the Tokenizer with the given regular expression pattern.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>expression</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>, </em><em>optional</em>) – The regular expression pattern used for tokenization.
-Defaults to “[^/]+”.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
-</dd>
-</dl>
 </dd></dl>
 
 </section>
@@ -739,16 +530,10 @@ Defaults to “[^/]+”.</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">whoosh.analysis.</span></span><span class="sig-name descname"><span class="pre">LoggingFilter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logger</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/analysis/filters.html#LoggingFilter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.analysis.LoggingFilter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Prints the contents of every filter that passes through as a debug
 log entry.</p>
-<p>This filter is used to log the contents of each token that passes through it. It can be helpful for debugging purposes or for monitoring the tokenization process.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>logger</strong> (<em>Logger</em><em>, </em><em>optional</em>) – The logger to use for logging the token contents. If not provided, the “whoosh.analysis” logger is used.</p>
-</dd>
-</dl>
-<p>Initializes a new instance of the LoggingFilter class.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>logger</strong> (<em>Logger</em><em>, </em><em>optional</em>) – The logger to use. If omitted, the “whoosh.analysis” logger is used.</p>
+<dd class="field-odd"><p><strong>target</strong> – the logger to use. If omitted, the “whoosh.analysis”
+logger is used.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -758,71 +543,33 @@ log entry.</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">whoosh.analysis.</span></span><span class="sig-name descname"><span class="pre">MultiFilter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/analysis/filters.html#MultiFilter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.analysis.MultiFilter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Chooses one of two or more sub-filters based on the ‘mode’ attribute
 of the token stream.</p>
-<p>This class is used to apply different filters to a token stream based on
-the value of the ‘mode’ attribute of each token. It allows you to associate
-different filters with different ‘mode’ attribute values and apply the
-appropriate filter to each token.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="whoosh.analysis.MultiFilter.default_filter">
-<span class="sig-name descname"><span class="pre">default_filter</span></span><a class="headerlink" href="#whoosh.analysis.MultiFilter.default_filter" title="Permalink to this definition">¶</a></dt>
-<dd><p>The default filter to use when no matching
-‘mode’ attribute is found. Defaults to PassFilter().</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Filter</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="whoosh.analysis.MultiFilter.filters">
-<span class="sig-name descname"><span class="pre">filters</span></span><a class="headerlink" href="#whoosh.analysis.MultiFilter.filters" title="Permalink to this definition">¶</a></dt>
-<dd><p>A dictionary that maps ‘mode’ attribute values to
+<p>Use keyword arguments to associate mode attribute values with
 instantiated filters.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)">dict</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">iwf_for_index</span> <span class="o">=</span> <span class="n">IntraWordFilter</span><span class="p">(</span><span class="n">mergewords</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">mergenums</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">iwf_for_query</span> <span class="o">=</span> <span class="n">IntraWordFilter</span><span class="p">(</span><span class="n">mergewords</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">mergenums</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">mf</span> <span class="o">=</span> <span class="n">MultiFilter</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">iwf_for_index</span><span class="p">,</span> <span class="n">query</span><span class="o">=</span><span class="n">iwf_for_query</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Use keyword arguments to associate mode attribute values with
-instantiated filters.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>**kwargs</strong> – Keyword arguments where the key is the ‘mode’ attribute
-value and the value is the instantiated filter.</p>
-</dd>
-</dl>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
 <p>This class expects that the value of the mode attribute is consistent
 among all tokens in a token stream.</p>
-</div>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="whoosh.analysis.TeeFilter">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">whoosh.analysis.</span></span><span class="sig-name descname"><span class="pre">TeeFilter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">filters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/analysis/filters.html#TeeFilter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.analysis.TeeFilter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Interleaves the results of two or more filters (or filter chains).</p>
-<p>This filter takes the output of multiple filters or filter chains and interleaves them together.
-It is useful when you want to apply different transformations to the same input and combine the results.</p>
-<p>NOTE: This filter can be slow because it needs to create copies of each token for each sub-filter.</p>
-<p>Usage:
-&gt;&gt;&gt; target = “ALFA BRAVO CHARLIE”
-&gt;&gt;&gt; # In one branch, we’ll lower-case the tokens
-&gt;&gt;&gt; f1 = LowercaseFilter()
-&gt;&gt;&gt; # In the other branch, we’ll reverse the tokens
-&gt;&gt;&gt; f2 = ReverseTextFilter()
-&gt;&gt;&gt; ana = RegexTokenizer(r”S+”) | TeeFilter(f1, f2)
-&gt;&gt;&gt; [token.text for token in ana(target)]
-[“alfa”, “AFLA”, “bravo”, “OVARB”, “charlie”, “EILRAHC”]</p>
+<p>NOTE: because it needs to create copies of each token for each sub-filter,
+this filter is quite slow.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">target</span> <span class="o">=</span> <span class="s2">&quot;ALFA BRAVO CHARLIE&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># In one branch, we&#39;ll lower-case the tokens</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">LowercaseFilter</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># In the other branch, we&#39;ll reverse the tokens</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f2</span> <span class="o">=</span> <span class="n">ReverseTextFilter</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ana</span> <span class="o">=</span> <span class="n">RegexTokenizer</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\S+&quot;</span><span class="p">)</span> <span class="o">|</span> <span class="n">TeeFilter</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">token</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">ana</span><span class="p">(</span><span class="n">target</span><span class="p">)]</span>
+<span class="go">[&quot;alfa&quot;, &quot;AFLA&quot;, &quot;bravo&quot;, &quot;OVARB&quot;, &quot;charlie&quot;, &quot;EILRAHC&quot;]</span>
+</pre></div>
+</div>
 <p>To combine the incoming token stream with the output of a filter chain, use
 <code class="docutils literal notranslate"><span class="pre">TeeFilter</span></code> and make one of the filters a <a class="reference internal" href="#whoosh.analysis.PassFilter" title="whoosh.analysis.PassFilter"><code class="xref py py-class docutils literal notranslate"><span class="pre">PassFilter</span></code></a>.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f1</span> <span class="o">=</span> <span class="n">PassFilter</span><span class="p">()</span>
@@ -832,24 +579,12 @@ It is useful when you want to apply different transformations to the same input 
 <span class="go">[&quot;alfa&quot;, &quot;alfa-bravo&quot;, &quot;bravo&quot;, &quot;bravo-charlie&quot;, &quot;charlie&quot;]</span>
 </pre></div>
 </div>
-<p>Initialize the TeeFilter with the provided filters.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>*filters</strong> – Variable number of filters or filter chains to be interleaved.</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.12)"><strong>ValueError</strong></a> – If less than two filters are provided.</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="whoosh.analysis.ReverseTextFilter">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">whoosh.analysis.</span></span><span class="sig-name descname"><span class="pre">ReverseTextFilter</span></span><a class="reference internal" href="../_modules/whoosh/analysis/filters.html#ReverseTextFilter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.analysis.ReverseTextFilter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reverses the text of each token.</p>
-<p>This filter takes a stream of tokens and reverses the text of each token.
-It can be used as part of an analysis pipeline to modify the text of tokens.</p>
-<p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ana</span> <span class="o">=</span> <span class="n">RegexTokenizer</span><span class="p">()</span> <span class="o">|</span> <span class="n">ReverseTextFilter</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">token</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">ana</span><span class="p">(</span><span class="s2">&quot;hello there&quot;</span><span class="p">)]</span>
 <span class="go">[&quot;olleh&quot;, &quot;ereht&quot;]</span>
@@ -860,27 +595,12 @@ It can be used as part of an analysis pipeline to modify the text of tokens.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="whoosh.analysis.LowercaseFilter">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">whoosh.analysis.</span></span><span class="sig-name descname"><span class="pre">LowercaseFilter</span></span><a class="reference internal" href="../_modules/whoosh/analysis/filters.html#LowercaseFilter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.analysis.LowercaseFilter" title="Permalink to this definition">¶</a></dt>
-<dd><p>A filter that uses unicode.lower() to lowercase token text.</p>
-<p>This filter converts the text of each token to lowercase using the unicode.lower() method.
-It is commonly used in text analysis pipelines to normalize the case of tokens.</p>
-<p class="rubric">Example</p>
+<dd><p>Uses unicode.lower() to lowercase token text.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rext</span> <span class="o">=</span> <span class="n">RegexTokenizer</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">stream</span> <span class="o">=</span> <span class="n">rext</span><span class="p">(</span><span class="s2">&quot;This is a TEST&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">token</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">LowercaseFilter</span><span class="p">(</span><span class="n">stream</span><span class="p">)]</span>
 <span class="go">[&quot;this&quot;, &quot;is&quot;, &quot;a&quot;, &quot;test&quot;]</span>
 </pre></div>
-</div>
-<dl class="simple">
-<dt>Usage:</dt><dd><ol class="arabic simple">
-<li><p>Create an instance of the LowercaseFilter class.</p></li>
-<li><p>Pass a stream of tokens to the instance using the __call__ method.</p></li>
-<li><p>Iterate over the filtered tokens to access the lowercase text.</p></li>
-</ol>
-</dd>
-</dl>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The LowercaseFilter modifies the text of each token in-place. It does not create new tokens.</p>
 </div>
 </dd></dl>
 
@@ -888,45 +608,6 @@ It is commonly used in text analysis pipelines to normalize the case of tokens.<
 <dt class="sig sig-object py" id="whoosh.analysis.StripFilter">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">whoosh.analysis.</span></span><span class="sig-name descname"><span class="pre">StripFilter</span></span><a class="reference internal" href="../_modules/whoosh/analysis/filters.html#StripFilter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.analysis.StripFilter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calls unicode.strip() on the token text.</p>
-<p>This filter is used to remove leading and trailing whitespace from the token text.
-It is typically used in text analysis pipelines to clean up the tokenized text.</p>
-<section id="example-usage">
-<h3>Example usage:<a class="headerlink" href="#example-usage" title="Permalink to this heading">¶</a></h3>
-<p>from whoosh.analysis import Token, Tokenizer, TokenFilter</p>
-<dl>
-<dt>class MyTokenizer(Tokenizer):</dt><dd><dl>
-<dt>def __call__(self, value, positions=False, chars=False, keeporiginal=False, removestops=True,</dt><dd><blockquote>
-<div><p>start_pos=0, start_char=0, mode=’’, <a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs):</p>
-</div></blockquote>
-<p># Tokenize the value
-tokens = self.tokenizer(value, positions=positions, chars=chars,</p>
-<blockquote>
-<div><p>keeporiginal=keeporiginal, removestops=removestops,
-start_pos=start_pos, start_char=start_char, mode=mode, <a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs)</p>
-</div></blockquote>
-<p># Apply the StripFilter to remove leading and trailing whitespace
-tokens = StripFilter()(tokens)</p>
-<p>return tokens</p>
-</dd>
-</dl>
-</dd>
-</dl>
-<p># Create an instance of MyTokenizer
-tokenizer = MyTokenizer()</p>
-<p># Tokenize a text
-text = “   Hello, World!   ”
-tokens = tokenizer(text)</p>
-<p># Print the tokens
-for token in tokens:</p>
-<blockquote>
-<div><p>print(token.text)</p>
-</div></blockquote>
-</section>
-<section id="output">
-<h3>Output:<a class="headerlink" href="#output" title="Permalink to this heading">¶</a></h3>
-<p>Hello,
-World!</p>
-</section>
 </dd></dl>
 
 <dl class="py class">
@@ -935,69 +616,6 @@ World!</p>
 <dd><p>Marks “stop” words (words too common to index) in the stream (and by
 default removes them).</p>
 <p>Make sure you precede this filter with a <a class="reference internal" href="#whoosh.analysis.LowercaseFilter" title="whoosh.analysis.LowercaseFilter"><code class="xref py py-class docutils literal notranslate"><span class="pre">LowercaseFilter</span></code></a>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>stoplist</strong> (<em>collection</em><em>, </em><em>optional</em>) – A collection of words to remove from the stream.
-This is converted to a frozenset. The default is a list of
-common English stop words.</p></li>
-<li><p><strong>minsize</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a><em>, </em><em>optional</em>) – The minimum length of token texts. Tokens with
-text smaller than this will be stopped. The default is 2.</p></li>
-<li><p><strong>maxsize</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a><em>, </em><em>optional</em>) – The maximum length of token texts. Tokens with text
-larger than this will be stopped. Use None to allow any length.</p></li>
-<li><p><strong>renumber</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a><em>, </em><em>optional</em>) – Change the ‘pos’ attribute of unstopped tokens
-to reflect their position with the stopped words removed.</p></li>
-<li><p><strong>lang</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>, </em><em>optional</em>) – Automatically get a list of stop words for the given
-language.</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="whoosh.analysis.StopFilter.stops">
-<span class="sig-name descname"><span class="pre">stops</span></span><a class="headerlink" href="#whoosh.analysis.StopFilter.stops" title="Permalink to this definition">¶</a></dt>
-<dd><p>The set of stop words.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#frozenset" title="(in Python v3.12)">frozenset</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="whoosh.analysis.StopFilter.min">
-<span class="sig-name descname"><span class="pre">min</span></span><a class="headerlink" href="#whoosh.analysis.StopFilter.min" title="Permalink to this definition">¶</a></dt>
-<dd><p>The minimum length of token texts.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)">int</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="whoosh.analysis.StopFilter.max">
-<span class="sig-name descname"><span class="pre">max</span></span><a class="headerlink" href="#whoosh.analysis.StopFilter.max" title="Permalink to this definition">¶</a></dt>
-<dd><p>The maximum length of token texts.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)">int</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="whoosh.analysis.StopFilter.renumber">
-<span class="sig-name descname"><span class="pre">renumber</span></span><a class="headerlink" href="#whoosh.analysis.StopFilter.renumber" title="Permalink to this definition">¶</a></dt>
-<dd><p>Indicates whether the ‘pos’ attribute of unstopped tokens
-should be changed to reflect their position with the stopped words removed.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)">bool</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">stopper</span> <span class="o">=</span> <span class="n">RegexTokenizer</span><span class="p">()</span> <span class="o">|</span> <span class="n">StopFilter</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">token</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">stopper</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;this is a test&quot;</span><span class="p">)]</span>
 <span class="go">[&quot;test&quot;]</span>
@@ -1006,26 +624,22 @@ should be changed to reflect their position with the stopped words removed.</p>
 <span class="go">[&quot;lapiz&quot;, &quot;mesa&quot;]</span>
 </pre></div>
 </div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
 <p>The list of available languages is in <cite>whoosh.lang.languages</cite>.
 You can use <code class="xref py py-func docutils literal notranslate"><span class="pre">whoosh.lang.has_stopwords()</span></code> to check if a given language
 has a stop word list available.</p>
-</div>
-<p>Initialize the StopFilter.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>stoplist</strong> (<em>collection</em><em>, </em><em>optional</em>) – A collection of words to remove from the stream.
+<li><p><strong>stoplist</strong> – A collection of words to remove from the stream.
 This is converted to a frozenset. The default is a list of
 common English stop words.</p></li>
-<li><p><strong>minsize</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a><em>, </em><em>optional</em>) – The minimum length of token texts. Tokens with
+<li><p><strong>minsize</strong> – The minimum length of token texts. Tokens with
 text smaller than this will be stopped. The default is 2.</p></li>
-<li><p><strong>maxsize</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a><em>, </em><em>optional</em>) – The maximum length of token texts. Tokens with text
+<li><p><strong>maxsize</strong> – The maximum length of token texts. Tokens with text
 larger than this will be stopped. Use None to allow any length.</p></li>
-<li><p><strong>renumber</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a><em>, </em><em>optional</em>) – Change the ‘pos’ attribute of unstopped tokens
+<li><p><strong>renumber</strong> – Change the ‘pos’ attribute of unstopped tokens
 to reflect their position with the stopped words removed.</p></li>
-<li><p><strong>lang</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>, </em><em>optional</em>) – Automatically get a list of stop words for the given
+<li><p><strong>lang</strong> – Automatically get a list of stop words for the given
 language</p></li>
 </ul>
 </dd>
@@ -1039,114 +653,45 @@ language</p></li>
 stemming algorithm. Stemming attempts to reduce multiple forms of the same
 root word (for example, “rendering”, “renders”, “rendered”, etc.) to a
 single word in the index.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">stemmer</span> <span class="o">=</span> <span class="n">RegexTokenizer</span><span class="p">()</span> <span class="o">|</span> <span class="n">StemFilter</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">token</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">stemmer</span><span class="p">(</span><span class="s2">&quot;fundamentally willows&quot;</span><span class="p">)]</span>
+<span class="go">[&quot;fundament&quot;, &quot;willow&quot;]</span>
+</pre></div>
+</div>
+<p>You can pass your own stemming function to the StemFilter. The default
+is the Porter stemming algorithm for English.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">stemfilter</span> <span class="o">=</span> <span class="n">StemFilter</span><span class="p">(</span><span class="n">stem_function</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can also use one of the Snowball stemming functions by passing the
+<cite>lang</cite> keyword argument.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">stemfilter</span> <span class="o">=</span> <span class="n">StemFilter</span><span class="p">(</span><span class="n">lang</span><span class="o">=</span><span class="s2">&quot;ru&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The list of available languages is in <cite>whoosh.lang.languages</cite>.
+You can use <code class="xref py py-func docutils literal notranslate"><span class="pre">whoosh.lang.has_stemmer()</span></code> to check if a given language has
+a stemming function available.</p>
+<p>By default, this class wraps an LRU cache around the stemming function. The
+<code class="docutils literal notranslate"><span class="pre">cachesize</span></code> keyword argument sets the size of the cache. To make the
+cache unbounded (the class caches every input), use <code class="docutils literal notranslate"><span class="pre">cachesize=-1</span></code>. To
+disable caching, use <code class="docutils literal notranslate"><span class="pre">cachesize=None</span></code>.</p>
+<p>If you compile and install the py-stemmer library, the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">PyStemmerFilter</span></code> provides slightly easier access to the language
+stemmers in that library.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>stemfn</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><em>object</em></a>) – The function to use for stemming. Default is the Porter stemming algorithm for English.</p></li>
-<li><p><strong>lang</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – If not None, overrides the stemfn with a language stemmer from the <cite>whoosh.lang.snowball</cite> package.</p></li>
-<li><p><strong>ignore</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><em>list</em></a>) – A set/list of words that should not be stemmed. This is converted into a frozenset. If you omit this argument, all tokens are stemmed.</p></li>
-<li><p><strong>cachesize</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – The maximum number of words to cache. Use -1 for an unbounded cache, or None for no caching.</p></li>
+<li><p><strong>stemfn</strong> – the function to use for stemming.</p></li>
+<li><p><strong>lang</strong> – if not None, overrides the stemfn with a language stemmer
+from the <code class="docutils literal notranslate"><span class="pre">whoosh.lang.snowball</span></code> package.</p></li>
+<li><p><strong>ignore</strong> – a set/list of words that should not be stemmed. This is
+converted into a frozenset. If you omit this argument, all tokens
+are stemmed.</p></li>
+<li><p><strong>cachesize</strong> – the maximum number of words to cache. Use <code class="docutils literal notranslate"><span class="pre">-1</span></code> for
+an unbounded cache, or <code class="docutils literal notranslate"><span class="pre">None</span></code> for no caching.</p></li>
 </ul>
 </dd>
 </dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="whoosh.analysis.StemFilter.is_morph">
-<span class="sig-name descname"><span class="pre">is_morph</span></span><a class="headerlink" href="#whoosh.analysis.StemFilter.is_morph" title="Permalink to this definition">¶</a></dt>
-<dd><p>Indicates if the filter is a morphological filter.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)">bool</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="whoosh.analysis.StemFilter.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stemfn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">stem</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cachesize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50000</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/analysis/morph.html#StemFilter.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.analysis.StemFilter.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initializes the StemFilter object.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="whoosh.analysis.StemFilter.__getstate__">
-<span class="sig-name descname"><span class="pre">__getstate__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/analysis/morph.html#StemFilter.__getstate__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.analysis.StemFilter.__getstate__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the state of the object for pickling.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="whoosh.analysis.StemFilter.__setstate__">
-<span class="sig-name descname"><span class="pre">__setstate__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/analysis/morph.html#StemFilter.__setstate__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.analysis.StemFilter.__setstate__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sets the state of the object after unpickling.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="whoosh.analysis.StemFilter.clear">
-<span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/analysis/morph.html#StemFilter.clear"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.analysis.StemFilter.clear" title="Permalink to this definition">¶</a></dt>
-<dd><p>Clears the stem function and sets it based on the provided parameters.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="whoosh.analysis.StemFilter.cache_info">
-<span class="sig-name descname"><span class="pre">cache_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/analysis/morph.html#StemFilter.cache_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.analysis.StemFilter.cache_info" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns information about the cache used by the stem function.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="whoosh.analysis.StemFilter.__eq__">
-<span class="sig-name descname"><span class="pre">__eq__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/analysis/morph.html#StemFilter.__eq__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.analysis.StemFilter.__eq__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compares two StemFilter objects for equality.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="whoosh.analysis.StemFilter.__call__">
-<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tokens</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/analysis/morph.html#StemFilter.__call__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.analysis.StemFilter.__call__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Applies stemming to the tokens.</p>
-</dd></dl>
-
-<p class="rubric">Examples</p>
-<p>stemmer = RegexTokenizer() | StemFilter()
-[token.text for token in stemmer(“fundamentally willows”)]
-Output: [“fundament”, “willow”]</p>
-<p>stemfilter = StemFilter(stem_function)
-stemfilter = StemFilter(lang=”ru”)</p>
-<p>Initializes the StemFilter object.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>stemfn</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><em>object</em></a>) – The function to use for stemming. Default is the Porter stemming algorithm for English.</p></li>
-<li><p><strong>lang</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – If not None, overrides the stemfn with a language stemmer from the <cite>whoosh.lang.snowball</cite> package.</p></li>
-<li><p><strong>ignore</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><em>list</em></a>) – A set/list of words that should not be stemmed. This is converted into a frozenset. If you omit this argument, all tokens are stemmed.</p></li>
-<li><p><strong>cachesize</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – The maximum number of words to cache. Use -1 for an unbounded cache, or None for no caching.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.12)"><strong>TypeError</strong></a> – If the <cite>stemfn</cite> argument is not callable.</p></li>
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.12)"><strong>ValueError</strong></a> – If the <cite>cachesize</cite> argument is not a positive integer or None.</p></li>
-</ul>
-</dd>
-</dl>
-<p class="rubric">Notes</p>
-<p>The StemFilter object is used to apply stemming to tokens during the analysis process. Stemming is the process of reducing words to their base or root form, which can help improve search accuracy by treating different forms of the same word as equivalent.</p>
-<p>The <cite>stemfn</cite> argument specifies the function to use for stemming. By default, the Porter stemming algorithm for English is used. You can provide your own custom stemming function if desired.</p>
-<p>The <cite>lang</cite> argument allows you to override the <cite>stemfn</cite> with a language stemmer from the <cite>whoosh.lang.snowball</cite> package. If <cite>lang</cite> is not None, the stemmer for the specified language will be used instead of the <cite>stemfn</cite>.</p>
-<p>The <cite>ignore</cite> argument is a set/list of words that should not be stemmed. If you omit this argument, all tokens will be stemmed. The <cite>ignore</cite> set/list is converted into a frozenset for efficient lookup.</p>
-<p>The <cite>cachesize</cite> argument specifies the maximum number of words to cache. Caching can improve performance by avoiding redundant stemming operations. Use -1 for an unbounded cache, or None for no caching.</p>
-<p class="rubric">Example</p>
-<p># Initialize StemFilter with default settings
-stem_filter = StemFilter()</p>
-<p># Initialize StemFilter with custom stemming function
-def custom_stemmer(word):</p>
-<blockquote>
-<div><p># custom stemming logic
-return stemmed_word</p>
-</div></blockquote>
-<p>stem_filter = StemFilter(stemfn=custom_stemmer)</p>
-<p># Initialize StemFilter with language stemmer
-stem_filter = StemFilter(lang=’english’)</p>
-<p># Initialize StemFilter with ignored words
-stem_filter = StemFilter(ignore=[‘apple’, ‘banana’, ‘orange’])</p>
-<p># Initialize StemFilter with caching disabled
-stem_filter = StemFilter(cachesize=None)</p>
 </dd></dl>
 
 <dl class="py class">
@@ -1155,36 +700,31 @@ stem_filter = StemFilter(cachesize=None)</p>
 <dd><p>Translates the text of tokens by calling unicode.translate() using the
 supplied character mapping object. This is useful for case and accent
 folding.</p>
-<p>The <cite>whoosh.support.charset</cite> module has a useful map for accent folding.</p>
-<p>Example usage:</p>
-<p><a href="#id5"><span class="problematic" id="id6">``</span></a><a href="#id7"><span class="problematic" id="id8">`</span></a>python
-from whoosh.support.charset import accent_map
-from whoosh.analysis import RegexTokenizer</p>
-<p>retokenizer = RegexTokenizer()
-chfilter = CharsetFilter(accent_map)
-tokens = chfilter(retokenizer(u’café’))
-[t.text for t in tokens]
-# Output: [u’cafe’]
-<a href="#id9"><span class="problematic" id="id10">``</span></a><a href="#id11"><span class="problematic" id="id12">`</span></a></p>
+<p>The <code class="docutils literal notranslate"><span class="pre">whoosh.support.charset</span></code> module has a useful map for accent folding.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">whoosh.support.charset</span> <span class="kn">import</span> <span class="n">accent_map</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">retokenizer</span> <span class="o">=</span> <span class="n">RegexTokenizer</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">chfilter</span> <span class="o">=</span> <span class="n">CharsetFilter</span><span class="p">(</span><span class="n">accent_map</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">chfilter</span><span class="p">(</span><span class="n">retokenizer</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;café&#39;</span><span class="p">))]</span>
+<span class="go">[u&#39;cafe&#39;]</span>
+</pre></div>
+</div>
 <p>Another way to get a character mapping object is to convert a Sphinx
-charset table file using <cite>whoosh.support.charset.charset_table_to_dict</cite>.</p>
-<p>Example usage:</p>
-<p><a href="#id13"><span class="problematic" id="id14">``</span></a><a href="#id15"><span class="problematic" id="id16">`</span></a>python
-from whoosh.support.charset import charset_table_to_dict, default_charset
-from whoosh.analysis import RegexTokenizer</p>
-<p>retokenizer = RegexTokenizer()
-charmap = charset_table_to_dict(default_charset)
-chfilter = CharsetFilter(charmap)
-tokens = chfilter(retokenizer(u’Straxdfe’))
-[t.text for t in tokens]
-# Output: [u’strase’]
-<a href="#id17"><span class="problematic" id="id18">``</span></a><a href="#id19"><span class="problematic" id="id20">`</span></a></p>
+charset table file using
+<a class="reference internal" href="support/charset.html#whoosh.support.charset.charset_table_to_dict" title="whoosh.support.charset.charset_table_to_dict"><code class="xref py py-func docutils literal notranslate"><span class="pre">whoosh.support.charset.charset_table_to_dict()</span></code></a>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">whoosh.support.charset</span> <span class="kn">import</span> <span class="n">charset_table_to_dict</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">whoosh.support.charset</span> <span class="kn">import</span> <span class="n">default_charset</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">retokenizer</span> <span class="o">=</span> <span class="n">RegexTokenizer</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">charmap</span> <span class="o">=</span> <span class="n">charset_table_to_dict</span><span class="p">(</span><span class="n">default_charset</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">chfilter</span> <span class="o">=</span> <span class="n">CharsetFilter</span><span class="p">(</span><span class="n">charmap</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">chfilter</span><span class="p">(</span><span class="n">retokenizer</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;Stra</span><span class="se">\xdf</span><span class="s1">e&#39;</span><span class="p">))]</span>
+<span class="go">[u&#39;strase&#39;]</span>
+</pre></div>
+</div>
 <p>The Sphinx charset table format is described at
-<a class="reference external" href="https://www.sphinxsearch.com/docs/current.html#conf-charset-table">https://www.sphinxsearch.com/docs/current.html#conf-charset-table</a>.</p>
-<p>Initializes a CharsetFilter object.</p>
+<a class="reference external" href="http://www.sphinxsearch.com/docs/current.html#conf-charset-table">http://www.sphinxsearch.com/docs/current.html#conf-charset-table</a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>charmap</strong> – A dictionary mapping from integer character numbers to
+<dd class="field-odd"><p><strong>charmap</strong> – a dictionary mapping from integer character numbers to
 unicode characters, as required by the unicode.translate() method.</p>
 </dd>
 </dl>
@@ -1299,33 +839,21 @@ words and trademarks (e.g. “turbosquid”, “applescript”). It can also be
 useful for agglutinative languages such as German.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">keep_compound</span></code> argument lets you decide whether to keep the
 compound word in the token stream along with the word segments.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>wordset</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><em>object</em></a>) – An object with a <code class="docutils literal notranslate"><span class="pre">__contains__</span></code> method, such as a
-set, containing strings to look for inside the tokens.</p></li>
-<li><p><strong>keep_compound</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a><em>, </em><em>optional</em>) – If True (the default), the original compound
-token will be retained in the stream before the subwords.</p></li>
-</ul>
-</dd>
-</dl>
-<p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cwf</span> <span class="o">=</span> <span class="n">CompoundWordFilter</span><span class="p">(</span><span class="n">wordset</span><span class="p">,</span> <span class="n">keep_compound</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">analyzer</span> <span class="o">=</span> <span class="n">RegexTokenizer</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\S+&quot;</span><span class="p">)</span> <span class="o">|</span> <span class="n">cwf</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">analyzer</span><span class="p">(</span><span class="s2">&quot;I do not like greeneggs and ham&quot;</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">analyzer</span><span class="p">(</span><span class="s2">&quot;I do not like greeneggs and ham&quot;</span><span class="p">)</span>
 <span class="go">[&quot;I&quot;, &quot;do&quot;, &quot;not&quot;, &quot;like&quot;, &quot;greeneggs&quot;, &quot;green&quot;, &quot;eggs&quot;, &quot;and&quot;, &quot;ham&quot;]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">cwf</span><span class="o">.</span><span class="n">keep_compound</span> <span class="o">=</span> <span class="kc">False</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">analyzer</span><span class="p">(</span><span class="s2">&quot;I do not like greeneggs and ham&quot;</span><span class="p">)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">text</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">analyzer</span><span class="p">(</span><span class="s2">&quot;I do not like greeneggs and ham&quot;</span><span class="p">)</span>
 <span class="go">[&quot;I&quot;, &quot;do&quot;, &quot;not&quot;, &quot;like&quot;, &quot;green&quot;, &quot;eggs&quot;, &quot;and&quot;, &quot;ham&quot;]</span>
 </pre></div>
 </div>
-<p>Initialize the CompoundWordFilter.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>wordset</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><em>object</em></a>) – An object with a <code class="docutils literal notranslate"><span class="pre">__contains__</span></code> method, such as a
+<li><p><strong>wordset</strong> – an object with a <code class="docutils literal notranslate"><span class="pre">__contains__</span></code> method, such as a
 set, containing strings to look for inside the tokens.</p></li>
-<li><p><strong>keep_compound</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a><em>, </em><em>optional</em>) – If True (the default), the original compound
+<li><p><strong>keep_compound</strong> – if True (the default), the original compound
 token will be retained in the stream before the subwords.</p></li>
 </ul>
 </dd>
@@ -1335,25 +863,20 @@ token will be retained in the stream before the subwords.</p></li>
 <dl class="py class">
 <dt class="sig sig-object py" id="whoosh.analysis.BiWordFilter">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">whoosh.analysis.</span></span><span class="sig-name descname"><span class="pre">BiWordFilter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'-'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/analysis/intraword.html#BiWordFilter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.analysis.BiWordFilter" title="Permalink to this definition">¶</a></dt>
-<dd><p>Merges adjacent tokens into “bi-word” tokens.</p>
-<p>This filter merges adjacent tokens into “bi-word” tokens. For example, the tokens
-“the”, “sign”, “of”, “four” would be transformed into “the-sign”, “sign-of”, “of-four”.</p>
-<p>Bi-word tokens can be used to create fields for pseudo-phrase searching. If all the
-terms in a query match the document, it probably contains the phrase. Using bi-word
-tokens can make the searching faster than actually doing a phrase search on individual
-word terms.</p>
-<p>The <cite>BiWordFilter</cite> is much faster than using the otherwise equivalent <cite>ShingleFilter(2)</cite>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>sep</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The separator to use when merging adjacent tokens. Default is “-“.</p>
-</dd>
-</dl>
-<p>Initializes the IntrawordFilter with the specified separator character.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>sep</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The separator character used to split words. Defaults to “-“.</p>
-</dd>
-</dl>
+<dd><p>Merges adjacent tokens into “bi-word” tokens, so that for example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;the&quot;</span><span class="p">,</span> <span class="s2">&quot;sign&quot;</span><span class="p">,</span> <span class="s2">&quot;of&quot;</span><span class="p">,</span> <span class="s2">&quot;four&quot;</span>
+</pre></div>
+</div>
+<p>becomes:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;the-sign&quot;</span><span class="p">,</span> <span class="s2">&quot;sign-of&quot;</span><span class="p">,</span> <span class="s2">&quot;of-four&quot;</span>
+</pre></div>
+</div>
+<p>This can be used to create fields for pseudo-phrase searching, where if
+all the terms match the document probably contains the phrase, but the
+searching is faster than actually doing a phrase search on individual word
+terms.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">BiWordFilter</span></code> is much faster than using the otherwise equivalent
+<code class="docutils literal notranslate"><span class="pre">ShingleFilter(2)</span></code>.</p>
 </dd></dl>
 
 <dl class="py class">
@@ -1385,49 +908,29 @@ equivalent <code class="docutils literal notranslate"><span class="pre">BiWordFi
 data after the delimiter in a named attribute on the token.</p>
 <p>The defaults are set up to use the <code class="docutils literal notranslate"><span class="pre">^</span></code> character as a delimiter and store
 the value after the <code class="docutils literal notranslate"><span class="pre">^</span></code> as the boost for the token.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>delimiter</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – A string that, when present in a token’s text, separates
-the actual text from the “data” payload.</p></li>
-<li><p><strong>attribute</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The name of the attribute in which to store the data on
-the token.</p></li>
-<li><p><strong>default</strong> (<em>Any</em>) – The value to use for the attribute for tokens that don’t have
-delimited data.</p></li>
-<li><p><strong>type</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.12)"><em>type</em></a>) – The type of the data, for example <code class="docutils literal notranslate"><span class="pre">str</span></code> or <code class="docutils literal notranslate"><span class="pre">float</span></code>. This is
-used to convert the string value of the data before storing it in the
-attribute.</p></li>
-</ul>
-</dd>
-</dl>
-<p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">daf</span> <span class="o">=</span> <span class="n">DelimitedAttributeFilter</span><span class="p">(</span><span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;^&quot;</span><span class="p">,</span> <span class="n">attribute</span><span class="o">=</span><span class="s2">&quot;boost&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ana</span> <span class="o">=</span> <span class="n">RegexTokenizer</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">S+&quot;</span><span class="p">)</span> <span class="o">|</span> <span class="n">DelimitedAttributeFilter</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">ana</span><span class="p">(</span><span class="n">u</span><span class="p">(</span><span class="s2">&quot;image render^2 file^0.5&quot;</span><span class="p">)):</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">ana</span><span class="p">(</span><span class="n">u</span><span class="p">(</span><span class="s2">&quot;image render^2 file^0.5&quot;</span><span class="p">))</span>
 <span class="gp">... </span>   <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%r</span><span class="s2"> </span><span class="si">%f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">boost</span><span class="p">))</span>
 <span class="go">&#39;image&#39; 1.0</span>
 <span class="go">&#39;render&#39; 2.0</span>
 <span class="go">&#39;file&#39; 0.5</span>
 </pre></div>
 </div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>You need to make sure your tokenizer includes the delimiter and data as part
-of the token!</p>
-</div>
-<p>Initialize the DelimitedAttributeFilter.</p>
+<p>Note that you need to make sure your tokenizer includes the delimiter and
+data as part of the token!</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>delimiter</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – A string that, when present in a token’s text, separates
-the actual text from the “data” payload.</p></li>
-<li><p><strong>attribute</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – The name of the attribute in which to store the data on
-the token.</p></li>
-<li><p><strong>default</strong> (<em>Any</em>) – The value to use for the attribute for tokens that don’t have
-delimited data.</p></li>
-<li><p><strong>type</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.12)"><em>type</em></a>) – The type of the data, for example <code class="docutils literal notranslate"><span class="pre">str</span></code> or <code class="docutils literal notranslate"><span class="pre">float</span></code>. This is
-used to convert the string value of the data before storing it in the
-attribute.</p></li>
+<li><p><strong>delimiter</strong> – a string that, when present in a token’s text,
+separates the actual text from the “data” payload.</p></li>
+<li><p><strong>attribute</strong> – the name of the attribute in which to store the
+data on the token.</p></li>
+<li><p><strong>default</strong> – the value to use for the attribute for tokens that
+don’t have delimited data.</p></li>
+<li><p><strong>type</strong> – the type of the data, for example <code class="docutils literal notranslate"><span class="pre">str</span></code> or <code class="docutils literal notranslate"><span class="pre">float</span></code>.
+This is used to convert the string value of the data before
+storing it in the attribute.</p></li>
 </ul>
 </dd>
 </dl>
@@ -1440,26 +943,16 @@ attribute.</p></li>
 Metaphone algorithm. This algorithm attempts to encode words in such a way
 that similar-sounding words reduce to the same code. This may be useful for
 fields containing the names of people and places, and other uses where
-tolerance of spelling differences is desirable.</p>
+tolerance of spelling differences is desireable.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>primary_boost</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a><em>, </em><em>optional</em>) – The boost to apply to the token containing the
-primary code. Defaults to 1.0.</p></li>
-<li><p><strong>secondary_boost</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a><em>, </em><em>optional</em>) – The boost to apply to the token containing the
-secondary code, if any. Defaults to 0.5.</p></li>
-<li><p><strong>combine</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a><em>, </em><em>optional</em>) – If True, the original unencoded tokens are kept in the
-stream, preceding the encoded tokens. Defaults to False.</p></li>
-</ul>
-</dd>
-</dl>
-<p>Initialize a MorphAnalyzer object.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>primary_boost</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a><em>, </em><em>optional</em>) – The boost factor for primary morphological analysis. Defaults to 1.0.</p></li>
-<li><p><strong>secondary_boost</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a><em>, </em><em>optional</em>) – The boost factor for secondary morphological analysis. Defaults to 0.5.</p></li>
-<li><p><strong>combine</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a><em>, </em><em>optional</em>) – Whether to combine the results of primary and secondary analysis. Defaults to False.</p></li>
+<li><p><strong>primary_boost</strong> – the boost to apply to the token containing the
+primary code.</p></li>
+<li><p><strong>secondary_boost</strong> – the boost to apply to the token containing the
+secondary code, if any.</p></li>
+<li><p><strong>combine</strong> – if True, the original unencoded tokens are kept in the
+stream, preceding the encoded tokens.</p></li>
 </ul>
 </dd>
 </dl>
@@ -1469,42 +962,30 @@ stream, preceding the encoded tokens. Defaults to False.</p></li>
 <dt class="sig sig-object py" id="whoosh.analysis.SubstitutionFilter">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">whoosh.analysis.</span></span><span class="sig-name descname"><span class="pre">SubstitutionFilter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pattern</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">replacement</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/analysis/filters.html#SubstitutionFilter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.analysis.SubstitutionFilter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Performs a regular expression substitution on the token text.</p>
-<p>This filter applies a regular expression substitution to the text of each token.
-It is particularly useful for removing or replacing specific patterns of text within tokens.
-The filter utilizes the <cite>re.sub()</cite> method to perform the substitution.</p>
-<section id="id21">
-<h3>Example usage:<a class="headerlink" href="#id21" title="Permalink to this heading">¶</a></h3>
-<p># Create an analyzer that removes hyphens from tokens
-tokenizer = RegexTokenizer(r”S+”)
-substitution_filter = SubstitutionFilter(“-”, “”)
-analyzer = tokenizer | substitution_filter</p>
-</section>
-<section id="parameters">
-<h3>Parameters:<a class="headerlink" href="#parameters" title="Permalink to this heading">¶</a></h3>
-<dl class="simple">
-<dt>pattern<span class="classifier">str or Pattern</span></dt><dd><p>A pattern string or compiled regular expression object describing the text to replace.</p>
-</dd>
-<dt>replacement<span class="classifier">str</span></dt><dd><p>The substitution text.</p>
-</dd>
-</dl>
-</section>
-<section id="methods">
-<h3>Methods:<a class="headerlink" href="#methods" title="Permalink to this heading">¶</a></h3>
-<dl class="simple">
-<dt>__call__(tokens)</dt><dd><p>Applies the substitution filter to the given tokens.</p>
-</dd>
-</dl>
-<p>Initializes a SubstitutionFilter object.</p>
-</section>
-<section id="id22">
-<h3>Parameters:<a class="headerlink" href="#id22" title="Permalink to this heading">¶</a></h3>
-<dl class="simple">
-<dt>pattern<span class="classifier">str or Pattern</span></dt><dd><p>A pattern string or compiled regular expression object describing the text to replace.</p>
-</dd>
-<dt>replacement<span class="classifier">str</span></dt><dd><p>The substitution text.</p>
+<p>This is especially useful for removing text from tokens, for example
+hyphens:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ana</span> <span class="o">=</span> <span class="n">RegexTokenizer</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\S+&quot;</span><span class="p">)</span> <span class="o">|</span> <span class="n">SubstitutionFilter</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Because it has the full power of the re.sub() method behind it, this filter
+can perform some fairly complex transformations. For example, to take
+tokens like <code class="docutils literal notranslate"><span class="pre">'a=b',</span> <span class="pre">'c=d',</span> <span class="pre">'e=f'</span></code> and change them to <code class="docutils literal notranslate"><span class="pre">'b=a',</span> <span class="pre">'d=c',</span>
+<span class="pre">'f=e'</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Analyzer that swaps the text on either side of an equal sign</span>
+<span class="n">rt</span> <span class="o">=</span> <span class="n">RegexTokenizer</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\S+&quot;</span><span class="p">)</span>
+<span class="n">sf</span> <span class="o">=</span> <span class="n">SubstitutionFilter</span><span class="p">(</span><span class="s2">&quot;([^/]*)/(./*)&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;\2/\1&quot;</span><span class="p">)</span>
+<span class="n">ana</span> <span class="o">=</span> <span class="n">rt</span> <span class="o">|</span> <span class="n">sf</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pattern</strong> – a pattern string or compiled regular expression object
+describing the text to replace.</p></li>
+<li><p><strong>replacement</strong> – the substitution text.</p></li>
+</ul>
 </dd>
 </dl>
-</section>
 </dd></dl>
 
 </section>
@@ -1535,7 +1016,6 @@ not the object:</p>
 </pre></div>
 </div>
 <p>…or, call token.copy() to get a copy of the token object.</p>
-<p>Initializes a Token object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1543,12 +1023,10 @@ not the object:</p>
 ‘pos’ attribute.</p></li>
 <li><p><strong>chars</strong> – Whether tokens should have character offsets in the
 ‘startchar’ and ‘endchar’ attributes.</p></li>
-<li><p><strong>removestops</strong> – Whether to remove stop words from the stream (if
+<li><p><strong>removestops</strong> – whether to remove stop words from the stream (if
 the tokens pass through a stop filter).</p></li>
-<li><p><strong>mode</strong> – Contains a string describing the purpose for which the
+<li><p><strong>mode</strong> – contains a string describing the purpose for which the
 analyzer is being called, i.e. ‘index’ or ‘query’.</p></li>
-<li><p><strong>kwargs</strong> – Additional keyword arguments to be stored as attributes
-of the Token object.</p></li>
 </ul>
 </dd>
 </dl>
@@ -1558,10 +1036,6 @@ of the Token object.</p></li>
 <dt class="sig sig-object py" id="whoosh.analysis.unstopped">
 <span class="sig-prename descclassname"><span class="pre">whoosh.analysis.</span></span><span class="sig-name descname"><span class="pre">unstopped</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tokenstream</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/whoosh/analysis/acore.html#unstopped"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#whoosh.analysis.unstopped" title="Permalink to this definition">¶</a></dt>
 <dd><p>Removes tokens from a token stream where token.stopped = True.</p>
-<p>Parameters:
-- tokenstream (generator): A generator of tokens.</p>
-<p>Returns:
-- generator: A generator of tokens where token.stopped = False.</p>
 </dd></dl>
 
 </section>

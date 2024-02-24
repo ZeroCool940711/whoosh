@@ -137,160 +137,65 @@
 <span class="sd">    root word (for example, &quot;rendering&quot;, &quot;renders&quot;, &quot;rendered&quot;, etc.) to a</span>
 <span class="sd">    single word in the index.</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        stemfn (object): The function to use for stemming. Default is the Porter stemming algorithm for English.</span>
-<span class="sd">        lang (str): If not None, overrides the stemfn with a language stemmer from the `whoosh.lang.snowball` package.</span>
-<span class="sd">        ignore (list): A set/list of words that should not be stemmed. This is converted into a frozenset. If you omit this argument, all tokens are stemmed.</span>
-<span class="sd">        cachesize (int): The maximum number of words to cache. Use -1 for an unbounded cache, or None for no caching.</span>
+<span class="sd">    &gt;&gt;&gt; stemmer = RegexTokenizer() | StemFilter()</span>
+<span class="sd">    &gt;&gt;&gt; [token.text for token in stemmer(&quot;fundamentally willows&quot;)]</span>
+<span class="sd">    [&quot;fundament&quot;, &quot;willow&quot;]</span>
 
-<span class="sd">    Attributes:</span>
-<span class="sd">        is_morph (bool): Indicates if the filter is a morphological filter.</span>
+<span class="sd">    You can pass your own stemming function to the StemFilter. The default</span>
+<span class="sd">    is the Porter stemming algorithm for English.</span>
 
-<span class="sd">    Methods:</span>
-<span class="sd">        __init__(self, stemfn=stem, lang=None, ignore=None, cachesize=50000): Initializes the StemFilter object.</span>
-<span class="sd">        __getstate__(self): Returns the state of the object for pickling.</span>
-<span class="sd">        __setstate__(self, state): Sets the state of the object after unpickling.</span>
-<span class="sd">        clear(self): Clears the stem function and sets it based on the provided parameters.</span>
-<span class="sd">        cache_info(self): Returns information about the cache used by the stem function.</span>
-<span class="sd">        __eq__(self, other): Compares two StemFilter objects for equality.</span>
-<span class="sd">        __call__(self, tokens): Applies stemming to the tokens.</span>
+<span class="sd">    &gt;&gt;&gt; stemfilter = StemFilter(stem_function)</span>
 
-<span class="sd">    Examples:</span>
-<span class="sd">        stemmer = RegexTokenizer() | StemFilter()</span>
-<span class="sd">        [token.text for token in stemmer(&quot;fundamentally willows&quot;)]</span>
-<span class="sd">        Output: [&quot;fundament&quot;, &quot;willow&quot;]</span>
+<span class="sd">    You can also use one of the Snowball stemming functions by passing the</span>
+<span class="sd">    `lang` keyword argument.</span>
 
-<span class="sd">        stemfilter = StemFilter(stem_function)</span>
-<span class="sd">        stemfilter = StemFilter(lang=&quot;ru&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; stemfilter = StemFilter(lang=&quot;ru&quot;)</span>
+
+<span class="sd">    The list of available languages is in `whoosh.lang.languages`.</span>
+<span class="sd">    You can use :func:`whoosh.lang.has_stemmer` to check if a given language has</span>
+<span class="sd">    a stemming function available.</span>
+
+<span class="sd">    By default, this class wraps an LRU cache around the stemming function. The</span>
+<span class="sd">    ``cachesize`` keyword argument sets the size of the cache. To make the</span>
+<span class="sd">    cache unbounded (the class caches every input), use ``cachesize=-1``. To</span>
+<span class="sd">    disable caching, use ``cachesize=None``.</span>
+
+<span class="sd">    If you compile and install the py-stemmer library, the</span>
+<span class="sd">    :class:`PyStemmerFilter` provides slightly easier access to the language</span>
+<span class="sd">    stemmers in that library.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">__inittypes__</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;stemfn&quot;</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span> <span class="s2">&quot;ignore&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">}</span>
+
     <span class="n">is_morph</span> <span class="o">=</span> <span class="kc">True</span>
 
-<div class="viewcode-block" id="StemFilter.__init__"><a class="viewcode-back" href="../../../api/analysis.html#whoosh.analysis.StemFilter.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stemfn</span><span class="o">=</span><span class="n">stem</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ignore</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cachesize</span><span class="o">=</span><span class="mi">50000</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stemfn</span><span class="o">=</span><span class="n">stem</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ignore</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cachesize</span><span class="o">=</span><span class="mi">50000</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initializes the StemFilter object.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            stemfn (object): The function to use for stemming. Default is the Porter stemming algorithm for English.</span>
-<span class="sd">            lang (str): If not None, overrides the stemfn with a language stemmer from the `whoosh.lang.snowball` package.</span>
-<span class="sd">            ignore (list): A set/list of words that should not be stemmed. This is converted into a frozenset. If you omit this argument, all tokens are stemmed.</span>
-<span class="sd">            cachesize (int): The maximum number of words to cache. Use -1 for an unbounded cache, or None for no caching.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            TypeError: If the `stemfn` argument is not callable.</span>
-<span class="sd">            ValueError: If the `cachesize` argument is not a positive integer or None.</span>
-
-<span class="sd">        Notes:</span>
-<span class="sd">            The StemFilter object is used to apply stemming to tokens during the analysis process. Stemming is the process of reducing words to their base or root form, which can help improve search accuracy by treating different forms of the same word as equivalent.</span>
-
-<span class="sd">            The `stemfn` argument specifies the function to use for stemming. By default, the Porter stemming algorithm for English is used. You can provide your own custom stemming function if desired.</span>
-
-<span class="sd">            The `lang` argument allows you to override the `stemfn` with a language stemmer from the `whoosh.lang.snowball` package. If `lang` is not None, the stemmer for the specified language will be used instead of the `stemfn`.</span>
-
-<span class="sd">            The `ignore` argument is a set/list of words that should not be stemmed. If you omit this argument, all tokens will be stemmed. The `ignore` set/list is converted into a frozenset for efficient lookup.</span>
-
-<span class="sd">            The `cachesize` argument specifies the maximum number of words to cache. Caching can improve performance by avoiding redundant stemming operations. Use -1 for an unbounded cache, or None for no caching.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            # Initialize StemFilter with default settings</span>
-<span class="sd">            stem_filter = StemFilter()</span>
-
-<span class="sd">            # Initialize StemFilter with custom stemming function</span>
-<span class="sd">            def custom_stemmer(word):</span>
-<span class="sd">                # custom stemming logic</span>
-<span class="sd">                return stemmed_word</span>
-
-<span class="sd">            stem_filter = StemFilter(stemfn=custom_stemmer)</span>
-
-<span class="sd">            # Initialize StemFilter with language stemmer</span>
-<span class="sd">            stem_filter = StemFilter(lang=&#39;english&#39;)</span>
-
-<span class="sd">            # Initialize StemFilter with ignored words</span>
-<span class="sd">            stem_filter = StemFilter(ignore=[&#39;apple&#39;, &#39;banana&#39;, &#39;orange&#39;])</span>
-
-<span class="sd">            # Initialize StemFilter with caching disabled</span>
-<span class="sd">            stem_filter = StemFilter(cachesize=None)</span>
+<span class="sd">        :param stemfn: the function to use for stemming.</span>
+<span class="sd">        :param lang: if not None, overrides the stemfn with a language stemmer</span>
+<span class="sd">            from the ``whoosh.lang.snowball`` package.</span>
+<span class="sd">        :param ignore: a set/list of words that should not be stemmed. This is</span>
+<span class="sd">            converted into a frozenset. If you omit this argument, all tokens</span>
+<span class="sd">            are stemmed.</span>
+<span class="sd">        :param cachesize: the maximum number of words to cache. Use ``-1`` for</span>
+<span class="sd">            an unbounded cache, or ``None`` for no caching.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">stemfn</span> <span class="o">=</span> <span class="n">stemfn</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lang</span> <span class="o">=</span> <span class="n">lang</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ignore</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">()</span> <span class="k">if</span> <span class="n">ignore</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">frozenset</span><span class="p">(</span><span class="n">ignore</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cachesize</span> <span class="o">=</span> <span class="n">cachesize</span>
         <span class="c1"># clear() sets the _stem attr to a cached wrapper around self.stemfn</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
 
-<div class="viewcode-block" id="StemFilter.__getstate__"><a class="viewcode-back" href="../../../api/analysis.html#whoosh.analysis.StemFilter.__getstate__">[docs]</a>    <span class="k">def</span> <span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get the state of the object for pickling.</span>
-
-<span class="sd">        This method is called by the pickle module when pickling an object.</span>
-<span class="sd">        It returns a dictionary representing the state of the object, excluding</span>
-<span class="sd">        the &#39;_stem&#39; attribute.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            dict: The state of the object without the &#39;_stem&#39; attribute.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; obj = MyObject()</span>
-<span class="sd">            &gt;&gt;&gt; state = obj.__getstate__()</span>
-<span class="sd">            &gt;&gt;&gt; print(state)</span>
-<span class="sd">            {&#39;attr1&#39;: value1, &#39;attr2&#39;: value2, ...}</span>
-
-<span class="sd">        Note:</span>
-<span class="sd">            This method is automatically called by the pickle module and should</span>
-<span class="sd">            not be called directly by user code.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># Can&#39;t pickle a dynamic function, so we have to remove the _stem</span>
         <span class="c1"># attribute from the state</span>
-        <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s2">&quot;_stem&quot;</span><span class="p">}</span></div>
+        <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s2">&quot;_stem&quot;</span><span class="p">}</span>
 
-<div class="viewcode-block" id="StemFilter.__setstate__"><a class="viewcode-back" href="../../../api/analysis.html#whoosh.analysis.StemFilter.__setstate__">[docs]</a>    <span class="k">def</span> <span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Set the state of the object during unpickling.</span>
-
-<span class="sd">        This method is called by the pickle module when unpickling an object.</span>
-<span class="sd">        It sets the state of the object based on the provided state dictionary.</span>
-
-<span class="sd">        Parameters:</span>
-<span class="sd">        - state (dict): The state dictionary containing the object&#39;s attributes.</span>
-
-<span class="sd">        Notes:</span>
-<span class="sd">        - This method is primarily used for backward compatibility with older versions</span>
-<span class="sd">            of the StemFilter class.</span>
-<span class="sd">        - It checks for old instances of StemFilter class and updates the state</span>
-<span class="sd">            accordingly.</span>
-<span class="sd">        - If the &#39;cachesize&#39; attribute is not present in the state dictionary, it</span>
-<span class="sd">            sets the &#39;cachesize&#39; attribute to a default value of 50000.</span>
-<span class="sd">        - If the &#39;ignores&#39; attribute is present in the state dictionary, it sets the</span>
-<span class="sd">            &#39;ignore&#39; attribute to the value of &#39;ignores&#39;.</span>
-<span class="sd">        - If the &#39;ignore&#39; attribute is not present in the state dictionary, it sets</span>
-<span class="sd">            the &#39;ignore&#39; attribute to an empty frozenset.</span>
-<span class="sd">        - If the &#39;lang&#39; attribute is not present in the state dictionary, it sets the</span>
-<span class="sd">            &#39;lang&#39; attribute to None.</span>
-<span class="sd">        - If the &#39;cache&#39; attribute is present in the state dictionary, it removes the</span>
-<span class="sd">            &#39;cache&#39; attribute from the state dictionary.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">        - None</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">        &gt;&gt;&gt; state = {</span>
-<span class="sd">        ...     &#39;cachesize&#39;: 10000,</span>
-<span class="sd">        ...     &#39;ignores&#39;: {&#39;word1&#39;, &#39;word2&#39;},</span>
-<span class="sd">        ...     &#39;lang&#39;: &#39;en&#39;,</span>
-<span class="sd">        ...     &#39;cache&#39;: {},</span>
-<span class="sd">        ... }</span>
-<span class="sd">        &gt;&gt;&gt; obj = StemFilter()</span>
-<span class="sd">        &gt;&gt;&gt; obj.__setstate__(state)</span>
-<span class="sd">        &gt;&gt;&gt; obj.cachesize</span>
-<span class="sd">        10000</span>
-<span class="sd">        &gt;&gt;&gt; obj.ignore</span>
-<span class="sd">        {&#39;word1&#39;, &#39;word2&#39;}</span>
-<span class="sd">        &gt;&gt;&gt; obj.lang</span>
-<span class="sd">        &#39;en&#39;</span>
-<span class="sd">        &gt;&gt;&gt; &#39;cache&#39; in obj.__dict__</span>
-<span class="sd">        False</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+        <span class="c1"># Check for old instances of StemFilter class, which didn&#39;t have a</span>
+        <span class="c1"># cachesize attribute and pickled the cache attribute</span>
         <span class="k">if</span> <span class="s2">&quot;cachesize&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">state</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">cachesize</span> <span class="o">=</span> <span class="mi">50000</span>
         <span class="k">if</span> <span class="s2">&quot;ignores&quot;</span> <span class="ow">in</span> <span class="n">state</span><span class="p">:</span>
@@ -303,28 +208,10 @@
             <span class="k">del</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;cache&quot;</span><span class="p">]</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span></div>
+        <span class="c1"># Set the _stem attribute</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
 
-<div class="viewcode-block" id="StemFilter.clear"><a class="viewcode-back" href="../../../api/analysis.html#whoosh.analysis.StemFilter.clear">[docs]</a>    <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Clears the stem function and sets it based on the provided parameters.</span>
-
-<span class="sd">        This method clears the current stem function and sets it based on the provided parameters.</span>
-<span class="sd">        If the language is specified, it retrieves the stemmer function for that language from the &#39;whoosh.lang&#39; module.</span>
-<span class="sd">        Otherwise, it uses the stem function that was previously set.</span>
-
-<span class="sd">        If the &#39;cachesize&#39; parameter is an integer and not equal to 0, it creates a cache for the stem function.</span>
-<span class="sd">        If &#39;cachesize&#39; is a negative integer, an unbound cache is created using the stem function.</span>
-<span class="sd">        If &#39;cachesize&#39; is a positive integer greater than 1, an LFU (Least Frequently Used) cache is created with the specified size.</span>
-
-<span class="sd">        If &#39;cachesize&#39; is not an integer or equal to 0, no cache is created and the stem function is used directly.</span>
-
-<span class="sd">        Note: The stem function is responsible for transforming words into their base or root form.</span>
-
-<span class="sd">        Usage:</span>
-<span class="sd">        morph = MorphAnalyzer()</span>
-<span class="sd">        morph.clear()</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lang</span><span class="p">:</span>
             <span class="kn">from</span> <span class="nn">whoosh.lang</span> <span class="kn">import</span> <span class="n">stemmer_for_language</span>
 
@@ -338,70 +225,19 @@
             <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">cachesize</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_stem</span> <span class="o">=</span> <span class="n">lfu_cache</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cachesize</span><span class="p">)(</span><span class="n">stemfn</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_stem</span> <span class="o">=</span> <span class="n">stemfn</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_stem</span> <span class="o">=</span> <span class="n">stemfn</span>
 
-<div class="viewcode-block" id="StemFilter.cache_info"><a class="viewcode-back" href="../../../api/analysis.html#whoosh.analysis.StemFilter.cache_info">[docs]</a>    <span class="k">def</span> <span class="nf">cache_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns information about the cache used by the stem function.</span>
-
-<span class="sd">        The cache_info method provides information about the cache used by the stem function.</span>
-<span class="sd">        It returns an object that contains details such as the number of cache hits, misses,</span>
-<span class="sd">        and the current size of the cache.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            cache_info (object): An object containing information about the cache used by the stem function.</span>
-<span class="sd">                The object has the following attributes:</span>
-<span class="sd">                - hits (int): The number of cache hits.</span>
-<span class="sd">                - misses (int): The number of cache misses.</span>
-<span class="sd">                - maxsize (int): The maximum size of the cache.</span>
-<span class="sd">                - currsize (int): The current size of the cache.</span>
-
-<span class="sd">                Returns None if caching is disabled.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">cache_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cachesize</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stem</span><span class="o">.</span><span class="n">cache_info</span><span class="p">()</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stem</span><span class="o">.</span><span class="n">cache_info</span><span class="p">()</span>
 
-<div class="viewcode-block" id="StemFilter.__eq__"><a class="viewcode-back" href="../../../api/analysis.html#whoosh.analysis.StemFilter.__eq__">[docs]</a>    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Compares two StemFilter objects for equality.</span>
-
-<span class="sd">        This method compares the current StemFilter object with another StemFilter object</span>
-<span class="sd">        to determine if they are equal. Two StemFilter objects are considered equal if they</span>
-<span class="sd">        are of the same class and have the same stem function.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            other (StemFilter): The other StemFilter object to compare.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            bool: True if the two StemFilter objects are equal, False otherwise.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="n">other</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="n">other</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">stemfn</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">stemfn</span>
-        <span class="p">)</span></div>
+        <span class="p">)</span>
 
-<div class="viewcode-block" id="StemFilter.__call__"><a class="viewcode-back" href="../../../api/analysis.html#whoosh.analysis.StemFilter.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tokens</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Applies stemming to the tokens.</span>
-
-<span class="sd">        This method applies stemming to the given tokens using the specified stemmer.</span>
-<span class="sd">        It iterates over the tokens, checks if the token is not stopped, and if the token&#39;s text</span>
-<span class="sd">        is not in the ignore list. If the conditions are met, the token&#39;s text is stemmed using</span>
-<span class="sd">        the stemmer&#39;s stem function.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            tokens (iterable): The tokens to apply stemming to.</span>
-
-<span class="sd">        Yields:</span>
-<span class="sd">            Token: The stemmed tokens.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; stemmer = Stemmer()</span>
-<span class="sd">            &gt;&gt;&gt; tokens = [Token(&quot;running&quot;), Token(&quot;jumps&quot;), Token(&quot;jumping&quot;)]</span>
-<span class="sd">            &gt;&gt;&gt; stemmed_tokens = stemmer(tokens)</span>
-<span class="sd">            &gt;&gt;&gt; list(stemmed_tokens)</span>
-<span class="sd">            [Token(&quot;run&quot;), Token(&quot;jump&quot;), Token(&quot;jump&quot;)]</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tokens</span><span class="p">):</span>
         <span class="n">stemfn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stem</span>
         <span class="n">ignore</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ignore</span>
 
@@ -410,7 +246,7 @@
                 <span class="n">text</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">text</span>
                 <span class="k">if</span> <span class="n">text</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ignore</span><span class="p">:</span>
                     <span class="n">t</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">stemfn</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-            <span class="k">yield</span> <span class="n">t</span></div></div>
+            <span class="k">yield</span> <span class="n">t</span></div>
 
 
 <span class="k">class</span> <span class="nc">PyStemmerFilter</span><span class="p">(</span><span class="n">StemFilter</span><span class="p">):</span>
@@ -418,45 +254,19 @@
 <span class="sd">    third-party library. You must have the py-stemmer library installed to use</span>
 <span class="sd">    this filter.</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        lang (str, optional): A string identifying the stemming algorithm to use.</span>
-<span class="sd">            You can get a list of available algorithms by using the `algorithms()`</span>
-<span class="sd">            method. The identification strings are directly from the py-stemmer library.</span>
-<span class="sd">            Defaults to &quot;english&quot;.</span>
-<span class="sd">        ignore (set or list, optional): A set or list of words that should not be stemmed.</span>
-<span class="sd">            If provided, these words will be excluded from the stemming process.</span>
-<span class="sd">            Defaults to None.</span>
-<span class="sd">        cachesize (int, optional): The maximum number of words to cache. Defaults to 10000.</span>
-
-<span class="sd">    Attributes:</span>
-<span class="sd">        lang (str): The language identifier for the stemming algorithm.</span>
-<span class="sd">        ignore (frozenset): The set of words to be ignored during stemming.</span>
-<span class="sd">        cachesize (int): The maximum number of words to cache.</span>
-<span class="sd">        _stem (function): The stemmer function used for stemming.</span>
-
-<span class="sd">    Methods:</span>
-<span class="sd">        algorithms(): Returns a list of stemming algorithms provided by the py-stemmer library.</span>
-<span class="sd">        cache_info(): Returns information about the cache (not implemented).</span>
-<span class="sd">        __getstate__(): Returns the state of the object for pickling (excluding _stem attribute).</span>
-<span class="sd">        __setstate__(): Sets the state of the object after unpickling.</span>
-
-<span class="sd">    Example:</span>
-<span class="sd">        &gt;&gt;&gt; filter = PyStemmerFilter(&quot;spanish&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; PyStemmerFilter(&quot;spanish&quot;)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;english&quot;</span><span class="p">,</span> <span class="n">ignore</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cachesize</span><span class="o">=</span><span class="mi">10000</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initialize the PyStemmerFilter.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            lang (str, optional): A string identifying the stemming algorithm to use.</span>
-<span class="sd">                You can get a list of available algorithms by using the `algorithms()`</span>
-<span class="sd">                method. The identification strings are directly from the py-stemmer library.</span>
-<span class="sd">                Defaults to &quot;english&quot;.</span>
-<span class="sd">            ignore (set or list, optional): A set or list of words that should not be stemmed.</span>
-<span class="sd">                If provided, these words will be excluded from the stemming process.</span>
-<span class="sd">                Defaults to None.</span>
-<span class="sd">            cachesize (int, optional): The maximum number of words to cache. Defaults to 10000.</span>
+<span class="sd">        :param lang: a string identifying the stemming algorithm to use. You</span>
+<span class="sd">            can get a list of available algorithms by with the</span>
+<span class="sd">            :meth:`PyStemmerFilter.algorithms` method. The identification</span>
+<span class="sd">            strings are directly from the py-stemmer library.</span>
+<span class="sd">        :param ignore: a set/list of words that should not be stemmed. This is</span>
+<span class="sd">            converted into a frozenset. If you omit this argument, all tokens</span>
+<span class="sd">            are stemmed.</span>
+<span class="sd">        :param cachesize: the maximum number of words to cache.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">lang</span> <span class="o">=</span> <span class="n">lang</span>
@@ -465,52 +275,18 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_stem</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_stemmer_fn</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">algorithms</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns a list of stemming algorithms provided by the py-stemmer library.</span>
-
-<span class="sd">        This method uses the py-stemmer library to retrieve a list of available stemming algorithms.</span>
-<span class="sd">        Stemming algorithms are used to reduce words to their base or root form, which can be useful</span>
-<span class="sd">        in natural language processing tasks such as information retrieval, text mining, and language</span>
-<span class="sd">        modeling.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            list: A list of strings representing the names of available stemming algorithms.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; analyzer = Analyzer()</span>
-<span class="sd">            &gt;&gt;&gt; algorithms = analyzer.algorithms()</span>
-<span class="sd">            &gt;&gt;&gt; print(algorithms)</span>
-<span class="sd">            [&#39;porter&#39;, &#39;snowball&#39;]</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a list of stemming algorithms provided by the py-stemmer</span>
+<span class="sd">        library.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="kn">import</span> <span class="nn">Stemmer</span>  <span class="c1"># type: ignore @UnresolvedImport</span>
 
         <span class="k">return</span> <span class="n">Stemmer</span><span class="o">.</span><span class="n">algorithms</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">cache_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns information about the cache.</span>
-
-<span class="sd">        This method is not implemented and always returns None.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            None: This method does not provide any information about the cache.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="nf">_get_stemmer_fn</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns a stemmer function for the specified language.</span>
-
-<span class="sd">        This function imports the Stemmer module and initializes a stemmer object</span>
-<span class="sd">        with the specified language. The stemmer object is then configured with</span>
-<span class="sd">        the specified cache size. Finally, the stemWord method of the stemmer</span>
-<span class="sd">        object is returned as the stemmer function.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            callable: A stemmer function that takes a word as input and returns its stem.</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            ImportError: If the Stemmer module cannot be imported.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">import</span> <span class="nn">Stemmer</span>  <span class="c1"># type: ignore @UnresolvedImport</span>
 
         <span class="n">stemmer</span> <span class="o">=</span> <span class="n">Stemmer</span><span class="o">.</span><span class="n">Stemmer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lang</span><span class="p">)</span>
@@ -518,53 +294,13 @@
         <span class="k">return</span> <span class="n">stemmer</span><span class="o">.</span><span class="n">stemWord</span>
 
     <span class="k">def</span> <span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get the state of the object for pickling.</span>
-
-<span class="sd">        This method is called by the pickle module when pickling an object.</span>
-<span class="sd">        It returns a dictionary representing the object&#39;s state, excluding the</span>
-<span class="sd">        &#39;_stem&#39; attribute.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            dict: A dictionary representing the object&#39;s state.</span>
-
-<span class="sd">        Note:</span>
-<span class="sd">            The &#39;_stem&#39; attribute is excluded from the state because dynamic</span>
-<span class="sd">            functions cannot be pickled.</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Can&#39;t pickle a dynamic function, so we have to remove the _stem</span>
+        <span class="c1"># attribute from the state</span>
         <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s2">&quot;_stem&quot;</span><span class="p">}</span>
 
     <span class="k">def</span> <span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Set the state of the object during unpickling.</span>
-
-<span class="sd">        This method is called by the pickle module when unpickling an object.</span>
-<span class="sd">        It is responsible for setting the state of the object based on the</span>
-<span class="sd">        provided `state` dictionary.</span>
-
-<span class="sd">        Parameters:</span>
-<span class="sd">            state (dict): The dictionary containing the state of the object.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            None</span>
-
-<span class="sd">        Raises:</span>
-<span class="sd">            None</span>
-
-<span class="sd">        Notes:</span>
-<span class="sd">            - This method is used to handle backward compatibility with old</span>
-<span class="sd">              instances of the `StemFilter` class.</span>
-<span class="sd">            - If the `state` dictionary does not contain the key &quot;cachesize&quot;,</span>
-<span class="sd">              the `cachesize` attribute is set to the default value of 10000.</span>
-<span class="sd">            - If the `state` dictionary contains the key &quot;ignores&quot;, the `ignore`</span>
-<span class="sd">              attribute is set to the value of &quot;ignores&quot;.</span>
-<span class="sd">            - If the `state` dictionary does not contain the key &quot;ignore&quot;, the</span>
-<span class="sd">              `ignore` attribute is set to an empty frozenset.</span>
-<span class="sd">            - The &quot;cache&quot; key is removed from the `state` dictionary.</span>
-<span class="sd">            - The `state` dictionary is used to update the object&#39;s attributes.</span>
-<span class="sd">            - The `_stem` attribute is set using the `_get_stemmer_fn` method.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Check for old instances of StemFilter class, which didn&#39;t have a</span>
+        <span class="c1"># cachesize attribute and pickled the cache attribute</span>
         <span class="k">if</span> <span class="s2">&quot;cachesize&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">state</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">cachesize</span> <span class="o">=</span> <span class="mi">10000</span>
         <span class="k">if</span> <span class="s2">&quot;ignores&quot;</span> <span class="ow">in</span> <span class="n">state</span><span class="p">:</span>
@@ -584,45 +320,26 @@
 <span class="sd">    Metaphone algorithm. This algorithm attempts to encode words in such a way</span>
 <span class="sd">    that similar-sounding words reduce to the same code. This may be useful for</span>
 <span class="sd">    fields containing the names of people and places, and other uses where</span>
-<span class="sd">    tolerance of spelling differences is desirable.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        primary_boost (float, optional): The boost to apply to the token containing the</span>
-<span class="sd">            primary code. Defaults to 1.0.</span>
-<span class="sd">        secondary_boost (float, optional): The boost to apply to the token containing the</span>
-<span class="sd">            secondary code, if any. Defaults to 0.5.</span>
-<span class="sd">        combine (bool, optional): If True, the original unencoded tokens are kept in the</span>
-<span class="sd">            stream, preceding the encoded tokens. Defaults to False.</span>
+<span class="sd">    tolerance of spelling differences is desireable.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">is_morph</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">primary_boost</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">secondary_boost</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">combine</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initialize a MorphAnalyzer object.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            primary_boost (float, optional): The boost factor for primary morphological analysis. Defaults to 1.0.</span>
-<span class="sd">            secondary_boost (float, optional): The boost factor for secondary morphological analysis. Defaults to 0.5.</span>
-<span class="sd">            combine (bool, optional): Whether to combine the results of primary and secondary analysis. Defaults to False.</span>
+<span class="sd">        :param primary_boost: the boost to apply to the token containing the</span>
+<span class="sd">            primary code.</span>
+<span class="sd">        :param secondary_boost: the boost to apply to the token containing the</span>
+<span class="sd">            secondary code, if any.</span>
+<span class="sd">        :param combine: if True, the original unencoded tokens are kept in the</span>
+<span class="sd">            stream, preceding the encoded tokens.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">primary_boost</span> <span class="o">=</span> <span class="n">primary_boost</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">secondary_boost</span> <span class="o">=</span> <span class="n">secondary_boost</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">combine</span> <span class="o">=</span> <span class="n">combine</span>
 
     <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Check if two objects are equal.</span>
-
-<span class="sd">        This method compares the current object with another object to determine if they are equal.</span>
-<span class="sd">        The comparison is based on the class type and the primary_boost attribute.</span>
-
-<span class="sd">        Parameters:</span>
-<span class="sd">        - other: The object to compare with.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">        - bool: True if the objects are equal, False otherwise.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="n">other</span>
             <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span> <span class="ow">is</span> <span class="n">other</span><span class="o">.</span><span class="vm">__class__</span>
@@ -630,30 +347,6 @@
         <span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tokens</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Applies morphological analysis to a sequence of tokens.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            tokens (iterable): The input tokens to be analyzed.</span>
-
-<span class="sd">        Yields:</span>
-<span class="sd">            Token: The analyzed tokens with modified text and boost.</span>
-
-<span class="sd">        Notes:</span>
-<span class="sd">            This method applies morphological analysis to each token in the input sequence.</span>
-<span class="sd">            It uses the double metaphone algorithm to generate primary and secondary forms of the token&#39;s text.</span>
-<span class="sd">            The token&#39;s text and boost are then modified based on the generated forms and yielded.</span>
-
-<span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; analyzer = MorphAnalyzer()</span>
-<span class="sd">            &gt;&gt;&gt; tokens = [Token(&quot;running&quot;, boost=1.0), Token(&quot;swimming&quot;, boost=0.8)]</span>
-<span class="sd">            &gt;&gt;&gt; analyzed_tokens = list(analyzer(tokens))</span>
-<span class="sd">            &gt;&gt;&gt; for token in analyzed_tokens:</span>
-<span class="sd">            ...     print(token.text, token.boost)</span>
-<span class="sd">            ...</span>
-<span class="sd">            run 1.0</span>
-<span class="sd">            swim 0.8</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">primary_boost</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">primary_boost</span>
         <span class="n">secondary_boost</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">secondary_boost</span>
         <span class="n">combine</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">combine</span>

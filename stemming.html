@@ -147,12 +147,12 @@ analyzer chain.</p>
 <span class="go">[u&quot;fundament&quot;, u&quot;willow&quot;]</span>
 </pre></div>
 </div>
-<p>The :func:` whoosh.analysis.stemming_analyzer` is a pre-packaged analyzer that
+<p>The :func:` whoosh.analysis.StemmingAnalyzer` is a pre-packaged analyzer that
 combines a tokenizer, lower-case filter, optional stop filter, and stem filter:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">whoosh</span> <span class="kn">import</span> <span class="n">fields</span>
-<span class="kn">from</span> <span class="nn">whoosh.analysis</span> <span class="kn">import</span> <span class="n">stemming_analyzer</span>
+<span class="kn">from</span> <span class="nn">whoosh.analysis</span> <span class="kn">import</span> <span class="n">StemmingAnalyzer</span>
 
-<span class="n">stem_ana</span> <span class="o">=</span> <span class="n">stemming_analyzer</span><span class="p">()</span>
+<span class="n">stem_ana</span> <span class="o">=</span> <span class="n">StemmingAnalyzer</span><span class="p">()</span>
 <span class="n">schema</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Schema</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">TEXT</span><span class="p">(</span><span class="n">analyzer</span><span class="o">=</span><span class="n">stem_ana</span><span class="p">,</span> <span class="n">stored</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
                        <span class="n">content</span><span class="o">=</span><span class="n">TEXT</span><span class="p">(</span><span class="n">analyzer</span><span class="o">=</span><span class="n">stem_ana</span><span class="p">))</span>
 </pre></div>
@@ -246,12 +246,12 @@ accent folding can break down.</p>
 text. For example, it will filter the tokens <code class="docutils literal notranslate"><span class="pre">u'café',</span> <span class="pre">u'resumé',</span> <span class="pre">...</span></code> to
 <code class="docutils literal notranslate"><span class="pre">u'cafe',</span> <span class="pre">u'resume',</span> <span class="pre">...</span></code>. This is usually the method you’ll want to use
 unless you need to use a charset to tokenize terms:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">whoosh.analysis</span> <span class="kn">import</span> <span class="n">CharsetFilter</span><span class="p">,</span> <span class="n">stemming_analyzer</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">whoosh.analysis</span> <span class="kn">import</span> <span class="n">CharsetFilter</span><span class="p">,</span> <span class="n">StemmingAnalyzer</span>
 <span class="kn">from</span> <span class="nn">whoosh</span> <span class="kn">import</span> <span class="n">fields</span>
 <span class="kn">from</span> <span class="nn">whoosh.support.charset</span> <span class="kn">import</span> <span class="n">accent_map</span>
 
 <span class="c1"># For example, to add an accent-folding filter to a stemming analyzer:</span>
-<span class="n">my_analyzer</span> <span class="o">=</span> <span class="n">stemming_analyzer</span><span class="p">()</span> <span class="o">|</span> <span class="n">CharsetFilter</span><span class="p">(</span><span class="n">accent_map</span><span class="p">)</span>
+<span class="n">my_analyzer</span> <span class="o">=</span> <span class="n">StemmingAnalyzer</span><span class="p">()</span> <span class="o">|</span> <span class="n">CharsetFilter</span><span class="p">(</span><span class="n">accent_map</span><span class="p">)</span>
 
 <span class="c1"># To use this analyzer in your schema:</span>
 <span class="n">my_schema</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Schema</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">fields</span><span class="o">.</span><span class="n">TEXT</span><span class="p">(</span><span class="n">analyzer</span><span class="o">=</span><span class="n">my_analyzer</span><span class="p">))</span>
@@ -272,7 +272,7 @@ required by <code class="docutils literal notranslate"><span class="pre">Charset
 <span class="kn">from</span> <span class="nn">whoosh.analysis</span> <span class="kn">import</span> <span class="n">CharsetFilter</span>
 <span class="kn">from</span> <span class="nn">whoosh.support.charset</span> <span class="kn">import</span> <span class="n">default_charset</span><span class="p">,</span> <span class="n">charset_table_to_dict</span>
 <span class="n">charmap</span> <span class="o">=</span> <span class="n">charset_table_to_dict</span><span class="p">(</span><span class="n">default_charset</span><span class="p">)</span>
-<span class="n">my_analyzer</span> <span class="o">=</span> <span class="n">stemming_analyzer</span><span class="p">()</span> <span class="o">|</span> <span class="n">CharsetFilter</span><span class="p">(</span><span class="n">charmap</span><span class="p">)</span>
+<span class="n">my_analyzer</span> <span class="o">=</span> <span class="n">StemmingAnalyzer</span><span class="p">()</span> <span class="o">|</span> <span class="n">CharsetFilter</span><span class="p">(</span><span class="n">charmap</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>(The Sphinx charset table format is described at

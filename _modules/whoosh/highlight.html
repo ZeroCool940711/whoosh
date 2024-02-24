@@ -139,8 +139,8 @@
 
 <span class="sd">* **Order functions** control in what order the top-scoring fragments are</span>
 <span class="sd">  presented to the user. For example, you can show the fragments in the order</span>
-<span class="sd">  they appear in the document (first) or show higher-scoring fragments first</span>
-<span class="sd">  (score)</span>
+<span class="sd">  they appear in the document (FIRST) or show higher-scoring fragments first</span>
+<span class="sd">  (SCORE)</span>
 
 <span class="sd">* **Formatters** turn the fragment objects into human-readable output, such as</span>
 <span class="sd">  an HTML string.</span>
@@ -460,7 +460,7 @@
 <span class="sd">    When highlighting with this fragmenter, you should use an analyzer that</span>
 <span class="sd">    does NOT remove stop words, for example::</span>
 
-<span class="sd">        sa = standard_analyzer(stoplist=None)</span>
+<span class="sd">        sa = StandardAnalyzer(stoplist=None)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">maxchars</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">sentencechars</span><span class="o">=</span><span class="s2">&quot;.!?&quot;</span><span class="p">,</span> <span class="n">charlimit</span><span class="o">=</span><span class="n">DEFAULT_CHARLIMIT</span><span class="p">):</span>
@@ -684,12 +684,12 @@
 
             <span class="n">currentlen</span> <span class="o">=</span> <span class="n">right</span> <span class="o">-</span> <span class="n">left</span>
             <span class="k">while</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">currentlen</span> <span class="o">&lt;</span> <span class="n">maxchars</span><span class="p">:</span>
-                <span class="n">next_token</span> <span class="o">=</span> <span class="n">tokens</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
-                <span class="n">ec</span> <span class="o">=</span> <span class="n">next_token</span><span class="o">.</span><span class="n">endchar</span>
+                <span class="nb">next</span> <span class="o">=</span> <span class="n">tokens</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+                <span class="n">ec</span> <span class="o">=</span> <span class="nb">next</span><span class="o">.</span><span class="n">endchar</span>
                 <span class="k">if</span> <span class="n">ec</span> <span class="o">-</span> <span class="n">right</span> <span class="o">&lt;=</span> <span class="n">surround</span> <span class="ow">and</span> <span class="n">ec</span> <span class="o">-</span> <span class="n">left</span> <span class="o">&lt;=</span> <span class="n">maxchars</span><span class="p">:</span>
                     <span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span>
                     <span class="n">right</span> <span class="o">=</span> <span class="n">ec</span>
-                    <span class="n">currentlen</span> <span class="o">+=</span> <span class="n">ec</span> <span class="o">-</span> <span class="n">next_token</span><span class="o">.</span><span class="n">startchar</span>
+                    <span class="n">currentlen</span> <span class="o">+=</span> <span class="n">ec</span> <span class="o">-</span> <span class="nb">next</span><span class="o">.</span><span class="n">startchar</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">break</span>
 
@@ -723,22 +723,22 @@
 <span class="c1"># Fragment sorters</span>
 
 
-<span class="k">def</span> <span class="nf">score</span><span class="p">(</span><span class="n">fragment</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">SCORE</span><span class="p">(</span><span class="n">fragment</span><span class="p">):</span>
     <span class="s2">&quot;Sorts higher scored passages first.&quot;</span>
     <span class="k">return</span> <span class="mi">1</span>
 
 
-<span class="k">def</span> <span class="nf">first</span><span class="p">(</span><span class="n">fragment</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">FIRST</span><span class="p">(</span><span class="n">fragment</span><span class="p">):</span>
     <span class="s2">&quot;Sorts passages from earlier in the document first.&quot;</span>
     <span class="k">return</span> <span class="n">fragment</span><span class="o">.</span><span class="n">startchar</span>
 
 
-<span class="k">def</span> <span class="nf">longer</span><span class="p">(</span><span class="n">fragment</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">LONGER</span><span class="p">(</span><span class="n">fragment</span><span class="p">):</span>
     <span class="s2">&quot;Sorts longer passages first.&quot;</span>
     <span class="k">return</span> <span class="mi">0</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">fragment</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">shorter</span><span class="p">(</span><span class="n">fragment</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">SHORTER</span><span class="p">(</span><span class="n">fragment</span><span class="p">):</span>
     <span class="s2">&quot;Sort shorter passages first.&quot;</span>
     <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">fragment</span><span class="p">)</span>
 
@@ -1034,7 +1034,7 @@
     <span class="n">top</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
     <span class="n">scorer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">minscore</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-    <span class="n">order</span><span class="o">=</span><span class="n">first</span><span class="p">,</span>
+    <span class="n">order</span><span class="o">=</span><span class="n">FIRST</span><span class="p">,</span>
     <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;query&quot;</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="k">if</span> <span class="n">scorer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -1065,7 +1065,7 @@
         <span class="n">scorer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">formatter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">always_retokenize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">order</span><span class="o">=</span><span class="n">first</span><span class="p">,</span>
+        <span class="n">order</span><span class="o">=</span><span class="n">FIRST</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fragmenter</span> <span class="o">=</span> <span class="n">fragmenter</span> <span class="ow">or</span> <span class="n">ContextFragmenter</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">scorer</span> <span class="o">=</span> <span class="n">scorer</span> <span class="ow">or</span> <span class="n">BasicFragmentScorer</span><span class="p">()</span>

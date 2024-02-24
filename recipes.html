@@ -192,17 +192,17 @@ characters, it acts as a case-sensitive search:</p>
 </section>
 <section id="itunes-style-search-as-you-type">
 <h3>iTunes-style search-as-you-type<a class="headerlink" href="#itunes-style-search-as-you-type" title="Permalink to this heading">¶</a></h3>
-<p>Use the :class:` whoosh.analysis.ngram_word_analyzer` as the analyzer for the
+<p>Use the :class:` whoosh.analysis.NgramWordAnalyzer` as the analyzer for the
 field you want to search as the user types. You can save space in the index by
 turning off positions in the field using <code class="docutils literal notranslate"><span class="pre">phrase=False</span></code>, since phrase
 searching on N-gram fields usually doesn’t make much sense:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># For example, to search the &quot;title&quot; field as the user types</span>
-<span class="n">analyzer</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">ngram_word_analyzer</span><span class="p">()</span>
+<span class="n">analyzer</span> <span class="o">=</span> <span class="n">analysis</span><span class="o">.</span><span class="n">NgramWordAnalyzer</span><span class="p">()</span>
 <span class="n">title_field</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">TEXT</span><span class="p">(</span><span class="n">analyzer</span><span class="o">=</span><span class="n">analyzer</span><span class="p">,</span> <span class="n">phrase</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">schema</span> <span class="o">=</span> <span class="n">fields</span><span class="o">.</span><span class="n">Schema</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">title_field</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>See the documentation for the <code class="xref py py-class docutils literal notranslate"><span class="pre">ngram_word_analyzer</span></code> class
+<p>See the documentation for the <code class="xref py py-class docutils literal notranslate"><span class="pre">NgramWordAnalyzer</span></code> class
 for information on the available options.</p>
 </section>
 </section>
